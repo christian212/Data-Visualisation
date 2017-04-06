@@ -2,21 +2,18 @@
 \chapter{Einleitung}\label{ch:einleitung}
 %************************************************
 
-\section{}
 
-Dies ist eine Einleitung
+Dies ist eine Einleitung über Zink-Luft-Batterien.
+
 
 \section{Anforderungen}
 
+Im Rahmen des Masterprojektes soll eine Möglichkeit geschaffen werden, um Messdaten aus unterschiedlichen Versuchsreihen an den oben beschriebenen Zink-Luft-Batterien über ein Webinterface zu visualisieren. Nachfolgend werden die Anforderungen im Detail beschrieben:
+
 \begin{itemize}
 
-\item Im Rahmen des Masterprojektes soll eine Möglichkeit geschaffen werden, um Messdaten aus unterschiedlichen Versuchsreihen an Zink-Luft-Batterien sinnvoll zu speichern und über einen Webserver zu visualisieren.
-\item Die Messdaten sollen in einer geeigneten Datenbank überführt werden, damit sie für spätere Auswertungen zur Verfügung stehen. Eine redundante Auslegung bzw. eine Absicherung der Daten ist zu berücksichtigen.
-\item Es ist eine geeignete Methode zu überlegen, wie die aktuellen Messdaten über Matlab oder CSV-Dateien automatisch und kontinuerlich an die Datenbank übergeben werden.
-\item Die Messdaten sollen über einen geeigneten Webserver oder lokalen Server sowohl grafisch als auch numerisch visualisiert werden.
-\item Für die Visualisierung muss eine geeignete Webmaske erstellt werden, in dem die Messdaten in dynamischer Kennlinienform visualisiert werden. Die Maske beinhaltet die Auswahl der unterschiedlichen Messreihen und bietet Filterfunktionen.
-\item Die Datenbank sowie die Webmaske müssen so ausgelegt werden, dass ein späteres Hinzufügen von weitern Versuchsreihen möglich ist.
-\item  Die Maske muss Funktionen der Filterung, Auswahl der Versuchsreihen, Plot- und Speicherfunktionen bieten.
-\item Während des Masterprojektes sind sämtliche Arbeitsschritte und Durchführungen in Form einer Dokumentation festzuhalten.
+\item Die Messdaten sollen in einem einheitlichen Format in einer Datenbank gespeichert werden, sodass sie für spätere Auswertungen zur Verfügung stehen. Die bislang als \code{.mat}- und \code{.csv}-Files vorliegenden Messdaten sollen automatisch in die Datenbank überführt und zukünftig kontinuierlich in die Datenbank geschrieben werden. Eine redundante Speicherung der Daten ist zu berücksichtigen.
+
+\item Die Messdaten sollen über das Webinterface sowohl im zeitlichen Verlauf grafisch visualisiert, als auch numerisch dargestellt werden können. Die Webmaske soll eine Auswahl unterschiedlicher Messreihen sowie eine Veränderung des dargestellten zeitlichen Intervalls ermöglichen.
 
 \end{itemize}
