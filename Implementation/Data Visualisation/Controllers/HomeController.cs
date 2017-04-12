@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace Data_Visualisation.Controllers
 {
@@ -13,19 +9,19 @@ namespace Data_Visualisation.Controllers
             return View();
         }
 
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
+        // public IActionResult About()
+        // {
+        //     ViewData["Message"] = "Your application description page.";
 
-            return View();
-        }
+        //     return View();
+        // }
 
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
+        // public IActionResult Contact()
+        // {
+        //     ViewData["Message"] = "Your contact page.";
 
-            return View();
-        }
+        //     return View();
+        // }
 
         public IActionResult Error()
         {
