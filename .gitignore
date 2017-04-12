@@ -286,3 +286,10 @@ npm-debug.log
 /bower_components
 /node_modules
 /vendor
+
+
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
