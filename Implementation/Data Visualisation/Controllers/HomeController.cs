@@ -7,6 +7,11 @@ namespace Data_Visualisation.Controllers
     {
         public IActionResult Index()
         {
+            return View();
+        }
+        
+        public IActionResult Examples()
+        {
             int hour = DateTime.Now.Hour;
             ViewBag.greeting = hour < 10 ? "Guten Morgen!" : "Hallo!";
             ViewBag.lastUpdated = DateTime.Now;
