@@ -12,6 +12,8 @@ Die General-Purpose-Development-Platform .NET Core wurde unter Koordination von 
 
 Das Model-View-Controller Design Pattern dient der Trennung der Software in die drei Komponenten Datenmodell (engl. model), Präsentation (engl. view) und Programmsteuerung (engl. controller). Beim MVC-Pattern werden eingehende Anfragen durch Controller behandelt. In ASP.NET Core MVC sind Controller C\#-Klassen die gewöhnlich von der integrierten MVC-Controller Basisklasse \code{Microsoft.AspNetCore.Mvc.Controller} erben. Jede \code{public}-Methode eines Controllers wird auch Action Method genannt. Man kann sie aus dem Web über eine URL aufrufen und so eine Aktion ausführen. In einer Web Application geht es darum dynamischen Output zu konstruieren und darzustellen. In MVC ist der Controller dafür zuständig basierend auf dem Model Daten zu konstruieren und diese an den View weiterzugeben, welcher wiederum das HTML rendert. Dies ist in Abbildung \ref{fig:mvc} dargestellt.
 
+Allgemein kann man sagen, dass das model die Objekte der realen Welt repräsentiert, zusammen mit den Prozessen und Regeln die das  bestimmte Einsatzgebiet der App definieren. Dies wird auch als Domain der Applikation bezeichnet und analog wird das Model auch Domain Model genannt. Die C\#-Models zusammen mit ihren Methoden bilden die Wirklichkeit auf die Applikation ab. Dabei stellen die Views zusammen mit den Controllern die Domain dem Client dar.
+
 \begin{figure}
 \centering
 \includegraphics[width=6cm]{Figures/mvc}
@@ -33,6 +35,16 @@ ASP.NET Core MVC Applications nutzen das ASP.NET routing system. Diese entschied
 \end{itemize}
 
 \noindent
-Nach Konvention hat die Application einen \code{HomeController} welcher den Einstiegspunkt in die MVC Application bidlet.
+Nach Konvention hat die Application einen \code{HomeController} welcher den Einstiegspunkt in die MVC Application bildet.
 
-\subsection{Razor view engine}
+
+\subsection{Razor View Engine}
+
+Die Razor View Engine ist eine ASP.NET template markup syntax die zur dynamischen Erstellung von Webseiten in C\# genutzt wird. \cite{razorengine}
+
+
+\subsection{Model Binding}
+
+Model Binding ist ein nützliches Feature von MVC. Eingehende Daten eines HTTP-requests werden geparsed und unter Berücksichtigung der Key-Value-Pairs den Properties des jeweiligen domain models types zugewiesen. Dadurch wird das mühevolle Behandeln von HTTP requests vermieden und man kann direkt mit C\# Objekten arbeiten anstatt mit Datenpaketen die vom Browser gesendet werden.
+
+
