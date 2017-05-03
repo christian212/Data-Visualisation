@@ -10,9 +10,18 @@ Die General-Purpose-Development-Platform .NET Core wurde unter Koordination von 
 
 \subsection{Model-View-Controller}
 
-Das Model-View-Controller Design Pattern dient der Trennung der Software in die drei Komponenten Datenmodell (engl. model), Präsentation (engl. view) und Programmsteuerung (engl. controller). Beim MVC-Pattern werden eingehende Anfragen durch Controller behandelt. In ASP.NET Core MVC sind Controller C\#-Klassen die gewöhnlich von der integrierten MVC-Controller Basisklasse \code{Microsoft.AspNetCore.Mvc.Controller} erben. Jede \code{public}-Methode eines Controllers wird auch Action Method genannt. Man kann sie aus dem Web über eine URL aufrufen und so eine Aktion ausführen. In einer Web Application geht es darum dynamischen Output zu konstruieren und darzustellen. In MVC ist der Controller dafür zuständig basierend auf dem Model Daten zu konstruieren und diese an den View weiterzugeben, welcher wiederum das HTML rendert. Dies ist in Abbildung \ref{fig:mvc} dargestellt.
+Das Model-View-Controller Design Pattern dient der Trennung der Software in die drei Komponenten
+
+\begin{itemize}
+	\item Models, die die Daten enthalten mit denen der Nutzer arbeitet
+	\item Views, die Teile des Models rendern und so das User Interface darstellen 
+	\item Controllers, die eingehende Anfragen annehmen und Operationen auf dem Model durchführen sowie Views die gerendert werden sollen auswählen
+\end{itemize}
 
 Allgemein kann man sagen, dass das model die Objekte der realen Welt repräsentiert, zusammen mit den Prozessen und Regeln die das  bestimmte Einsatzgebiet der App definieren. Dies wird auch als Domain der Applikation bezeichnet und analog wird das Model auch Domain Model genannt. Die C\#-Models zusammen mit ihren Methoden bilden die Wirklichkeit auf die Applikation ab. Dabei stellen die Views zusammen mit den Controllern die Domain dem Client dar.
+
+
+Dabei ist jeder Teil der MVC Architektur eigenständig und wird auch `separation of concerns' genannt. So werden die Daten im Model ausschließlich vom Model verändert, die Daten ausschließlich vom View dargestellt und user requests und input ausschließlich im Controller verarbeitet. Durch diese klare Trennung der Komponenten wird es einfacher die Application zu warten und zu erweitern. Der Zusammenhang zwischen den einzelnen Komponenten ist in Abbildung \ref{fig:mvc} dargestellt.
 
 \begin{figure}
 \centering
@@ -21,7 +30,17 @@ Allgemein kann man sagen, dass das model die Objekte der realen Welt repräsenti
 \label{fig:mvc}
 \end{figure}
 
-
+ Beim MVC-Pattern werden eingehende Anfragen durch Controller behandelt. In ASP.NET Core MVC sind Controller C\#-Klassen die gewöhnlich von der integrierten MVC-Controller Basisklasse \code{Microsoft.AspNetCore.Mvc.Controller} erben. Jede \code{public}-Methode eines Controllers wird auch \emph{action method} genannt. Man kann sie aus dem Web über eine URL aufrufen und so eine Aktion ausführen. In einer Web Application geht es darum dynamischen Output zu konstruieren und darzustellen. In MVC ist der Controller dafür zuständig basierend auf dem Model Daten zu konstruieren und diese an den View weiterzugeben, welcher wiederum das HTML rendert. Wenn also eine Anfrage an die URL die mit der action method verbunden ist gesendet wird, werden die Statements in der action method ausgeführt um Operationen auf domain model anzuwenden und dann ein view auszuwählen der dem Client angezeigt wird. Dies is in Abbildung \ref{fig:mvc_http} dargestellt.
+ 
+ 
+ \begin{figure}
+\centering
+\includegraphics[width=\textwidth]{Figures/mvc_http}
+\caption{HTTP request mit Model-View-Controller}
+\label{fig:mvc_http}
+\end{figure}
+ 
+ 
 \subsection{Routes}
 
 ASP.NET Core MVC Applications nutzen das ASP.NET routing system. Diese entschiedet welche URLs auf welchen Controller und welche Actions abgebildet werden. Eine Route ist eine Regel die darüber entscheidet wie eine Anfrage behandelt wird. Als Standardregeln für ein neues MVC Projekt sind werden beispielsweise die folgenden URLs auf die Index action des code{HomeControllers}s weitergeleitet.
@@ -40,8 +59,7 @@ Nach Konvention hat die Application einen \code{HomeController} welcher den Eins
 
 \subsection{Razor View Engine}
 
-Die Razor View Engine ist eine ASP.NET template markup syntax die zur dynamischen Erstellung von Webseiten in C\# genutzt wird. \cite{razorengine}
-
+Die Razor View Engine ist eine ASP.NET template markup syntax die zur dynamischen Erstellung von Webseiten in C\# genutzt wird. \cite{razorengine}. Dabei sind Razor views HTML templates die C\#-Logik enthalten, welche model data nutzt um dynamisch Content zugenerieren
 
 \subsection{Model Binding}
 
