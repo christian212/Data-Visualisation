@@ -1,0 +1,8 @@
+﻿@model IEnumerable<Record>
+@using Data_Visualisation.Models
+
+@foreach (var record in Model) {
+    <div>
+        <h3>@record.Name</h3>
+        @record.Category
+</div> }

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Data_Visualisation.Models;
 
 namespace Data_Visualisation
 {
@@ -28,6 +29,7 @@ namespace Data_Visualisation
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
+            services.AddTransient<IRecordRepository, FakeRecordRepository>();
             services.AddMvc();
         }
 
