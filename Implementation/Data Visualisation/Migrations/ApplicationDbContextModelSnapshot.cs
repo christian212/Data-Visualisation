@@ -24,11 +24,13 @@ namespace DataVisualisation.Migrations
 
                     b.Property<string>("Category");
 
+                    b.Property<DateTime>("Creation");
+
                     b.Property<string>("Description");
 
-                    b.Property<string>("Name");
+                    b.Property<DateTime>("Modification");
 
-                    b.Property<double>("TimesSeries");
+                    b.Property<string>("Name");
 
                     b.HasKey("RecordId");
 

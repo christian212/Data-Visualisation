@@ -3,11 +3,16 @@
 <div class="well well-lg">
     <h3>
         <strong>@Model.Name</strong>
+        
         <span class="pull-right label label-primary">
             @Model.Category
         </span>
+        
     </h3>
+    
     <span class="lead">Record ID: @Model.RecordId</span>
+    <span class="pull-right"><small> @Model.Creation.ToString("dd MMMM yyyy")</small></span>
+    
     <hr />
     <p>@Model.Description</p>
     <hr />

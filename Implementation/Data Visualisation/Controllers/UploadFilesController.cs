@@ -49,6 +49,13 @@ namespace Data_Visualisation.Controllers
                             {
                                 Record rec = new Record();
                                 rec.BinaryData = memoryStream.ToArray();
+                                rec.Name = formFile.FileName;
+                                rec.Category = "Sonstige";
+
+                                FileInfo fileInfo = new FileInfo(uploads);
+                                rec.Creation = fileInfo.CreationTime;
+                                rec.Modification = fileInfo.LastWriteTime;
+                                
                                 repo.Add(rec);
                                 repo.SaveChanges();
                             }

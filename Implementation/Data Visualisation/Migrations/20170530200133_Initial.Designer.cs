@@ -8,7 +8,7 @@ using Data_Visualisation.Models;
 namespace DataVisualisation.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170529121118_Initial")]
+    [Migration("20170530200133_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,11 +25,13 @@ namespace DataVisualisation.Migrations
 
                     b.Property<string>("Category");
 
+                    b.Property<DateTime>("Creation");
+
                     b.Property<string>("Description");
 
-                    b.Property<string>("Name");
+                    b.Property<DateTime>("Modification");
 
-                    b.Property<double>("TimesSeries");
+                    b.Property<string>("Name");
 
                     b.HasKey("RecordId");
 

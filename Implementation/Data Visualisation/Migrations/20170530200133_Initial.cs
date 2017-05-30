@@ -16,9 +16,10 @@ namespace DataVisualisation.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     BinaryData = table.Column<byte[]>(nullable: true),
                     Category = table.Column<string>(nullable: true),
+                    Creation = table.Column<DateTime>(nullable: false),
                     Description = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: true),
-                    TimesSeries = table.Column<double>(nullable: false)
+                    Modification = table.Column<DateTime>(nullable: false),
+                    Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
