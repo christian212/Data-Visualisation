@@ -1,0 +1,17 @@
+@model IEnumerable<string>
+
+<div class="row">
+    <div class="list-group">
+        <a class="list-group-item list-group-item-action" asp-action="List" asp-controller="Record" asp-route-category="">
+            <span class="badge">@ViewBag.Count</span> Alle Datensätze
+        </a>
+        
+        @foreach (string category in Model) {
+            <a class="list-group-item list-group-item-action @(category == ViewBag.SelectedCategory ? "active": "")"
+                asp-action="List" asp-controller="Record"
+                asp-route-category="@category" asp-route-page="1">
+                <span class="badge">@ViewBag.TimeseriesCount</span> @category
+            </a>
+        }
+    </div>
+</div>

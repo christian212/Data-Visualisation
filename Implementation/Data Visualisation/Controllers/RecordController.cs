@@ -22,10 +22,6 @@ namespace Data_Visualisation.Controllers
         {
             ViewBag.HeaderTitle = "Datenbank";
             ViewBag.HeaderSubtitle = "";
-            ViewBag.Count = repository.Records.Count();
-            ViewBag.TimeseriesCount = repository.Records.Where(e => e.Category == "Timeseries").Count();
-            ViewBag.LocusCurveCount = repository.Records.Where(e => e.Category == "Locus Curve").Count();
-            ViewBag.OthersCount = repository.Records.Where(e => e.Category != "Locus Curve" & e.Category != "Timeseries").Count();
 
             return View(new RecordsListViewModel
             {

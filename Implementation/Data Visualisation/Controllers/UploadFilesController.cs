@@ -55,6 +55,8 @@ namespace Data_Visualisation.Controllers
                                 FileInfo fileInfo = new FileInfo(uploads);
                                 rec.Creation = fileInfo.CreationTime;
                                 rec.Modification = fileInfo.LastWriteTime;
+
+                                rec.Description = "Dies ist eine Beschreibung.";
                                 
                                 repo.Add(rec);
                                 repo.SaveChanges();
