@@ -1,0 +1,18 @@
+<div class="panel panel-default">
+    <div class="panel-heading">Wählen Sie Dateien für den Upload</div>
+    <div class="panel-body">
+        <form method="post" enctype="multipart/form-data" asp-controller="UploadFiles" asp-action="Index">
+            <div class="form-group">
+                <div class="col-md-10">
+                    <input type="file" name="files" multiple class="btn btn-default"/>
+                    <button type="file" name="files" multiple class="btn btn-default">Browse</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-10">
+                    <button type="submit" class="btn btn-default">Upload</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
