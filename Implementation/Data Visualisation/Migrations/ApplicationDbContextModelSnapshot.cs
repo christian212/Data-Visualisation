@@ -17,8 +17,10 @@ namespace DataVisualisation.Migrations
 
             modelBuilder.Entity("Data_Visualisation.Models.Record", b =>
                 {
-                    b.Property<int>("RecordID")
+                    b.Property<int>("RecordId")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<byte[]>("BinaryData");
 
                     b.Property<string>("Category");
 
@@ -26,7 +28,9 @@ namespace DataVisualisation.Migrations
 
                     b.Property<string>("Name");
 
-                    b.HasKey("RecordID");
+                    b.Property<double>("TimesSeries");
+
+                    b.HasKey("RecordId");
 
                     b.ToTable("Records");
                 });

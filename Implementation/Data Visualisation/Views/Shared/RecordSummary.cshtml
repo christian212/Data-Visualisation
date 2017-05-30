@@ -1,0 +1,29 @@
+﻿@model Record
+
+<div class="well well-lg">
+    <h3>
+        <strong>@Model.Name</strong>
+        <span class="pull-right label label-primary">
+            @Model.Category
+        </span>
+    </h3>
+    <span class="lead">Record ID: @Model.RecordId</span>
+    <hr />
+    <p>@Model.Description</p>
+    <hr />
+
+    <div class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="true">
+                <span class="glyphicon glyphicon-link" aria-hidden="true"></span> Actions 
+                <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <li><a href="#"><span class="glyphicon glyphicon-signal" aria-hidden="true"></span> Plot</a></li>
+            <li><a href="#"><span class="glyphicon glyphicon-cloud-download" aria-hidden="true"></span> Download</a></li>
+            <li><a href="#"><span class="glyphicon glyphicon-picture" aria-hidden="true"></span> Bild</a></li>
+            <li><a href="#"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Bearbeiten</a></li>
+            <li><a href="#"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Löschen</a></li>
+        </ul>
+    </div>
+</div>

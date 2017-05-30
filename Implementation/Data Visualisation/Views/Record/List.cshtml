@@ -1,8 +1,40 @@
-﻿@model IEnumerable<Record>
-@using Data_Visualisation.Models
+﻿@model RecordsListViewModel
 
-@foreach (var record in Model) {
-    <div>
-        <h3>@record.Name</h3>
-        @record.Category
-</div> }
+<div class="row">
+    <div id="categories" class="col-xs-3">
+        <div class="row">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <span class="badge">@ViewBag.Count</span> Alle Datensätze
+                </li>
+                <li class="list-group-item">
+                    <span class="badge">@ViewBag.TimeseriesCount</span> Zeitreihen
+                </li>
+                <li class="list-group-item">
+                    <span class="badge">@ViewBag.LocusCurveCount</span> Ortskurven
+                </li>
+                <li class="list-group-item">
+                    <span class="badge">@ViewBag.OthersCount</span> Sonstige
+                </li>
+            </ul>
+        </div>
+
+        <div class="row">
+            <div class="input-group">
+                <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">Suchen</button>
+                        </span>
+                <input type="text" class="form-control" placeholder="Datensatz...">
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-9">
+        @foreach (var rec in Model.Records){
+            @Html.Partial("RecordSummary", rec)
+        }
+
+        <div page-model="@Model.PagingInfo" page-action="List" page-classes-enabled="true" page-class="btn" page-class-normal="btn-default"
+            page-class-selected="btn-primary" page-url-category="@Model.CurrentCategory" class="btn-group pull-right">
+        </div>
+    </div>
+</div>

@@ -31,6 +31,7 @@ namespace Data_Visualisation
         {
             // Add framework services.
             services.AddEntityFrameworkSqlite().AddDbContext<ApplicationDbContext>();
+            // Register repository service
             services.AddTransient<IRecordRepository, EFRecordRepository>();
             services.AddMvc();
         }
@@ -55,6 +56,10 @@ namespace Data_Visualisation
 
             app.UseMvc(routes =>
             {
+                routes.MapRoute(
+                    name: "pagination",
+                    template: "Page{page}",
+                    defaults: new { Controller = "Record", action = "List" });
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");

@@ -1,18 +1,38 @@
 <div class="panel panel-default">
-    <div class="panel-heading">Wählen Sie Dateien für den Upload</div>
+    <div class="panel-heading"><strong>File Upload</strong> <small></small></div>
     <div class="panel-body">
-        <form method="post" enctype="multipart/form-data" asp-controller="UploadFiles" asp-action="Index">
-            <div class="form-group">
-                <div class="col-md-10">
-                    <input type="file" name="files" multiple class="btn btn-default"/>
-                    <button type="file" name="files" multiple class="btn btn-default">Browse</button>
+
+        <h4>Wählen Sie Dateien von Ihrem Computer</h4>
+        <form id="js-upload-form" method="post" enctype="multipart/form-data" asp-controller="UploadFiles" asp-action="Index">
+            <div class="form-inline">
+                <div class="form-group">
+                    <input type="file" name="files" id="js-upload-files" multiple>
                 </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-10">
-                    <button type="submit" class="btn btn-default">Upload</button>
-                </div>
+                <button type="submit" class="btn btn-sm btn-primary" id="js-upload-submit">Upload files</button>
             </div>
         </form>
+
+        <!-- Drop Zone -->
+        <h4>Oder ziehen Sie Dateien per drag-and-drop in das untere Feld</h4>
+        <div class="upload-drop-zone" id="drop-zone">
+            Just drag and drop files here
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress">
+            <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                <span class="sr-only">60% Complete</span>
+            </div>
+        </div>
+
+        <!-- Upload Finished -->
+        <div class="js-upload-finished">
+            <h3>Hochgeladene Dateien</h3>
+            <div class="list-group">
+                <a href="#" class="list-group-item list-group-item-success"><span class="badge alert-success pull-right">Success</span>Verlauf_Strom_Spannung.csv</a>
+                <a href="#" class="list-group-item list-group-item-success"><span class="badge alert-success pull-right">Success</span>Zelle_2_Laden.CSV</a>
+                <a href="#" class="list-group-item list-group-item-success"><span class="badge alert-success pull-right">Success</span>ImpedanceSpectroscopy_0.mat</a>
+            </div>
+        </div>
     </div>
 </div>

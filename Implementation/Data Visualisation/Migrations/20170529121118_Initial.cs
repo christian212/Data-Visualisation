@@ -12,15 +12,17 @@ namespace DataVisualisation.Migrations
                 name: "Records",
                 columns: table => new
                 {
-                    RecordID = table.Column<int>(nullable: false)
+                    RecordId = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    BinaryData = table.Column<byte[]>(nullable: true),
                     Category = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: true),
+                    TimesSeries = table.Column<double>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Records", x => x.RecordID);
+                    table.PrimaryKey("PK_Records", x => x.RecordId);
                 });
         }
 
