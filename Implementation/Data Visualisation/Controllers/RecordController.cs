@@ -48,5 +48,9 @@ namespace Data_Visualisation.Controllers
             });
         }
 
+        public ViewResult Detail()
+        {
+            return View();
+        }
     }
 }
