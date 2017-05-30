@@ -4,11 +4,21 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Hosting;
+using Data_Visualisation.Models;
 
 namespace Data_Visualisation.Controllers
 {
     public class UploadFilesController : Controller
     {
+        private IHostingEnvironment _hostingEnvironment;
+
+        public UploadFilesController(IHostingEnvironment environment, IRecordRepository repo)
+        {
+            _hostingEnvironment = environment;
+
+        }
+
         #region snippet1
         [HttpPost("UploadFiles")]
         public async Task<IActionResult> Post(List<IFormFile> files)
@@ -16,25 +26,37 @@ namespace Data_Visualisation.Controllers
             // size of all uploaded files
             long size = files.Sum(f => f.Length);
 
-            // full path to file in temp location
-            var filePath = Path.GetTempFileName();
+            // full path to uploads folder
+            var uploads = Path.Combine(_hostingEnvironment.WebRootPath, "uploads");
 
             foreach (var formFile in files)
             {
                 if (formFile.Length > 0)
                 {
-                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    var filePath = Path.Combine(uploads, formFile.FileName);
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
                     {
-                        // copy formFile to stream, i.e. save to the local file system
-                        await formFile.CopyToAsync(stream);
+                        // Save file to file system
+                        await formFile.CopyToAsync(fileStream);
+
+                        // Save binary data to database
+                        using (var memoryStream = new MemoryStream())
+                        {
+                            await formFile.CopyToAsync(memoryStream);
+
+                            using (var repo = new ApplicationDbContext())
+                            {
+                                Record rec = new Record();
+                                rec.BinaryData = memoryStream.ToArray();
+                                repo.Add(rec);
+                                repo.SaveChanges();
+                            }
+                        }
                     }
                 }
             }
-
-            // process uploaded files
-            // Don't rely on or trust the FileName property without validation.
-
-            return Ok(new { count = files.Count, size, filePath});
+            return Ok(new { count = files.Count, uploads });
         }
         #endregion
 
