@@ -11,7 +11,7 @@ namespace Data_Visualisation.Controllers
         private IRecordRepository repository;
 
         // Number of records per page
-        public int PageSize = 2;
+        public int PageSize = 4;
 
         public RecordController(IRecordRepository repo)
         {

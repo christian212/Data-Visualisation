@@ -57,9 +57,19 @@ namespace Data_Visualisation
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
-                    name: "pagination",
-                    template: "Page{page}",
-                    defaults: new { Controller = "Record", action = "List" });
+                    name: null,
+                    template: "Database/{category}/Page{page:int}",
+                    defaults: new { controller = "Record", action = "List" });
+                routes.MapRoute(
+                    name: null,
+                    template: "Database/Page{page:int}",
+                    defaults: new { controller = "Record", action = "List", page = 1 }
+                );
+                routes.MapRoute(
+                    name: null,
+                    template: "Database/{category}",
+                    defaults: new { controller = "Record", action = "List", page = 1 }
+                );
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
