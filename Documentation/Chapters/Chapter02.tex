@@ -65,4 +65,33 @@ Für eine Webapplikation ist es essentiell dynamischen Inhalt zu generieren und 
 
 Model Binding ist ein nützliches Feature von MVC. Eingehende Daten eines HTTP-requests werden geparsed und unter Berücksichtigung der Key-Value-Pairs den Properties des jeweiligen domain models types zugewiesen. Dadurch wird das mühevolle Behandeln von HTTP requests vermieden und man kann direkt mit C\# Objekten arbeiten anstatt mit Datenpaketen die vom Browser gesendet werden.
 
+\subsection{Tag Helper}
+
+\section{Entity Framework Core}
+
+Entity Framework (EF) Core is a lightweight, extensible, and cross-platform version of the popular Entity Framework data access technology.
+EF Core is an object-relational mapper (O/RM) that enables .NET developers to work with a database using .NET objects. It eliminates the need for most of the data-access code that developers usually need to write. EF Core supports many database engines, see Database Providers for details. 
+
+With EF Core, data access is performed using a model. A model is made up of entity classes and a derived context that represents a session with the database, allowing you to query and save data. See Creating a Model to learn more.
+You can generate a model from an existing database, hand code a model to match your database, or use EF Migrations to create a database from your model (and evolve it as your model changes over time).
+
+Instances of your entity classes are retrieved from the database using Language Integrated Query (LINQ). 
+
+Entity Framework Core uses Language Integrate Query (LINQ) to query data from the database. LINQ allows you to use C\# (or your .NET language of choice) to write strongly typed queries based on your derived context and entity classes. A representation of the LINQ query is passed to the database provider, to be translated in database-specific query language (e.g. SQL for a relational database).\cite{msentitiyframework}
+
+
+Entity Framework Core is able to generate the schema for the database using the model classes througha feature called migrations. When you prepare a migration, EF Core creates a C\# class that contains the SQL commands required to prepare the database. If you need to modify your model classes, then you can create a new migration that contains the SQL commands required to reflect the changes. In this way, you don’t have to worry about manually writing and testing SQL commands and can just focus on the C\# model classes in the application.\cite{dotnetcore}
+
+\section{CSV-Reader}
+
+The CsvReader library is an extended version of Sébastien Lorion's fast CSV Reader project and provides fast parsing and reading of CSV files \cite{csvreader}.
+
+\section{SQLite}
+
+SQLite is an in-process library that implements a self-contained, serverless, zero-configuration, transactional SQL database engine. The code for SQLite is in the public domain and is thus free for use for any purpose, commercial or private. SQLite is the most widely deployed database in the world with more applications than we can count, including several high-profile projects.
+
+SQLite is an embedded SQL database engine. Unlike most other SQL databases, SQLite does not have a separate server process. SQLite reads and writes directly to ordinary disk files. A complete SQL database with multiple tables, indices, triggers, and views, is contained in a single disk file. The database file format is cross-platform - you can freely copy a database between 32-bit and 64-bit systems or between big-endian and little-endian architectures. These features make SQLite a popular choice as an Application File Format. Think of SQLite not as a replacement for Oracle but as a replacement for fopen() \cite{sqlite}
+
+
+\section{Bootstrap}
 
