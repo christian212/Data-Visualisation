@@ -63,7 +63,7 @@ namespace Data_Visualisation.Controllers
                     }
                 }
             }
-            return Ok(new { count = files.Count, uploads });
+            return RedirectToAction("List", "Record");
         }
         #endregion
 

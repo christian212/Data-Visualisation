@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using Data_Visualisation.Models;
+using System.Collections.Generic;
 
 namespace Data_Visualisation.Components
 {
@@ -16,10 +17,26 @@ namespace Data_Visualisation.Components
         {
             ViewBag.Count = repository.Records.Count();
             ViewBag.SelectedCategory = RouteData?.Values["category"];
-            return View(repository.Records
-            .Select(x => x.Category)
-            .Distinct()
-            .OrderBy(x => x));
+
+            IEnumerable<string> distinctCategories = repository.Records
+                        .Select(x => x.Category)
+                        .Distinct()
+                        .OrderBy(x => x);
+
+            int[] badges = new int[distinctCategories.Count()];
+
+            int count = 0;
+            foreach (var distinctCategory in distinctCategories)
+            {
+                badges[count] = repository.Records
+                    .Where(e => e.Category == distinctCategory).Count();
+
+                count += 1;
+            }
+
+            ViewBag.Badges = badges;
+
+            return View(distinctCategories);
         }
     }
 }

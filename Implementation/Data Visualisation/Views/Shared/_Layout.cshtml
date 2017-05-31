@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Data Visualisation</title>
+    <title>@ViewBag.Title - Data Visualisation</title>
 
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -43,7 +43,7 @@
     <div class="container body-content">
 
         <div class="page-header">
-            <h1>@ViewBag.HeaderTitle <small>@ViewBag.HeaderSubtitle</small></h1>
+            <h2><span class="glyphicon glyphicon-@ViewBag.Glyphon" aria-hidden="true"></span> @ViewBag.Title</h2>
         </div>
 
         @RenderBody()

@@ -41,7 +41,7 @@ namespace Data_Visualisation.Controllers
                     repository.Records.Where(e =>
                         e.Category == category).Count()
                 },
-                CurrentCategory = category,
+                CurrentCategory = category
             });
         }
 
