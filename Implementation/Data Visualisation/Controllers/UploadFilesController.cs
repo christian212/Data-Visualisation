@@ -55,6 +55,7 @@ namespace Data_Visualisation.Controllers
                                 FileInfo fileInfo = new FileInfo(uploads);
                                 rec.Creation = fileInfo.CreationTime;
                                 rec.Modification = fileInfo.LastWriteTime;
+                                rec.ContentType = formFile.ContentType;
 
                                 rec.Description = "Dies ist eine Beschreibung.";
                                 

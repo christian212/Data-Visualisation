@@ -24,6 +24,8 @@ namespace DataVisualisation.Migrations
 
                     b.Property<string>("Category");
 
+                    b.Property<string>("ContentType");
+
                     b.Property<DateTime>("Creation");
 
                     b.Property<string>("Description");

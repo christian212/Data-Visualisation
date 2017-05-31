@@ -54,5 +54,12 @@ namespace Data_Visualisation.Controllers
 
             return View(records.First());
         }
+
+        public FileResult Download(int recordId = 1)
+        {
+            IEnumerable<Record> records = repository.Records.Where(p => p.RecordId == recordId);
+            Record record = records.First();
+            return File(record.BinaryData, record.ContentType, record.Name);
+        }
     }
 }

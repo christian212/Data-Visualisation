@@ -16,6 +16,7 @@ namespace DataVisualisation.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     BinaryData = table.Column<byte[]>(nullable: true),
                     Category = table.Column<string>(nullable: true),
+                    ContentType = table.Column<string>(nullable: true),
                     Creation = table.Column<DateTime>(nullable: false),
                     Description = table.Column<string>(nullable: true),
                     Modification = table.Column<DateTime>(nullable: false),

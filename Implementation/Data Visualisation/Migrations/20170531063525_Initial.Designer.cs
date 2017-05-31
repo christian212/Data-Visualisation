@@ -8,7 +8,7 @@ using Data_Visualisation.Models;
 namespace DataVisualisation.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170530200133_Initial")]
+    [Migration("20170531063525_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,8 @@ namespace DataVisualisation.Migrations
                     b.Property<byte[]>("BinaryData");
 
                     b.Property<string>("Category");
+
+                    b.Property<string>("ContentType");
 
                     b.Property<DateTime>("Creation");
 

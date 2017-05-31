@@ -11,6 +11,7 @@ namespace Data_Visualisation.Models
         public string Description { get; set; }
         public string Category { get; set; }
         public byte[] BinaryData { get; set; }
+        public string ContentType { get; set; }
         public DateTime Creation { get; set; }
         public DateTime Modification { get; set; }
     }
