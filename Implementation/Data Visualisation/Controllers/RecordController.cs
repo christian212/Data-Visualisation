@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Data_Visualisation.Models;
 using Data_Visualisation.Models.ViewModels;
+using System.Collections.Generic;
 
 namespace Data_Visualisation.Controllers
 {
@@ -44,9 +45,14 @@ namespace Data_Visualisation.Controllers
             });
         }
 
-        public ViewResult Detail()
+        public ViewResult Details(int recordId = 1)
         {
-            return View();
+            ViewBag.HeaderTitle = "Details";
+            ViewBag.HeaderSubtitle = "";
+
+            IEnumerable<Record> records = repository.Records.Where(p => p.RecordId == recordId);
+
+            return View(records.First());
         }
     }
 }

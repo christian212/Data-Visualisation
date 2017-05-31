@@ -71,6 +71,16 @@ namespace Data_Visualisation
                     defaults: new { controller = "Record", action = "List", page = 1 }
                 );
                 routes.MapRoute(
+                    name: null,
+                    template: "Record/{recordId:int}",
+                    defaults: new { controller = "Record", action = "Details", recordId = 1 }
+                );
+                routes.MapRoute(
+                    name: null,
+                    template: "Plot/{recordId:int}",
+                    defaults: new { controller = "Visualise", action = "Plot", recordId = 1 }
+                );
+                routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
