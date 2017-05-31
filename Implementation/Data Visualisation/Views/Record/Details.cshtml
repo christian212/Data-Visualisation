@@ -29,7 +29,7 @@
             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                 <li><a asp-controller="Visualise" asp-action="Plot" asp-route-recordId="@Model.RecordId"><span class="glyphicon glyphicon-signal" aria-hidden="true"></span> Plot</a></li>
                 <li><a asp-controller="Record" asp-action="Download" asp-route-recordId="@Model.RecordId"><span class="glyphicon glyphicon-cloud-download" aria-hidden="true"></span> Download</a></li>
-                <li><a href="#"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Bearbeiten</a></li>
+                <li><a asp-controller="Record" asp-action="Edit" asp-route-recordId="@Model.RecordId"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Bearbeiten</a></li>
                 <li><a asp-controller="Record" asp-action="Delete" asp-route-recordId="@Model.RecordId"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Löschen</a></li>
             </ul>
         </div>

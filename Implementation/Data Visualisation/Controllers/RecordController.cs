@@ -55,18 +55,42 @@ namespace Data_Visualisation.Controllers
             return View(record);
         }
 
+        public IActionResult Create() => View("Edit", new Record());
+
         public FileResult Download(int recordId = 1)
         {
             Record record = repository.Records.FirstOrDefault(p => p.RecordId == recordId);
             return File(record.BinaryData, record.ContentType, record.Name);
         }
 
-        public IActionResult Delete(int recordId) {
+        public IActionResult Delete(int recordId)
+        {
             Record deletedRecord = repository.DeleteRecord(recordId);
-            if (deletedRecord != null) {
+            if (deletedRecord != null)
+            {
                 ViewBag.Message = $"{deletedRecord.Name} was deleted";
             }
             return RedirectToAction("List");
+        }
+
+        public ViewResult Edit(int recordId) =>
+                    View(repository.Records
+                        .FirstOrDefault(p => p.RecordId == recordId));
+
+        [HttpPost]
+        public IActionResult Edit(Record record)
+        {
+            if (ModelState.IsValid)
+            {
+                repository.SaveRecord(record);
+                ViewBag.Message = $"{record.Name} has been saved";
+                return RedirectToAction("List");
+            }
+            else
+            {
+                // there is something wrong with the data values
+                return View(record);
+            }
         }
     }
 }
