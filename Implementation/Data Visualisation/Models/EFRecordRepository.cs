@@ -30,5 +30,15 @@ namespace Data_Visualisation.Models {
             }
             context.SaveChanges();
         }
+
+        public Record DeleteRecord(int recordID) {
+            Record dbEntry = context.Records
+                .FirstOrDefault(p => p.RecordId == recordID);
+            if (dbEntry != null) {
+                context.Records.Remove(dbEntry);
+                context.SaveChanges();
+            }
+            return dbEntry;
+        }
     }
 }

@@ -61,12 +61,12 @@ namespace Data_Visualisation.Controllers
             return File(record.BinaryData, record.ContentType, record.Name);
         }
 
-        public ViewResult Delete(int recordId = 1)
-        {
-            ViewBag.HeaderTitle = "File Deleted";
-            ViewBag.HeaderSubtitle = "The file was successfully deleted!";
-
-            return View();
+        public IActionResult Delete(int recordId) {
+            Record deletedRecord = repository.DeleteRecord(recordId);
+            if (deletedRecord != null) {
+                ViewBag.Message = $"{deletedRecord.Name} was deleted";
+            }
+            return RedirectToAction("List");
         }
     }
 }

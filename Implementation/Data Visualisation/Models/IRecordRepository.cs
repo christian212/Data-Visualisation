@@ -8,6 +8,8 @@ namespace Data_Visualisation.Models
         IEnumerable<Record> Records { get; }
 
         void SaveRecord(Record record);
+
+        Record DeleteRecord(int productID);
         
     }
 }
