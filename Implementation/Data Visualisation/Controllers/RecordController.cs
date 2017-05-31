@@ -50,16 +50,23 @@ namespace Data_Visualisation.Controllers
             ViewBag.HeaderTitle = "Details";
             ViewBag.HeaderSubtitle = "";
 
-            IEnumerable<Record> records = repository.Records.Where(p => p.RecordId == recordId);
+            Record record = repository.Records.FirstOrDefault(p => p.RecordId == recordId);
 
-            return View(records.First());
+            return View(record);
         }
 
         public FileResult Download(int recordId = 1)
         {
-            IEnumerable<Record> records = repository.Records.Where(p => p.RecordId == recordId);
-            Record record = records.First();
+            Record record = repository.Records.FirstOrDefault(p => p.RecordId == recordId);
             return File(record.BinaryData, record.ContentType, record.Name);
+        }
+
+        public ViewResult Delete(int recordId = 1)
+        {
+            ViewBag.HeaderTitle = "File Deleted";
+            ViewBag.HeaderSubtitle = "The file was successfully deleted!";
+
+            return View();
         }
     }
 }

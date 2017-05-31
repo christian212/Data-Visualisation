@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Data_Visualisation.Models {
 
@@ -10,5 +11,24 @@ namespace Data_Visualisation.Models {
         }
 
         public IEnumerable<Record> Records => context.Records;
+
+        public void SaveRecord(Record record) {
+            if (record.RecordId == 0) {
+                context.Records.Add(record);
+            } else {
+                Record dbEntry = context.Records
+                    .FirstOrDefault(p => p.RecordId == record.RecordId);
+                if (dbEntry != null) {
+                    dbEntry.Name = record.Name;
+                    dbEntry.Description = record.Description;
+                    dbEntry.Category = record.Category;
+                    dbEntry.BinaryData= record.BinaryData;
+                    dbEntry.ContentType= record.ContentType;
+                    dbEntry.Creation= record.Creation;
+                    dbEntry.Modification= record.Modification;
+                }
+            }
+            context.SaveChanges();
+        }
     }
 }

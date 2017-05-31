@@ -12,11 +12,12 @@ namespace Data_Visualisation.Controllers
     public class UploadFilesController : Controller
     {
         private IHostingEnvironment _hostingEnvironment;
+        private IRecordRepository repository;
 
         public UploadFilesController(IHostingEnvironment environment, IRecordRepository repo)
         {
             _hostingEnvironment = environment;
-
+            repository = repo;
         }
 
         #region snippet1
@@ -45,23 +46,19 @@ namespace Data_Visualisation.Controllers
                         {
                             await formFile.CopyToAsync(memoryStream);
 
-                            using (var repo = new ApplicationDbContext())
-                            {
-                                Record rec = new Record();
-                                rec.BinaryData = memoryStream.ToArray();
-                                rec.Name = formFile.FileName;
-                                rec.Category = "Sonstige";
+                            Record rec = new Record();
+                            rec.BinaryData = memoryStream.ToArray();
+                            rec.Name = formFile.FileName;
+                            rec.Category = "Sonstige";
 
-                                FileInfo fileInfo = new FileInfo(uploads);
-                                rec.Creation = fileInfo.CreationTime;
-                                rec.Modification = fileInfo.LastWriteTime;
-                                rec.ContentType = formFile.ContentType;
+                            FileInfo fileInfo = new FileInfo(uploads);
+                            rec.Creation = fileInfo.CreationTime;
+                            rec.Modification = fileInfo.LastWriteTime;
+                            rec.ContentType = formFile.ContentType;
 
-                                rec.Description = "Dies ist eine Beschreibung.";
-                                
-                                repo.Add(rec);
-                                repo.SaveChanges();
-                            }
+                            rec.Description = "Dies ist eine Beschreibung.";
+
+                            repository.SaveRecord(rec);
                         }
                     }
                 }
