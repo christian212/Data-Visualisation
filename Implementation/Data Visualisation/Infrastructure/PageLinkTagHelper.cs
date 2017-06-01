@@ -6,22 +6,23 @@ using Microsoft.AspNetCore.Razor.TagHelpers;
 using Data_Visualisation.Models.ViewModels;
 using System.Collections.Generic;
 
-namespace Data_Visualisation.Infrastructure {
+namespace Data_Visualisation.Infrastructure
+{
 
-    [HtmlTargetElement("div", Attributes = "page-model")]
-    public class PageLinkTagHelper : TagHelper {
+    [HtmlTargetElement("ul", Attributes = "page-model")]
+    public class PageLinkTagHelper : TagHelper
+    {
         private IUrlHelperFactory urlHelperFactory;
 
-        public PageLinkTagHelper(IUrlHelperFactory helperFactory) {
+        public PageLinkTagHelper(IUrlHelperFactory helperFactory)
+        {
             urlHelperFactory = helperFactory;
         }
 
         [ViewContext]
         [HtmlAttributeNotBound]
         public ViewContext ViewContext { get; set; }
-
         public PagingInfo PageModel { get; set; }
-
         public string PageAction { get; set; }
 
         [HtmlAttributeName(DictionaryAttributePrefix = "page-url-")]
@@ -33,23 +34,34 @@ namespace Data_Visualisation.Infrastructure {
         public string PageClassNormal { get; set; }
         public string PageClassSelected { get; set; }
 
-        public override void Process(TagHelperContext context,
-                TagHelperOutput output) {
+        public override void Process(TagHelperContext context, TagHelperOutput output)
+        {
             IUrlHelper urlHelper = urlHelperFactory.GetUrlHelper(ViewContext);
             TagBuilder result = new TagBuilder("div");
-            for (int i = 1; i <= PageModel.TotalPages; i++) {
-                TagBuilder tag = new TagBuilder("a");
-                PageUrlValues["page"] = i;
-                tag.Attributes["href"] = urlHelper.Action(PageAction, PageUrlValues);
-                if (PageClassesEnabled) {
-                    tag.AddCssClass(PageClass);
-                    tag.AddCssClass(i == PageModel.CurrentPage
-                        ? PageClassSelected : PageClassNormal);
+
+            if (PageModel.TotalPages > 1)
+            {
+                for (int i = 1; i <= PageModel.TotalPages; i++)
+                {
+                    TagBuilder tag = new TagBuilder("li");
+                    PageUrlValues["page"] = i;
+
+                    if (PageClassesEnabled)
+                    {
+                        tag.AddCssClass(PageClass);
+                        tag.AddCssClass(i == PageModel.CurrentPage
+                            ? PageClassSelected : PageClassNormal);
+                    }
+
+                    TagBuilder aTag = new TagBuilder("a");
+                    aTag.AddCssClass("page-link");
+                    aTag.Attributes["href"] = urlHelper.Action(PageAction, PageUrlValues);
+                    aTag.InnerHtml.Append(i.ToString());
+                    tag.InnerHtml.AppendHtml(aTag);
+                    result.InnerHtml.AppendHtml(tag);
                 }
-                tag.InnerHtml.Append(i.ToString());
-                result.InnerHtml.AppendHtml(tag);
+                output.Content.AppendHtml(result.InnerHtml);
             }
-            output.Content.AppendHtml(result.InnerHtml);
         }
     }
 }

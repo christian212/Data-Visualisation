@@ -1,34 +1,35 @@
 ﻿@model Record
 
-<div class="well well-lg">
-    <h3>
-        <strong>@Model.Name</strong>
-        
-        <span class="pull-right label label-primary">
-            @Model.Category
-        </span>
-        
-    </h3>
-    
-    <span class="lead">Record ID: @Model.RecordId</span>
-    <span class="pull-right"><small> @Model.Creation.ToString("dd MMMM yyyy")</small></span>
-    
-    <hr />
-    <p>@Model.Description</p>
-    <hr />
+<div class="card mb-5">
+    <div class="card-header d-flex justify-content-between">
+        Record ID: @Model.RecordId
+        <h7><span class="badge badge-info">@Model.Category</span></h7>
+    </div>
 
-    <div class="dropdown">
-        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
-            aria-expanded="true">
-                <span class="glyphicon glyphicon-link" aria-hidden="true"></span> Actions 
-                <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-            <li><a asp-controller="Record" asp-action="Details" asp-route-recordId="@Model.RecordId"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Details</a></li>
-            <li><a asp-controller="Visualise" asp-action="Plot" asp-route-recordId="@Model.RecordId"><span class="glyphicon glyphicon-signal" aria-hidden="true"></span> Plot</a></li>
-            <li><a asp-controller="Record" asp-action="Download" asp-route-recordId="@Model.RecordId"><span class="glyphicon glyphicon-cloud-download" aria-hidden="true"></span> Download</a></li>
-            <li><a asp-controller="Record" asp-action="Edit" asp-route-recordId="@Model.RecordId"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Bearbeiten</a></li>
-            <li><a asp-controller="Record" asp-action="Delete" asp-route-recordId="@Model.RecordId"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Löschen</a></li>
-        </ul>
+    <div class="card-block">
+        <h4 class="card-title">@Model.Name</h4>
+
+        <p class="card-text">@Model.Description</p>
+
+        <div class="btn-group" role="group">
+            <button onclick="location.href='@Url.Action("Plot", "Visualise", new { recordId = @Model.RecordId })'" type="button" class="btn btn-secondary"><i class="fa fa-line-chart"></i> Plot</button>
+            <button onclick="location.href='@Url.Action("Details", "Record", new { recordId = @Model.RecordId })'" type="button" class="btn btn-secondary"><i class="fa fa-info"></i> Details</button>
+
+            <div class="btn-group" role="group">
+                <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
+                    Mehr
+                </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" asp-controller="Record" asp-action="Download" asp-route-recordId="@Model.RecordId"><i class="fa fa-cloud-download"></i> Download</a>
+                    <a class="dropdown-item" asp-controller="Record" asp-action="Edit" asp-route-recordId="@Model.RecordId"><i class="fa fa-pencil"></i> Bearbeiten</a>
+                    <a class="dropdown-item" asp-controller="Record" asp-action="Delete" asp-route-recordId="@Model.RecordId"><i class="fa fa-trash-o"></i> Löschen</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-footer text-muted">
+        @Model.Creation.ToString("dd MMMM yyyy")
     </div>
 </div>

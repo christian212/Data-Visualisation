@@ -70,21 +70,28 @@ namespace Data_Visualisation
                     template: "Database/{category}",
                     defaults: new { controller = "Record", action = "List", page = 1 }
                 );
+
                 routes.MapRoute(
                     name: null,
-                    template: "Record/{recordId:int}",
-                    defaults: new { controller = "Record", action = "Details", recordId = 1 }
+                    template: "Record/Plot/{recordId:int}",
+                    defaults: new { controller = "Visualise", action = "Plot" }
                 );
                 routes.MapRoute(
                     name: null,
-                    template: "Download/{recordId:int}",
-                    defaults: new { controller = "Record", action = "Download", recordId = 1 }
+                    template: "Record/Details/{recordId:int}",
+                    defaults: new { controller = "Record", action = "Details" }
                 );
                 routes.MapRoute(
                     name: null,
-                    template: "Plot/{recordId:int}",
-                    defaults: new { controller = "Visualise", action = "Plot", recordId = 1 }
+                    template: "Record/Download/{recordId:int}",
+                    defaults: new { controller = "Record", action = "Download" }
                 );
+                routes.MapRoute(
+                    name: null,
+                    template: "Record/Edit/{recordId:int}",
+                    defaults: new { controller = "Record", action = "Edit" }
+                );
+
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");

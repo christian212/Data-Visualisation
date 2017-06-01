@@ -2,26 +2,26 @@
     
 @{
     ViewBag.Title = "Datenbank";
-    ViewBag.Glyphon = "hdd"; 
 }
 
 <div class="row">
-    <div class="col-md-3 m-b-40">
+    <div class="col-md-3">
         <div id="categories" class="col-md-12">
-            @await Component.InvokeAsync("NavigationMenu")
-
-            <div class="row">
+            
+            <div class="row mb-3">
+                <label class="sr-only" for="inlineFormInputGroup">Suche</label>
                 <div class="input-group">
-                    <span class="input-group-btn">
-                        <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-                    </span>
-                    <input type="text" class="form-control" placeholder="Suche...">
+                    <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                    <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Suche">
                 </div>
             </div>
 
-            <div class="row m-t-20">
-                <a asp-controller="Record" asp-action="Create" class="btn btn-primary" role="button"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Datensatz hinzufügen</a>
+            @await Component.InvokeAsync("NavigationMenu")
+
+            <div class="row mb-5">
+                <a asp-controller="Record" asp-action="Create" class="btn btn-primary btn-block"><i class="fa fa-plus"></i> Datensatz hinzufügen</a>
             </div>
+
         </div>
     </div>
 
@@ -30,8 +30,11 @@
             @Html.Partial("RecordSummary", rec)
         }
 
-        <div page-model="@Model.PagingInfo" page-action="List" page-classes-enabled="true" page-class="btn" page-class-normal="btn-default"
-            page-class-selected="btn-primary" page-url-category="@Model.CurrentCategory" class="btn-group pull-right"> 
-        </div>
+        <nav>
+            <ul class="pagination justify-content-end" page-model="@Model.PagingInfo" page-action="List" page-classes-enabled="true"
+                page-class="page-item" page-class-normal="" page-class-selected="active" page-url-category="@Model.CurrentCategory">
+            </ul>
+        </nav>
+
     </div>
 </div>
