@@ -48,15 +48,37 @@ namespace Data_Visualisation.Controllers
 
                             Record rec = new Record();
                             rec.BinaryData = memoryStream.ToArray();
-                            rec.Name = formFile.FileName;
-                            rec.Category = "Sonstige";
+
+                            int fileExtPos = formFile.FileName.LastIndexOf(".");
+                            if (fileExtPos >= 0)
+                            {
+                                rec.Name = formFile.FileName.Substring(0, fileExtPos).Replace('_', ' ');
+                                rec.FileExtension = formFile.FileName.Substring(fileExtPos + 1, formFile.FileName.Length - fileExtPos - 1);
+                            }
+
+                            rec.FileName = formFile.FileName;
+                            rec.FileSize = formFile.Length;
+
+                            if (rec.FileExtension == "csv" || rec.FileExtension == "CSV")
+                            {
+                                rec.Category = "Zeitreihen";
+                                rec.Description = "Dies ist eine Beschreibung einer Zeitreihe.";
+                            }
+                            else if (rec.FileExtension == "mat" || rec.FileExtension == "MAT")
+                            {
+                                rec.Category = "Ortskurven";
+                                rec.Description = "Dies ist eine Beschreibung einer Ortskurve.";
+                            }
+                            else
+                            {
+                                rec.Category = "Sonstige";
+                                rec.Description = "Dies ist eine Beschreibung.";
+                            }
 
                             FileInfo fileInfo = new FileInfo(uploads);
                             rec.Creation = fileInfo.CreationTime;
                             rec.Modification = fileInfo.LastWriteTime;
                             rec.ContentType = formFile.ContentType;
-
-                            rec.Description = "Dies ist eine Beschreibung.";
 
                             repository.SaveRecord(rec);
                         }
