@@ -1,0 +1,38 @@
+﻿@model CellsListViewModel
+    
+@{
+    ViewBag.Title = "Zellen - Datenbank";
+}
+
+<div class="row">
+    <div class="col-md-3">
+        <div id="categories" class="col-md-12">
+
+            <div class="row mb-3">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Suche">
+                    <span class="input-group-btn">
+                        <button class="btn btn-secondary" type="button"><i class="fa fa-search"></i></button>
+                    </span>
+                </div>
+            </div>
+
+            @await Component.InvokeAsync("NavigationMenu")
+
+            <div class="row mb-5">
+                <a asp-controller="Cell" asp-action="Create" class="btn btn-primary btn-block"><i class="fa fa-plus"></i> Neue Zelle</a>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-md-9">
+        @foreach (var cell in Model.Cells){ @Html.Partial("CellSummary", cell) }
+
+        <nav>
+            <ul class="pagination justify-content-end" page-model="@Model.PagingInfo" page-action="List" page-classes-enabled="true"
+                page-class="page-item" page-class-normal="" page-class-selected="active" page-url-category="@Model.CurrentCategory">
+            </ul>
+        </nav>
+    </div>
+</div>

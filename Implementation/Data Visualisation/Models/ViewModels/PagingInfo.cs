@@ -12,4 +12,5 @@ namespace Data_Visualisation.Models.ViewModels
         public int TotalPages =>
             (int)Math.Ceiling((decimal)TotalItems / ItemsPerPage);
     }
+
 }

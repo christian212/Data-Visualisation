@@ -1,42 +1,38 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
-using Data_Visualisation.Models;
 using System.Collections.Generic;
+
+using Data_Visualisation.Models;
+using Data_Visualisation.Data;
 
 namespace Data_Visualisation.Components
 {
 
     public class NavigationMenuViewComponent : ViewComponent
     {
-        private IRecordRepository repository;
-        public NavigationMenuViewComponent(IRecordRepository repo)
+        private IRepository Repository;
+
+        public NavigationMenuViewComponent(
+            IRepository repo)
         {
-            repository = repo;
+            Repository = repo;
         }
+
         public IViewComponentResult Invoke()
         {
-            ViewBag.Count = repository.Records.Count();
-            ViewBag.SelectedCategory = RouteData?.Values["category"];
+            IEnumerable<string> distinctCategories = new string[] { "Stacks", "Zellen", "Messungen" };
+            int[] badges = new int[3];
 
-            IEnumerable<string> distinctCategories = repository.Records
-                        .Select(x => x.Category)
-                        .Distinct()
-                        .OrderBy(x => x);
+            badges[0] = Repository.Stacks.Count();
+            badges[1] = Repository.Cells.Count();
+            badges[2] = Repository.Measurements.Count();
 
-            int[] badges = new int[distinctCategories.Count()];
-
-            int count = 0;
-            foreach (var distinctCategory in distinctCategories)
-            {
-                badges[count] = repository.Records
-                    .Where(e => e.Category == distinctCategory).Count();
-
-                count += 1;
-            }
-
+            ViewBag.Controllers = new string[] { "Stack", "Cell", "Measurement" };
             ViewBag.Badges = badges;
+            ViewBag.SelectedCategory = RouteData?.Values["category"];
 
             return View(distinctCategories);
         }
     }
+    
 }

@@ -8,7 +8,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
+
 using Data_Visualisation.Models;
+using Data_Visualisation.Data;
 
 namespace Data_Visualisation
 {
@@ -32,7 +34,10 @@ namespace Data_Visualisation
             // Add framework services.
             services.AddEntityFrameworkSqlite().AddDbContext<ApplicationDbContext>();
             // Register repository service
-            services.AddTransient<IRecordRepository, EFRecordRepository>();
+            services.AddTransient<IStackRepository, EFStackRepository>();
+            services.AddTransient<ICellRepository, EFCellRepository>();
+            services.AddTransient<IMeasurementRepository, EFMeasurementRepository>();
+            services.AddTransient<IRepository, EFRepository>();
             services.AddMvc();
         }
 
@@ -58,38 +63,78 @@ namespace Data_Visualisation
             {
                 routes.MapRoute(
                     name: null,
-                    template: "Database/{category}/Page{page:int}",
-                    defaults: new { controller = "Record", action = "List" });
+                    template: "Datenbank/Stacks/Seite{page:int}",
+                    defaults: new { controller = "Stack", action = "List", category = "Stacks" });
                 routes.MapRoute(
                     name: null,
-                    template: "Database/Page{page:int}",
-                    defaults: new { controller = "Record", action = "List", page = 1 }
-                );
+                    template: "Datenbank/Page{page:int}",
+                    defaults: new { controller = "Stack", action = "List", category = "Stacks" });
                 routes.MapRoute(
                     name: null,
-                    template: "Database/{category}",
-                    defaults: new { controller = "Record", action = "List", page = 1 }
-                );
+                    template: "Datenbank/Stacks",
+                    defaults: new { controller = "Stack", action = "List", category = "Stacks" , page = 1 });
 
                 routes.MapRoute(
                     name: null,
-                    template: "Record/Plot/{recordId:int}",
+                    template: "Datenbank/Zellen/Seite{page:int}",
+                    defaults: new { controller = "Cell", action = "List", category = "Zellen" });
+                routes.MapRoute(
+                    name: null,
+                    template: "Datenbank/Seite{page:int}",
+                    defaults: new { controller = "Cell", action = "List", category = "Zellen" });
+                routes.MapRoute(
+                    name: null,
+                    template: "Datenbank/Zellen",
+                    defaults: new { controller = "Cell", action = "List", category = "Zellen" , page = 1 });
+
+                routes.MapRoute(
+                    name: null,
+                    template: "Datenbank/Messungen/Seite{page:int}",
+                    defaults: new { controller = "Measurement", action = "List", category = "Messungen" });
+                routes.MapRoute(
+                    name: null,
+                    template: "Datenbank/Seite{page:int}",
+                    defaults: new { controller = "Measurement", action = "List", category = "Messungen" });
+                routes.MapRoute(
+                    name: null,
+                    template: "Datenbank/Messungen",
+                    defaults: new { controller = "Measurement", action = "List", category = "Messungen" , page = 1 });
+
+
+                // routes.MapRoute(
+                //     name: null,
+                //     template: "Database/{category}/Page{page:int}",
+                //     defaults: new { controller = "Stack", action = "List" });
+                // routes.MapRoute(
+                //     name: null,
+                //     template: "Database/Page{page:int}",
+                //     defaults: new { controller = "Stack", action = "List", page = 1 }
+                // );
+                // routes.MapRoute(
+                //     name: null,
+                //     template: "Database/{category}",
+                //     defaults: new { controller = "Stack", action = "List", page = 1 }
+                // );
+
+                routes.MapRoute(
+                    name: null,
+                    template: "Stack/Plot/{stackID:int}",
                     defaults: new { controller = "Visualise", action = "Plot" }
                 );
                 routes.MapRoute(
                     name: null,
-                    template: "Record/Details/{recordId:int}",
-                    defaults: new { controller = "Record", action = "Details" }
+                    template: "Stack/Details/{stackID:int}",
+                    defaults: new { controller = "Stack", action = "Details" }
                 );
                 routes.MapRoute(
                     name: null,
-                    template: "Record/Download/{recordId:int}",
-                    defaults: new { controller = "Record", action = "Download" }
+                    template: "Stack/Download/{stackID:int}",
+                    defaults: new { controller = "Stack", action = "Download" }
                 );
                 routes.MapRoute(
                     name: null,
-                    template: "Record/Edit/{recordId:int}",
-                    defaults: new { controller = "Record", action = "Edit" }
+                    template: "Stack/Edit/{stackID:int}",
+                    defaults: new { controller = "Stack", action = "Edit" }
                 );
 
                 routes.MapRoute(

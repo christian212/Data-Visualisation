@@ -1,20 +1,21 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace Data_Visualisation.Controllers
 {
+
     public class HomeController : Controller
     {
-        public IActionResult Index()
+
+        public ViewResult Index()
         {
-            ViewBag.HeaderTitle = "Home";
-            ViewBag.HeaderSubtitle = "";
             return View();
         }
 
-        public IActionResult Error()
+        public ViewResult Error()
         {
             return View();
         }
+
     }
+
 }
