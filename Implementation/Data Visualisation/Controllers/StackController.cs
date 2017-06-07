@@ -24,7 +24,7 @@ namespace Data_Visualisation.Controllers
 
         public ViewResult List(string category, int page = 1)
         {
-            return View(new StacksListViewModel
+            return View(new ListViewModel
             {
                 // Return PageSize stacks per page
                 Stacks = Stacks.Where(p => category == null || p.Category == category)

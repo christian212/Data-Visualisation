@@ -58,82 +58,43 @@ namespace Data_Visualisation
 
             app.UseMvc(routes =>
             {
+                // Stacks
                 routes.MapRoute(
                     name: null,
                     template: "Datenbank/Stacks/Seite{page:int}",
                     defaults: new { controller = "Stack", action = "List", category = "Stacks" });
                 routes.MapRoute(
                     name: null,
-                    template: "Datenbank/Page{page:int}",
-                    defaults: new { controller = "Stack", action = "List", category = "Stacks" });
-                routes.MapRoute(
-                    name: null,
                     template: "Datenbank/Stacks",
-                    defaults: new { controller = "Stack", action = "List", category = "Stacks" , page = 1 });
+                    defaults: new { controller = "Stack", action = "List", category = "Stacks", page = 1 });
 
+                // Cells
                 routes.MapRoute(
                     name: null,
                     template: "Datenbank/Zellen/Seite{page:int}",
                     defaults: new { controller = "Cell", action = "List", category = "Zellen" });
                 routes.MapRoute(
                     name: null,
-                    template: "Datenbank/Seite{page:int}",
-                    defaults: new { controller = "Cell", action = "List", category = "Zellen" });
-                routes.MapRoute(
-                    name: null,
                     template: "Datenbank/Zellen",
-                    defaults: new { controller = "Cell", action = "List", category = "Zellen" , page = 1 });
+                    defaults: new { controller = "Cell", action = "List", category = "Zellen", page = 1 });
 
+                // Measurements
                 routes.MapRoute(
                     name: null,
                     template: "Datenbank/Messungen/Seite{page:int}",
                     defaults: new { controller = "Measurement", action = "List", category = "Messungen" });
                 routes.MapRoute(
                     name: null,
-                    template: "Datenbank/Seite{page:int}",
-                    defaults: new { controller = "Measurement", action = "List", category = "Messungen" });
-                routes.MapRoute(
-                    name: null,
                     template: "Datenbank/Messungen",
-                    defaults: new { controller = "Measurement", action = "List", category = "Messungen" , page = 1 });
+                    defaults: new { controller = "Measurement", action = "List", category = "Messungen", page = 1 });
 
-
-                // routes.MapRoute(
-                //     name: null,
-                //     template: "Database/{category}/Page{page:int}",
-                //     defaults: new { controller = "Stack", action = "List" });
-                // routes.MapRoute(
-                //     name: null,
-                //     template: "Database/Page{page:int}",
-                //     defaults: new { controller = "Stack", action = "List", page = 1 }
-                // );
-                // routes.MapRoute(
-                //     name: null,
-                //     template: "Database/{category}",
-                //     defaults: new { controller = "Stack", action = "List", page = 1 }
-                // );
-
+                // Database default
                 routes.MapRoute(
                     name: null,
-                    template: "Stack/Plot/{stackID:int}",
-                    defaults: new { controller = "Visualise", action = "Plot" }
-                );
-                routes.MapRoute(
-                    name: null,
-                    template: "Stack/Details/{stackID:int}",
-                    defaults: new { controller = "Stack", action = "Details" }
-                );
-                routes.MapRoute(
-                    name: null,
-                    template: "Stack/Download/{stackID:int}",
-                    defaults: new { controller = "Stack", action = "Download" }
-                );
-                routes.MapRoute(
-                    name: null,
-                    template: "Stack/Edit/{stackID:int}",
-                    defaults: new { controller = "Stack", action = "Edit" }
-                );
+                    template: "Datenbank",
+                    defaults: new { controller = "Stack", action = "List", category = "Stacks", page = 1 });
 
+                // Default
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");

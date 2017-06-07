@@ -24,7 +24,7 @@ namespace Data_Visualisation.Controllers
 
         public ViewResult List(string category, int page = 1)
         {
-            return View(new CellsListViewModel
+            return View(new ListViewModel
             {
                 // Return PageSize cells per page
                 Cells = Cells.Where(p => category == null || p.Category == category)

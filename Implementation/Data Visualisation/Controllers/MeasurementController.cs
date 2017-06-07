@@ -24,7 +24,7 @@ namespace Data_Visualisation.Controllers
 
         public ViewResult List(string category, int page = 1)
         {
-            return View(new MeasurementsListViewModel
+            return View(new ListViewModel
             {
                 // Return PageSize measurements per page
                 Measurements = Measurements.Where(p => category == null || p.Category == category)
