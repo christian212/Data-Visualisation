@@ -11,12 +11,12 @@ namespace Data_Visualisation.Controllers
 
     public class StackController : Controller
     {
-        private IStackRepository Repository;
+        private IRepository Repository;
         private IEnumerable<Stack> Stacks;
         // Number of stacks per page
         public int StacksPerPage = 4;
 
-        public StackController(IStackRepository repo)
+        public StackController(IRepository repo)
         {
             Repository = repo;
             Stacks = Repository.Stacks;

@@ -34,9 +34,6 @@ namespace Data_Visualisation
             // Add framework services.
             services.AddEntityFrameworkSqlite().AddDbContext<ApplicationDbContext>();
             // Register repository service
-            services.AddTransient<IStackRepository, EFStackRepository>();
-            services.AddTransient<ICellRepository, EFCellRepository>();
-            services.AddTransient<IMeasurementRepository, EFMeasurementRepository>();
             services.AddTransient<IRepository, EFRepository>();
             services.AddMvc();
         }

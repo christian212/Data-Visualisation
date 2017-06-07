@@ -11,12 +11,12 @@ namespace Data_Visualisation.Controllers
 
     public class CellController : Controller
     {
-        private ICellRepository Repository;
+        private IRepository Repository;
         private IEnumerable<Cell> Cells;
         // Number of cells per page
         public int CellsPerPage = 4;
 
-        public CellController(ICellRepository repo)
+        public CellController(IRepository repo)
         {
             Repository = repo;
             Cells = Repository.Cells;

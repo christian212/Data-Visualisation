@@ -11,12 +11,12 @@ namespace Data_Visualisation.Controllers
 
     public class MeasurementController : Controller
     {
-        private IMeasurementRepository Repository;
+        private IRepository Repository;
         private IEnumerable<Measurement> Measurements;
         // Number of measurements per page
         public int MeasurementsPerPage = 4;
 
-        public MeasurementController(IMeasurementRepository repo)
+        public MeasurementController(IRepository repo)
         {
             Repository = repo;
             Measurements = Repository.Measurements;
