@@ -1,28 +1,40 @@
-@model Stack
+@model DetailsViewModel
 
 @{
-    ViewData["Title"] = $"Details Stack {Model.StackID}";
+    ViewData["Title"] = Model.Title;
 }
 
-<!--<div class="alert alert-success" role="alert">
-  <strong><i class="fa fa-check" aria-hidden="true"></i></strong> @ViewBag.Message
-</div>-->
+@if (Model.AlertBool == true)
+{
+    @if (Model.IsSuccess == true)
+    {
+        <div class="alert alert-success mb-4" role="alert">
+            <strong><i class="fa fa-check" aria-hidden="true"></i></strong> @Model.Alert
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-danger mb-4" role="alert">
+            <strong><i class="fa fa-times" aria-hidden="true"></i></strong> @Model.Alert
+        </div>
+    }
+}
 
 <div class="card mb-5">
     <div class="card-header d-flex justify-content-between">
-        Stack ID: @Model.StackID
-        <h7><span class="badge badge-info badge-pill">@Model.CircuitType</span></h7>
-        <h7><span class="badge badge-default badge-pill">@Model.CellCount Zellen</span></h7>
+        Stack ID: @Model.Stack.StackID
+        <h7><span class="badge badge-info badge-pill">@Model.Stack.CircuitType</span></h7>
+        <h7><span class="badge badge-default badge-pill">@Model.Stack.CellCount Zellen</span></h7>
     </div>
 
     <div class="card-block mt-3">
-        <h5 class="card-title">@Model.Name</h5>
+        <h5 class="card-title">@Model.Stack.Name</h5>
 
-        <markdown content="@Model.Description"></markdown>
+        <markdown content="@Model.Stack.Description"></markdown>
 
         <div class="btn-group my-3" role="group">
-            <button onclick="location.href='@Url.Action("Edit", "Stack", new { stackID = @Model.StackID })'" type="button" class="btn btn-secondary"><i class="fa fa-pencil"></i> Stack Bearbeiten</button>
-            <button onclick="location.href='@Url.Action("Delete", "Stack", new { stackID = @Model.StackID })'" type="button" class="btn btn-secondary"><i class="fa fa-trash-o"></i> Stack Löschen</button>
+            <button onclick="location.href='@Url.Action("Edit", "Stack", new { stackID = @Model.Stack.StackID })'" type="button" class="btn btn-secondary"><i class="fa fa-pencil"></i> Stack Bearbeiten</button>
+            <button onclick="location.href='@Url.Action("Delete", "Stack", new { stackID = @Model.Stack.StackID })'" type="button" class="btn btn-secondary"><i class="fa fa-trash-o"></i> Stack Löschen</button>
         </div>
     </div>
 
@@ -30,7 +42,7 @@
 
     <div class="card-block">
 
-        @if (Model.StackCells != null)
+        @if (Model.Stack.StackCells != null)
         {
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
@@ -41,7 +53,7 @@
 
         <!-- Tab panes -->
         <div class="tab-content">
-            @foreach (var stackCell in Model.StackCells)
+            @foreach (var stackCell in Model.Stack.StackCells)
             { 
                 <div class="tab-pane active" id="home" role="tabpanel">
                     <div class="media mt-2 mb-4">
@@ -55,15 +67,15 @@
                     </div>
 
                     <div class="btn-group mb-3" role="group">
-                        <button onclick="location.href='@Url.Action(" Plot ", "Visualise ", new { stackID = @Model.StackID })'" type="button" class="btn btn-secondary"><i class="fa fa-line-chart"></i> Plot</button>
+                        <button onclick="location.href='@Url.Action(" Plot ", "Visualise ", new { stackID = @Model.Stack.StackID })'" type="button" class="btn btn-secondary"><i class="fa fa-line-chart"></i> Plot</button>
 
                         <div class="btn-group" role="group">
                             <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Mehr</button>
 
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" asp-controller="Stack" asp-action="Download" asp-route-stackID="@Model.StackID"><i class="fa fa-cloud-download"></i> Download</a>
-                            <a class="dropdown-item" asp-controller="Stack" asp-action="Edit" asp-route-stackID="@Model.StackID"><i class="fa fa-pencil"></i> Bearbeiten</a>
-                            <a class="dropdown-item" asp-controller="Stack" asp-action="Delete" asp-route-stackID="@Model.StackID"><i class="fa fa-trash-o"></i> Löschen</a>
+                            <a class="dropdown-item" asp-controller="Stack" asp-action="Download" asp-route-stackID="@Model.Stack.StackID"><i class="fa fa-cloud-download"></i> Download</a>
+                            <a class="dropdown-item" asp-controller="Stack" asp-action="Edit" asp-route-stackID="@Model.Stack.StackID"><i class="fa fa-pencil"></i> Bearbeiten</a>
+                            <a class="dropdown-item" asp-controller="Stack" asp-action="Delete" asp-route-stackID="@Model.Stack.StackID"><i class="fa fa-trash-o"></i> Löschen</a>
                         </div>      
                     </div>
                 </div>
@@ -85,8 +97,9 @@
         }
     </div>
 
-    <div class="card-footer text-muted">
-        @Model.Creation.ToString("dd MMMM yyyy")
+    <div class="card-footer text-muted d-flex justify-content-between">
+        <span><small><i class="fa fa-table"></i>  Erstellt: <br /> @Model.Stack.Creation.ToString("dd MMMM yyyy") <br /> @Model.Stack.Creation.ToString("hh:mm") Uhr</small></span>
+        <span><small><i class="fa fa-table"></i>  Geändert: <br /> @Model.Stack.Modification.ToString("dd MMMM yyyy") <br /> @Model.Stack.Modification.ToString("hh:mm") Uhr</small></span>
     </div>
 </div>
 

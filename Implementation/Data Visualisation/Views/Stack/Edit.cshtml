@@ -1,42 +1,58 @@
-﻿@model Stack
+﻿@model EditViewModel
 
 @{
-    ViewData["Title"] = $"Edit Stack {Model.StackID}";
+    ViewData["Title"] = Model.Title;
+}
+
+@if (Model.AlertBool == true)
+{
+    @if (Model.IsSuccess == true)
+    {
+        <div class="alert alert-success mb-4" role="alert">
+            <strong><i class="fa fa-check" aria-hidden="true"></i></strong> @Model.Alert <a asp-controller="Stack" asp-action="Details" asp-route-stackID="@Model.Stack.StackID" class="alert-link">Zurück zur Detailansicht.</a>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-danger mb-4" role="alert">
+            <strong><i class="fa fa-times" aria-hidden="true"></i></strong> @Model.Alert
+        </div>
+    }
 }
 
 <form asp-action="Edit" method="post">
-    <input type="hidden" asp-for="StackID" />
-    <input type="hidden" asp-for="Creation" />
+    <input type="hidden" asp-for="Stack.StackID" />
+    <input type="hidden" asp-for="Stack.Creation" />
     <div class="row">
         <div class="col-sm-10">
             <div class="form-group row">
-                <label asp-for="StackID" class="col-sm-2 col-form-label">Stack ID</label>
+                <label asp-for="Stack.StackID" class="col-sm-2 col-form-label">Stack ID</label>
                 <div class="col-sm-10">
-                    <div><span asp-validation-for="StackID" class="text-danger"></span></div>
-                    <input asp-for="StackID" class="form-control" placeholder="StackID" readonly>
+                    <div><span asp-validation-for="Stack.StackID" class="text-danger"></span></div>
+                    <input asp-for="Stack.StackID" class="form-control" placeholder="StackID" readonly>
                 </div>
             </div>
 
             <div class="form-group row">
-                <label asp-for="Name" class="col-sm-2 col-form-label">Name</label>
+                <label asp-for="Stack.Name" class="col-sm-2 col-form-label">Name</label>
                 <div class="col-sm-10">
-                    <div><span asp-validation-for="Name" class="text-danger"></span></div>
-                    <input asp-for="Name" class="form-control" placeholder="Name">
+                    <div><span asp-validation-for="Stack.Name" class="text-danger"></span></div>
+                    <input asp-for="Stack.Name" class="form-control" placeholder="Name">
                 </div>
             </div>
 
             <div class="form-group row">
-                <label asp-for="Category" class="col-sm-2 col-form-label">Kategorie</label>
+                <label asp-for="Stack.Category" class="col-sm-2 col-form-label">Kategorie</label>
                 <div class="col-sm-10">
-                    <div><span asp-validation-for="Category" class="text-danger"></span></div>
-                    <input asp-for="Category" class="form-control" placeholder="Kategorie">
+                    <div><span asp-validation-for="Stack.Category" class="text-danger"></span></div>
+                    <input asp-for="Stack.Category" class="form-control" placeholder="Kategorie">
                 </div>
             </div>
 
             <div class="form-group row">
-                <label asp-for="Description" class="col-sm-2 col-form-label">Beschreibung</label>
+                <label asp-for="Stack.Description" class="col-sm-2 col-form-label">Beschreibung</label>
                 <div class="col-sm-10">
-                    <textarea class="form-control" asp-for="Description" rows="8" placeholder="Beschreibung"></textarea>
+                    <textarea class="form-control" asp-for="Stack.Description" rows="8" placeholder="Beschreibung"></textarea>
                     <p class="form-text text-muted">
                         <small><i class="fa fa-info" aria-hidden="true"></i> Das Beschreibungs-Textfeld unterstützt Markdown Befehle.</small>
                     </p>
@@ -51,21 +67,21 @@
 
                         <div class="form-check">
                             <label class="form-check-label">
-                                <input asp-for="CircuitType" type="radio" class="form-check-input" value="Sonstige" checked>
+                                <input asp-for="Stack.CircuitType" type="radio" class="form-check-input" value="Sonstige" checked>
                                 Sonstige
                             </label>
                         </div>
 
                         <div class="form-check">
                             <label class="form-check-label">
-                                <input asp-for="CircuitType" type="radio" class="form-check-input" value="Reihenschaltung">
+                                <input asp-for="Stack.CircuitType" type="radio" class="form-check-input" value="Reihenschaltung">
                                 Reihenschaltung
                             </label>
                         </div>
 
                         <div class="form-check">
                             <label class="form-check-label">
-                                <input asp-for="CircuitType" type="radio" class="form-check-input" value="Parallelschaltung">
+                                <input asp-for="Stack.CircuitType" type="radio" class="form-check-input" value="Parallelschaltung">
                                 Parallelschaltung
                             </label>
                         </div>

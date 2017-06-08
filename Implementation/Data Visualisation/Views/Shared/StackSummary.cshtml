@@ -29,7 +29,7 @@
     </div>
 
     <div class="card-footer text-muted d-flex justify-content-between">
-        <span><small>Erstellt: @Model.Creation.ToString("dd MMMM yyyy hh:mm") Uhr</small></span>
-        <span><small>Geändert: @Model.Modification.ToString("dd MMMM yyyy hh:mm") Uhr</small></span>
+        <span><small><i class="fa fa-table"></i>  Erstellt: <br /> @Model.Creation.ToString("dd MMMM yyyy") <br /> @Model.Creation.ToString("hh:mm") Uhr</small></span>
+        <span><small><i class="fa fa-table"></i>  Geändert: <br /> @Model.Modification.ToString("dd MMMM yyyy") <br /> @Model.Modification.ToString("hh:mm") Uhr</small></span>
     </div>
 </div>

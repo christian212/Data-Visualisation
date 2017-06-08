@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 
 using Data_Visualisation.Data;
 using Data_Visualisation.Models;
@@ -25,7 +26,7 @@ namespace Data_Visualisation.Controllers
 
         public ViewResult List(string category, int page = 1)
         {
-            return View(new ListViewModel
+            ListViewModel stackList = new ListViewModel
             {
                 // Return PageSize stacks per page
                 Stacks = Stacks.OrderBy(p => p.StackID)
@@ -38,39 +39,53 @@ namespace Data_Visualisation.Controllers
                     TotalItems = Repository.Stacks.Count()
                 },
                 CurrentCategory = category
-            });
+            };
+
+            return View(stackList);
         }
 
         public IActionResult Create()
         {
-            Stack stack = new Stack();
+            EditViewModel editViewModel = new EditViewModel
+            {
+                Title = "Neuer Stack",
+                Stack = new Stack(),
+                Alert = ""
+            };
 
-            ViewBag.Title = "Neuer Stack";
-
-            return View("Edit", stack);
+            return View("Edit", editViewModel);
         }
 
         public ViewResult Details(int stackID = 1)
         {
-            Stack stack = Repository.Stacks.FirstOrDefault(p => p.StackID == stackID);
+            DetailsViewModel detailsViewModel = new DetailsViewModel();
 
-            ViewBag.Message = "Test";
+            detailsViewModel.Stack = Repository.Stacks.FirstOrDefault(p => p.StackID == stackID);
+            detailsViewModel.Title = $"Details Stack {stackID}";
 
-            return View(stack);
+            return View(detailsViewModel);
         }
 
         public ViewResult Edit(int stackID)
         {
             Stack stack = Repository.Stacks.FirstOrDefault(p => p.StackID == stackID);
 
-            ViewBag.Title = "Stack bearbeiten";
+            EditViewModel editViewModel = new EditViewModel
+            {
+                Title = $"Stack {stackID} bearbeiten",
+                Stack = stack,
+                AlertBool = false
+            };
 
-            return View(stack);
+            return View(editViewModel);
         }
 
         [HttpPost]
-        public IActionResult Edit(Stack stack)
+        public IActionResult Edit(EditViewModel editViewModel)
         {
+            Stack stack = editViewModel.Stack;
+            DetailsViewModel detailsViewModel = new DetailsViewModel();
+
             if (stack.StackID == 0)
             {
                 stack.Creation = DateTime.Now;
@@ -82,16 +97,23 @@ namespace Data_Visualisation.Controllers
             {
                 Repository.SaveStack(stack);
 
-                string message = $"{stack.Name} wurde gespeichert!";
+                editViewModel.IsSuccess = true;
+                editViewModel.AlertBool = true;
+                editViewModel.Alert = "Daten wurden gespeichert!";
 
-                return RedirectToAction("Details", new { stackID = stack.StackID });
+                //return View("Details", detailsViewModel);
+                return View(editViewModel);
             }
 
             else
             {
                 // there is something wrong with the data values
-                return View(stack);
-            }
+                editViewModel.IsSuccess = false;
+                editViewModel.AlertBool = true;
+                editViewModel.Alert = "Ein Fehler ist aufgetreten. Die Daten wurden nicht gespeichert!";
+            };
+
+            return View(editViewModel);
         }
 
         public IActionResult Delete(int stackID)
