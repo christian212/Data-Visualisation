@@ -10,7 +10,7 @@
     <div class="card-block">
         <h5 class="card-title">@Model.Name</h5>
 
-        <p class="card-text">@Model.Description</p>
+        <markdown content="@Model.Description"></markdown>
 
         <div class="btn-group mb-3" role="group">
             <button onclick="location.href='@Url.Action("Details", "Stack", new { stackID = @Model.StackID })'" type="button" class="btn btn-secondary"><i class="fa fa-info"></i> Details</button>

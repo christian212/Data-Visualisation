@@ -18,7 +18,7 @@
     <div class="card-block mt-3">
         <h5 class="card-title">@Model.Name</h5>
 
-        <p class="card-text">@Model.Description</p>
+        <markdown content="@Model.Description"></markdown>
 
         <div class="btn-group my-3" role="group">
             <button onclick="location.href='@Url.Action("Edit", "Stack", new { stackID = @Model.StackID })'" type="button" class="btn btn-secondary"><i class="fa fa-pencil"></i> Stack Bearbeiten</button>

@@ -17,6 +17,8 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="1.1.1" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
     <PackageReference Include="LumenWorksCsvReader" Version="3.9.1" />
+    <PackageReference Include="TagHelperSamples.Markdown" Version="1.1.1" />
+    <PackageReference Include="CommonMark.NET" Version="0.15.1" />
   </ItemGroup>
 
   <ItemGroup>
