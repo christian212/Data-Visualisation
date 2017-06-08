@@ -26,8 +26,10 @@
         </div>
     </div>
 
-    <div class="col-md-9">
-        @foreach (var stack in Model.Stacks){ @Html.Partial("StackSummary", stack) }
+    <div class="col-md-9 mb-5">
+        @foreach (var stack in Model.Stacks){ 
+            @Html.Partial("StackSummary", stack)
+        }
 
         <nav>
             <ul class="pagination justify-content-end" page-model="@Model.PagingInfo" page-action="List" page-classes-enabled="true"

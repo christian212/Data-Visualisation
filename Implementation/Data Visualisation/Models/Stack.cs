@@ -8,7 +8,7 @@ namespace Data_Visualisation.Models
 
     public enum CircuitType
     {
-        Undefined, SeriesConnection, ParallelConnection
+        Undefined, Reihenschaltung, Parallelschaltung, Sonstige
     }
 
     public class Stack

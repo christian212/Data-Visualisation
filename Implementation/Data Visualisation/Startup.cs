@@ -94,6 +94,12 @@ namespace Data_Visualisation
                     template: "Datenbank",
                     defaults: new { controller = "Stack", action = "List", category = "Stacks", page = 1 });
 
+                // CRUD Stack
+                routes.MapRoute(
+                    name: null,
+                    template: "Stack/Erstellen",
+                    defaults: new { controller = "Stack", action = "Create" });
+
                 // Default
                 routes.MapRoute(
                     name: "default",
