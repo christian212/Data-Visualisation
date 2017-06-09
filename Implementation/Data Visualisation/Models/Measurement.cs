@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Data_Visualisation.Models
 {
@@ -31,6 +32,7 @@ namespace Data_Visualisation.Models
         public DateTime Modification { get; set; }
 
         public Stack Stack { get; set; }
+        [Required]
         public Cell Cell { get; set; }
     }
 
