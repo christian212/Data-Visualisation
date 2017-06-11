@@ -62,7 +62,7 @@ namespace DataVisualisation.Migrations
 
                     b.Property<string>("Category");
 
-                    b.Property<int?>("CellID");
+                    b.Property<int>("CellID");
 
                     b.Property<string>("ContentType");
 
@@ -148,7 +148,8 @@ namespace DataVisualisation.Migrations
                 {
                     b.HasOne("Data_Visualisation.Models.Cell", "Cell")
                         .WithMany("Measurements")
-                        .HasForeignKey("CellID");
+                        .HasForeignKey("CellID")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Data_Visualisation.Models.MeasurementData", "MeasurementData")
                         .WithMany()

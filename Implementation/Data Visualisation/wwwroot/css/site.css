@@ -11,7 +11,11 @@ body {
 }
 
 
-/* Wrapping element */
+/* Battery icon vertical alignment */
+
+.fa-battery-half {
+  vertical-align: middle;
+}
 
 
 /* Set some basic padding to keep content from hitting the edges */
@@ -39,11 +43,6 @@ textarea {
   position: absolute;
   bottom: 0;
   width: 100%;
-  /* Set the fixed height of the footer here */
-  min-height: 60px;
-  line-height: 60px;
-  /* Vertically center the text there */
-  background-color: #f5f5f5;
 }
 
 

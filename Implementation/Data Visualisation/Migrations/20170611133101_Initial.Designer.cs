@@ -9,7 +9,7 @@ using Data_Visualisation.Models;
 namespace DataVisualisation.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170606185725_Initial")]
+    [Migration("20170611133101_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -63,7 +63,7 @@ namespace DataVisualisation.Migrations
 
                     b.Property<string>("Category");
 
-                    b.Property<int?>("CellID");
+                    b.Property<int>("CellID");
 
                     b.Property<string>("ContentType");
 
@@ -149,7 +149,8 @@ namespace DataVisualisation.Migrations
                 {
                     b.HasOne("Data_Visualisation.Models.Cell", "Cell")
                         .WithMany("Measurements")
-                        .HasForeignKey("CellID");
+                        .HasForeignKey("CellID")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Data_Visualisation.Models.MeasurementData", "MeasurementData")
                         .WithMany()

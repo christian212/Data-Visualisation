@@ -90,7 +90,7 @@ namespace DataVisualisation.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     BinaryData = table.Column<byte[]>(nullable: true),
                     Category = table.Column<string>(nullable: true),
-                    CellID = table.Column<int>(nullable: true),
+                    CellID = table.Column<int>(nullable: false),
                     ContentType = table.Column<string>(nullable: true),
                     Creation = table.Column<DateTime>(nullable: false),
                     Description = table.Column<string>(nullable: true),
@@ -111,7 +111,7 @@ namespace DataVisualisation.Migrations
                         column: x => x.CellID,
                         principalTable: "Cells",
                         principalColumn: "CellID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Measurements_MeasurementData_MeasurementDataID",
                         column: x => x.MeasurementDataID,

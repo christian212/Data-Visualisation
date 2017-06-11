@@ -7,6 +7,7 @@
     <title>@ViewBag.Title - Data Visualisation</title>
 
     <environment names="Development">
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
         <link rel="stylesheet" href="~/lib/tether/dist/css/tether.min.css" />
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/lib/fontawesome/css/font-awesome.min.css" />
@@ -14,6 +15,7 @@
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
     <environment names="Staging,Production">
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/css/tether.min.css" asp-fallback-href="~/lib/tether/dist/css/tether.min.css"
             asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
@@ -56,11 +58,19 @@
 
     </div>
 
-    <footer class="footer">
-        <div class="container">
-            <span class="text-muted"><small>&copy; 2017 - FH Münster | <a href="https://www.fh-muenster.de/fb2/labore_forschung/be/index.php" target="_blank">Labor für Halbleiterbauelemente und Bussysteme</a></small></span>
-        </div>
-    </footer>
+    <div class="wrapper">
+        <footer class="footer footer-default">
+            <div class="container d-flex">
+                <div class="copyright text-right">
+                    &copy;
+                    <script>
+                        document.write(new Date().getFullYear())
+                    </script>
+                    &mdash; FH Münster | <a href="https://www.fh-muenster.de/fb2/labore_forschung/be/index.php" target="_blank">Labor für Halbleiterbauelemente und Bussysteme</a>
+                </div>
+            </div>
+        </footer>
+    </div>
 
     <environment names="Development">
         <script src="~/lib/tether/dist/js/tether.min.js"></script>
@@ -68,7 +78,7 @@
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/lib/highcharts/highcharts.js"></script>
         <script src="~/lib/highcharts/modules/exporting.js"></script>
-        <script src="~/lib/now-ui-kit/now-ui-kit.js"></script>
+        <script src="~/lib/now-ui-kit/js/now-ui-kit.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
 
@@ -78,7 +88,7 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
         <script src="~/lib/highcharts/highcharts.js"></script>
         <script src="~/lib/highcharts/modules/exporting.js"></script>
-        <script src="~/lib/now-ui-kit/now-ui-kit.js"></script>
+        <script src="~/lib/now-ui-kit/js/now-ui-kit.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
 
