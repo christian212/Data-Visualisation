@@ -1,25 +1,43 @@
-﻿$navbar-default-bg: #312312;
-$light-orange: #ff8c00;
-$navbar-default-color: $light-orange;
-
-/* Import Bootstrap & Fonts */
+﻿@import url(https://fonts.googleapis.com/css?family=Montserrat:400,700,200);
 @import "~bootstrap/scss/bootstrap";
+@import "../../wwwroot/assets/now-ui-kit/sass/now-ui-kit";
+$fa-font-path: "~font-awesome/fonts";
+@import "~font-awesome/scss/font-awesome";
 
 
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+  padding-top: 50px;
+  padding-bottom: 20px;
+}
 
 
-/* *** Overall APP Styling can go here ***
-   --------------------------------------------
-   Note: This Component has ViewEncapsulation.None so the styles will bleed out
+/* Set some basic padding to keep content from hitting the edges */
 
-*/
+.body-content {
+  padding-top: 50px;
+  padding-bottom: 20px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
 
-body { background: #f1f1f1; line-height: 18px; }
-ul { padding: 10px 25px; }
-ul li { padding: 5px 0; }
 
-h1 { border-bottom: 5px #4189C7 solid; }
-h1, h2, h3 { padding: 10px 0; }
+/* Battery icon vertical alignment */
 
-blockquote { margin: 25px 10px; padding: 10px 35px 10px 10px; border-left: 10px #158a15 solid; background: #edffed; }
-blockquote a, blockquote a:hover { color: #068006; }
+.fa-battery-half {
+  vertical-align: middle;
+}
+
+/* Sticky footer */
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
