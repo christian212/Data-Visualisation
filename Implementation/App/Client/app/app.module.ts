@@ -82,7 +82,7 @@ export function createTranslateLoader(http: Http, baseHref) {
                 // When you change Routes it will automatically append these to your document for you on the Server-side
                 //  - check out app.component.ts to see how it's doing this
                 data: {
-                    title: 'Homepage',
+                    title: 'Data Visualisation',
                     meta: [{ name: 'description', content: 'This is an example Description Meta tag!' }],
                     links: [
                         { rel: 'canonical', href: 'http://blogs.example.com/blah/nice' },

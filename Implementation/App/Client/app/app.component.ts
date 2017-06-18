@@ -18,9 +18,9 @@ import { REQUEST } from './shared/constants/request';
 export class AppComponent implements OnInit, OnDestroy {
 
     // This will go at the END of your title for example "Home - Angular Universal..." <-- after the dash (-)
-    private endPageTitle: string = 'Angular Universal and ASP.NET Core Starter';
+    private endPageTitle: string = 'FH Münster';
     // If no Title is provided, we'll use a default one before the dash(-)
-    private defaultPageTitle: string = 'My App';
+    private defaultPageTitle: string = 'Data Visualisation';
 
     private routerSub$: Subscription;
 
