@@ -1,0 +1,33 @@
+<div class="card mb-5">
+    <div class="card-header d-flex justify-content-between">
+        Stack ID: 
+        <span class="badge badge-info badge-pill">CircuitType</span>
+        <span class="badge badge-default badge-pill">CellCount Zellen</span>
+    </div>
+
+    <div class="card-block">
+        <h5 class="card-title">Name</h5>
+
+        <p>Markdown Describtion</p>
+
+        <div class="btn-group mb-3" role="group">
+            <button type="button" class="btn btn-secondary"><i class="fa fa-info"></i> Details</button>
+
+            <div class="btn-group" role="group">
+                <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
+                    Mehr
+                </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" asp-controller="Stack" asp-action="Edit" ><i class="fa fa-pencil"></i> Bearbeiten</a>
+                    <a class="dropdown-item" asp-controller="Stack" asp-action="Delete" ><i class="fa fa-trash-o"></i> Löschen</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-footer text-muted d-flex justify-content-between">
+        <span><small><i class="fa fa-table"></i>  Erstellt: <br /> Creation.ToString("dd MMMM yyyy") <br /> Creation.ToString("hh:mm") Uhr</small></span>
+        <span><small><i class="fa fa-table"></i>  Geändert: <br /> Modification.ToString("dd MMMM yyyy") <br /> Modification.ToString("hh:mm") Uhr</small></span>
+    </div>
+</div>

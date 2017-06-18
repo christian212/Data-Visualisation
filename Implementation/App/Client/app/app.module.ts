@@ -11,15 +11,14 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { AppComponent } from './app.component';
-import { NavMenuComponent } from './components/navmenu/navmenu.component';
 import { NavBarComponent } from './components/navbar/navbar.component';
+import { NavMenuComponent } from './components/navmenu/navmenu.component';
+import { StackSummaryComponent } from './components/stack-summary/stack-summary.component';
 import { HomeComponent } from './containers/home/home.component';
+import { DatabaseComponent } from './containers/database/database.component';
 import { UsersComponent } from './containers/users/users.component';
 import { UserDetailComponent } from './components/user-detail/user-detail.component';
-import { CounterComponent } from './containers/counter/counter.component';
-import { ChatComponent } from './containers/chat/chat.component';
 import { NotFoundComponent } from './containers/not-found/not-found.component';
-import { NgxBootstrapComponent } from './containers/ngx-bootstrap-demo/ngx-bootstrap.component';
 
 import { LinkService } from './shared/link.service';
 import { UserService } from './shared/user.service';
@@ -39,15 +38,14 @@ export function createTranslateLoader(http: Http, baseHref) {
 @NgModule({
     declarations: [
         AppComponent,
-        NavMenuComponent,
         NavBarComponent,
-        CounterComponent,
+        NavMenuComponent,
+        DatabaseComponent,
+        StackSummaryComponent,
         UsersComponent,
         UserDetailComponent,
         HomeComponent,
-        ChatComponent,
-        NotFoundComponent,
-        NgxBootstrapComponent
+        NotFoundComponent
     ],
     imports: [
         CommonModule,
@@ -91,10 +89,10 @@ export function createTranslateLoader(http: Http, baseHref) {
                 }
             },
             {
-                path: 'counter', component: CounterComponent,
+                path: 'database', component: DatabaseComponent,
                 data: {
-                    title: 'Counter',
-                    meta: [{ name: 'description', content: 'This is an Counter page Description!' }],
+                    title: 'Datenbank',
+                    meta: [{ name: 'description', content: 'Datenbank' }],
                     links: [
                         { rel: 'canonical', href: 'http://blogs.example.com/counter/something' },
                         { rel: 'alternate', hreflang: 'es', href: 'http://es.example.com/counter' }
@@ -109,44 +107,6 @@ export function createTranslateLoader(http: Http, baseHref) {
                     links: [
                         { rel: 'canonical', href: 'http://blogs.example.com/chat/something' },
                         { rel: 'alternate', hreflang: 'es', href: 'http://es.example.com/users' }
-                    ]
-                }
-            },
-            {
-                path: 'chat', component: ChatComponent,
-                // Wait until the resolve is finished before loading the Route
-                resolve: { connection: ConnectionResolver },
-                data: {
-                    title: 'SignalR chat example',
-                    meta: [{ name: 'description', content: 'This is an Chat page Description!' }],
-                    links: [
-                        { rel: 'canonical', href: 'http://blogs.example.com/chat/something' },
-                        { rel: 'alternate', hreflang: 'es', href: 'http://es.example.com/chat' }
-                    ]
-                }
-            },
-            {
-                path: 'ngx-bootstrap', component: NgxBootstrapComponent,
-                data: {
-                    title: 'Ngx-bootstrap demo!!',
-                    meta: [{ name: 'description', content: 'This is an Demo Bootstrap page Description!' }],
-                    links: [
-                        { rel: 'canonical', href: 'http://blogs.example.com/bootstrap/something' },
-                        { rel: 'alternate', hreflang: 'es', href: 'http://es.example.com/bootstrap-demo' }
-                    ]
-                }
-            },
-          
-            { path: 'lazy', loadChildren: './containers/+lazy/lazy.module#LazyModule'},
-          
-            {
-                path: '**', component: NotFoundComponent,
-                data: {
-                    title: '404 - Not found',
-                    meta: [{ name: 'description', content: '404 - Error' }],
-                    links: [
-                        { rel: 'canonical', href: 'http://blogs.example.com/bootstrap/something' },
-                        { rel: 'alternate', hreflang: 'es', href: 'http://es.example.com/bootstrap-demo' }
                     ]
                 }
             }
