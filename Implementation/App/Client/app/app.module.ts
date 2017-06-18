@@ -13,6 +13,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AppComponent } from './app.component';
 import { NavBarComponent } from './components/navbar/navbar.component';
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
+import { DropdownSplitComponent } from './components/dropdown-split/dropdown-split.component';
 import { StackSummaryComponent } from './components/stack-summary/stack-summary.component';
 import { HomeComponent } from './containers/home/home.component';
 import { DatabaseComponent } from './containers/database/database.component';
@@ -40,6 +41,7 @@ export function createTranslateLoader(http: Http, baseHref) {
         AppComponent,
         NavBarComponent,
         NavMenuComponent,
+        DropdownSplitComponent,
         DatabaseComponent,
         StackSummaryComponent,
         UsersComponent,
@@ -90,6 +92,39 @@ export function createTranslateLoader(http: Http, baseHref) {
             },
             {
                 path: 'database', component: DatabaseComponent,
+                data: {
+                    title: 'Datenbank',
+                    meta: [{ name: 'description', content: 'Datenbank' }],
+                    links: [
+                        { rel: 'canonical', href: 'http://blogs.example.com/counter/something' },
+                        { rel: 'alternate', hreflang: 'es', href: 'http://es.example.com/counter' }
+                    ]
+                }
+            },
+            {
+                path: 'database/stacks', component: DatabaseComponent,
+                data: {
+                    title: 'Datenbank',
+                    meta: [{ name: 'description', content: 'Datenbank' }],
+                    links: [
+                        { rel: 'canonical', href: 'http://blogs.example.com/counter/something' },
+                        { rel: 'alternate', hreflang: 'es', href: 'http://es.example.com/counter' }
+                    ]
+                }
+            },
+            {
+                path: 'database/cells', component: DatabaseComponent,
+                data: {
+                    title: 'Datenbank',
+                    meta: [{ name: 'description', content: 'Datenbank' }],
+                    links: [
+                        { rel: 'canonical', href: 'http://blogs.example.com/counter/something' },
+                        { rel: 'alternate', hreflang: 'es', href: 'http://es.example.com/counter' }
+                    ]
+                }
+            },
+            {
+                path: 'database/measurements', component: DatabaseComponent,
                 data: {
                     title: 'Datenbank',
                     meta: [{ name: 'description', content: 'Datenbank' }],

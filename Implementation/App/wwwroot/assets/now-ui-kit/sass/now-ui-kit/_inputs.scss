@@ -1,12 +1,14 @@
 @include form-control-placeholder($medium-gray, 1);
 
 .form-control {
+    display: inline-block;
+        position: absolute;
     background-color: $transparent-bg;
     border: 1px solid $light-gray;
     border-radius: $btn-round-radius;
     color: $black-color;
     line-height: 1em;
-    font-size: $font-size-small;
+    font-size: $font-size-large;
     @include transition-input-focus-color();
     @include box-shadow(none);
 
@@ -60,7 +62,6 @@
         position: absolute;
         right: 10px;
         top: 50%;
-        vertical-align: middle;
     }
 
     .open &{

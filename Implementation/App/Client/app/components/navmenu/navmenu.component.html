@@ -1,12 +1,16 @@
 <div class="row mb-3">
     <div class="list-group">
-            <a class="list-group-item list-group-item-action justify-content-between">
-                Category
-                <span class="badge badge-default badge-pill">20</span>
+            <a class="list-group-item list-group-item-action justify-content-between" [routerLink]="['/database/stacks']" [routerLinkActive]="['active']">
+                Stacks
+                <span class="badge badge-default badge-pill">12</span>
             </a>
-            <a class="list-group-item list-group-item-action justify-content-between">
-                Category 2
-                <span class="badge badge-default badge-pill">20</span>
+            <a class="list-group-item list-group-item-action justify-content-between" [routerLink]="['/database/cells']" [routerLinkActive]="['active']">
+                Zellen
+                <span class="badge badge-default badge-pill">23</span>
+            </a>
+            <a class="list-group-item list-group-item-action justify-content-between" [routerLink]="['/database/measurements']" [routerLinkActive]="['active']">
+                Messungen
+                <span class="badge badge-default badge-pill">44</span>
             </a>
     </div>
 </div>
