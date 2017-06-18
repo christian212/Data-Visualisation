@@ -12,6 +12,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
+import { NavBarComponent } from './components/navbar/navbar.component';
 import { HomeComponent } from './containers/home/home.component';
 import { UsersComponent } from './containers/users/users.component';
 import { UserDetailComponent } from './components/user-detail/user-detail.component';
@@ -39,6 +40,7 @@ export function createTranslateLoader(http: Http, baseHref) {
     declarations: [
         AppComponent,
         NavMenuComponent,
+        NavBarComponent,
         CounterComponent,
         UsersComponent,
         UserDetailComponent,

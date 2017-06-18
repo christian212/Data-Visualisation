@@ -2,7 +2,7 @@
     padding-top: $navbar-padding-base;
     padding-bottom: $navbar-padding-base;
     min-height: 53px;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
     box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.15);
 
     a{
@@ -31,6 +31,7 @@
             font-size: $font-size-mini;
             padding: $padding-base-vertical $padding-base-horizontal;
             line-height: $line-height-nav-link;
+            cursor: pointer;
 
             i.fa + p,
             i.now-ui-icons + p{
@@ -47,7 +48,7 @@
             }
 
             i.now-ui-icons{
-                top: 4px;
+                top: 3px;
                 font-size: 16px;
             }
 
