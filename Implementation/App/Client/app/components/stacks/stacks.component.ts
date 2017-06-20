@@ -53,4 +53,15 @@ export class StacksComponent implements OnInit {
             console.log(`There was an issue. ${error._body}.`);
         });
     }
+
+    addStack(newStackName) {
+        this.stackService.addStack(newStackName).subscribe(result => {
+            console.log('Post user result: ', result);
+            if (result.ok) {
+                this.stacks.push(result.json());
+            }
+        }, error => {
+            console.log(`There was an issue. ${error._body}.`);
+        });
+    }
 }

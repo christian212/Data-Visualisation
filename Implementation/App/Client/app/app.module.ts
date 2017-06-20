@@ -16,7 +16,7 @@ import { NavMenuComponent } from './components/navmenu/navmenu.component';
 import { DropdownSplitComponent } from './components/dropdown-split/dropdown-split.component';
 import { HomeComponent } from './containers/home/home.component';
 import { DatabaseComponent } from './containers/database/database.component';
-import { StacksComponent } from './containers/stacks/stacks.component';
+import { StacksComponent } from './components/stacks/stacks.component';
 import { StackDetailComponent } from './components/stack-detail/stack-detail.component';
 import { NotFoundComponent } from './containers/not-found/not-found.component';
 
