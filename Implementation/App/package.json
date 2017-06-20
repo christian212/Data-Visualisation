@@ -56,7 +56,6 @@
     "jquery": "^2.2.1",
     "json-loader": "^0.5.4",
     "ng2-signalr": "2.0.4",
-    "ng2-slim-loading-bar": "^4.0.0",
     "ngx-bootstrap": "^1.7.1",
     "node-sass": "^4.5.2",
     "preboot": "^4.5.2",

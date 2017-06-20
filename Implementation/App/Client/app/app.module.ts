@@ -27,7 +27,6 @@ import { ORIGIN_URL } from './shared/constants/baseurl.constants';
 import { TransferHttpModule } from '../modules/transfer-http/transfer-http.module';
 
 import {BrowserModule} from "@angular/platform-browser";
-import {SlimLoadingBarModule} from 'ng2-slim-loading-bar';
 
 export function createTranslateLoader(http: Http, baseHref) {
     // Temporary Azure hack
@@ -55,7 +54,6 @@ export function createTranslateLoader(http: Http, baseHref) {
         HttpModule,
         FormsModule,
         BrowserModule,
-        SlimLoadingBarModule.forRoot(),
         Ng2BootstrapModule.forRoot(), // You could also split this up if you don't want the Entire Module imported
 
         TransferHttpModule, // Our Http TransferData method
@@ -122,8 +120,7 @@ export function createTranslateLoader(http: Http, baseHref) {
         UserService,
         ConnectionResolver,
         TranslateModule
-    ],
-    exports: [SlimLoadingBarModule, BrowserModule]
+    ]
 })
 export class AppModule {
 }
