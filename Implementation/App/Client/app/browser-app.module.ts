@@ -11,6 +11,8 @@ import { AppComponent } from './app.component';
 import { REQUEST } from './shared/constants/request';
 import { BrowserTransferStateModule } from '../modules/transfer-state/browser-transfer-state.module';
 
+import {SlimLoadingBarModule} from 'ng2-slim-loading-bar';
+
 export function createConfig(): SignalRConfiguration {
     const signalRConfig = new SignalRConfiguration();
 
@@ -37,6 +39,8 @@ export function getRequest() {
         BrowserModule.withServerTransition({
             appId: 'my-app-id' // make sure this matches with your Server NgModule
         }),
+        BrowserModule,
+        SlimLoadingBarModule.forRoot(),
         BrowserAnimationsModule,
         BrowserTransferStateModule,
 

@@ -14,7 +14,6 @@ import { AppComponent } from './app.component';
 import { NavBarComponent } from './components/navbar/navbar.component';
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
 import { DropdownSplitComponent } from './components/dropdown-split/dropdown-split.component';
-import { StackSummaryComponent } from './components/stack-summary/stack-summary.component';
 import { HomeComponent } from './containers/home/home.component';
 import { DatabaseComponent } from './containers/database/database.component';
 import { UsersComponent } from './containers/users/users.component';
@@ -26,6 +25,9 @@ import { UserService } from './shared/user.service';
 import { ConnectionResolver } from './shared/route.resolver';
 import { ORIGIN_URL } from './shared/constants/baseurl.constants';
 import { TransferHttpModule } from '../modules/transfer-http/transfer-http.module';
+
+import {BrowserModule} from "@angular/platform-browser";
+import {SlimLoadingBarModule} from 'ng2-slim-loading-bar';
 
 export function createTranslateLoader(http: Http, baseHref) {
     // Temporary Azure hack
@@ -43,7 +45,6 @@ export function createTranslateLoader(http: Http, baseHref) {
         NavMenuComponent,
         DropdownSplitComponent,
         DatabaseComponent,
-        StackSummaryComponent,
         UsersComponent,
         UserDetailComponent,
         HomeComponent,
@@ -53,6 +54,8 @@ export function createTranslateLoader(http: Http, baseHref) {
         CommonModule,
         HttpModule,
         FormsModule,
+        BrowserModule,
+        SlimLoadingBarModule.forRoot(),
         Ng2BootstrapModule.forRoot(), // You could also split this up if you don't want the Entire Module imported
 
         TransferHttpModule, // Our Http TransferData method
@@ -102,39 +105,6 @@ export function createTranslateLoader(http: Http, baseHref) {
                 }
             },
             {
-                path: 'database/stacks', component: DatabaseComponent,
-                data: {
-                    title: 'Datenbank',
-                    meta: [{ name: 'description', content: 'Datenbank' }],
-                    links: [
-                        { rel: 'canonical', href: 'http://blogs.example.com/counter/something' },
-                        { rel: 'alternate', hreflang: 'es', href: 'http://es.example.com/counter' }
-                    ]
-                }
-            },
-            {
-                path: 'database/cells', component: DatabaseComponent,
-                data: {
-                    title: 'Datenbank',
-                    meta: [{ name: 'description', content: 'Datenbank' }],
-                    links: [
-                        { rel: 'canonical', href: 'http://blogs.example.com/counter/something' },
-                        { rel: 'alternate', hreflang: 'es', href: 'http://es.example.com/counter' }
-                    ]
-                }
-            },
-            {
-                path: 'database/measurements', component: DatabaseComponent,
-                data: {
-                    title: 'Datenbank',
-                    meta: [{ name: 'description', content: 'Datenbank' }],
-                    links: [
-                        { rel: 'canonical', href: 'http://blogs.example.com/counter/something' },
-                        { rel: 'alternate', hreflang: 'es', href: 'http://es.example.com/counter' }
-                    ]
-                }
-            },
-            {
                 path: 'users', component: UsersComponent,
                 data: {
                     title: 'Users REST example',
@@ -152,7 +122,8 @@ export function createTranslateLoader(http: Http, baseHref) {
         UserService,
         ConnectionResolver,
         TranslateModule
-    ]
+    ],
+    exports: [SlimLoadingBarModule, BrowserModule]
 })
 export class AppModule {
 }

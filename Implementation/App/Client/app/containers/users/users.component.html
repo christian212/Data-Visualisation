@@ -1,29 +1,43 @@
-﻿<h1>This is a RestAPI Example (hitting WebAPI in our case)</h1>
-
-<blockquote>
-  Let's get some fake users from Rest:<br>
-  You can find the Web API Routes in <code>{{ "/Server/RestAPI/ ... "}}</code>
-</blockquote>
-
-<div>
-  <label>User name:</label> <input #userName />
-  <button class="btn btn-default" (click)="addUser(userName.value); userName.value=''">
+﻿<div>
+    <label>User name:</label> <input #userName />
+    <button class="btn btn-default" (click)="addUser(userName.value); userName.value=''">
     Add
   </button>
 </div>
 
 <p *ngIf="!users"><em>Loading...</em></p>
+
 <h2>Users</h2>
-<ul class="users">
-  <li *ngFor="let user of users"
-      [class.selected]="user === selectedUser"
-      (click)="onSelect(user)"
-      [@flyInOut]>
-    <span class="badge">{{user.id}}</span> {{user.name}}
-    <button class="delete"
-            (click)="deleteUser(user); $event.stopPropagation()">
-      x
-    </button>
-  </li>
-</ul>
-<user-detail [user]="selectedUser"></user-detail>
+
+<div class="users">
+    <div class="card mb-5" *ngFor="let user of users" [class.selected]="user === selectedUser" (click)="onSelect(user)" [@flyInOut]>
+        <div class="card-header d-flex justify-content-between">
+            User ID: {{user.id}}
+            <span class="badge badge-info badge-pill">Reihenschaltung</span>
+            <span class="badge badge-default badge-pill">2 Zellen</span>
+        </div>
+
+        <div class="card-block">
+            <h5 class="card-title">{{user.name}}</h5>
+
+            <p>Markdown Description</p>
+
+            <div class="btn-group mb-3" dropdown>
+                <button type="button" class="btn btn-secondary"><i class="fa fa-info"></i> Details</button>
+                <button type="button" dropdownToggle class="btn btn-secondary dropdown-toggle dropdown-toggle-split">
+                    <span class="caret"></span>
+                    <span class="sr-only">Split button!</span>
+                </button>
+                <ul *dropdownMenu class="dropdown-menu" role="menu">
+                    <li role="menuitem"><a class="dropdown-item" href="#"><i class="fa fa-pencil"></i> Bearbeiten</a></li>
+                    <li role="menuitem"><a class="dropdown-item" (click)="deleteUser(user); $event.stopPropagation()"><i class="fa fa-trash-o"></i> Löschen</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card-footer text-muted d-flex justify-content-between">
+            <span><small><i class="fa fa-table"></i>  Erstellt: <br />  <br /> Creation.ToString("hh:mm") Uhr</small></span>
+            <span><small><i class="fa fa-table"></i>  Geändert: <br />  <br /> Modification.ToString("hh:mm") Uhr</small></span>
+        </div>
+    </div>
+</div>

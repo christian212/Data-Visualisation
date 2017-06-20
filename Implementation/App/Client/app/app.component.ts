@@ -1,5 +1,5 @@
 ﻿import { Component, OnInit, OnDestroy, Inject, ViewEncapsulation, RendererFactory2, PLATFORM_ID } from '@angular/core';
-import { Router, NavigationEnd, ActivatedRoute, PRIMARY_OUTLET } from '@angular/router';
+import { Router, NavigationStart, NavigationEnd, NavigationCancel, NavigationError, ActivatedRoute, PRIMARY_OUTLET } from '@angular/router';
 import { Meta, Title, DOCUMENT, MetaDefinition } from '@angular/platform-browser';
 import { Subscription } from 'rxjs/Subscription';
 import { isPlatformServer } from '@angular/common';
@@ -8,6 +8,8 @@ import { LinkService } from './shared/link.service';
 // i18n support
 import { TranslateService } from '@ngx-translate/core';
 import { REQUEST } from './shared/constants/request';
+
+import {SlimLoadingBarService} from 'ng2-slim-loading-bar';
 
 @Component({
     selector: 'app',
@@ -23,6 +25,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private defaultPageTitle: string = 'Data Visualisation';
 
     private routerSub$: Subscription;
+    private sub: any;
 
     constructor(
         private router: Router,
@@ -31,6 +34,7 @@ export class AppComponent implements OnInit, OnDestroy {
         private meta: Meta,
         private linkService: LinkService,
         public translate: TranslateService,
+        private slimLoader: SlimLoadingBarService,
         @Inject(REQUEST) private request
     ) {
         // this language will be used as a fallback when a translation isn't found in the current language
@@ -42,6 +46,19 @@ export class AppComponent implements OnInit, OnDestroy {
         console.log(`What's our REQUEST Object look like?`);
         console.log(`The Request object only really exists on the Server, but on the Browser we can at least see Cookies`);
         console.log(this.request);
+
+        // Listen the navigation events to start or complete the slim bar loading
+        this.sub = this.router.events.subscribe(event => {
+            if (event instanceof NavigationStart) {
+                this.slimLoader.start();
+            } else if ( event instanceof NavigationEnd ||
+                        event instanceof NavigationCancel ||
+                        event instanceof NavigationError) {
+                this.slimLoader.complete();
+            }
+        }, (error: any) => {
+            this.slimLoader.complete();
+        });
     }
 
     ngOnInit() {
@@ -53,6 +70,7 @@ export class AppComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
         // Subscription clean-up
         this.routerSub$.unsubscribe();
+        this.sub.unsubscribe();
     }
 
     private _changeTitleOnNavigation() {
@@ -93,4 +111,3 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
 }
-
