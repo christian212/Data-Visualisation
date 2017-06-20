@@ -1,0 +1,41 @@
+﻿<div>
+    <label>Stack name:</label> <input #stackName />
+    <button class="btn btn-default" (click)="addStack(stackName.value); stackName.value=''">
+    Add
+  </button>
+</div>
+
+<p *ngIf="!stacks"><em>Loading...</em></p>
+
+<div class="stacks">
+    <div class="card mb-5" *ngFor="let stack of stacks" [@flyInOut]>
+        <div class="card-header d-flex justify-content-between">
+            Stack ID: {{stack.id}}
+            <span class="badge badge-info badge-pill">Reihenschaltung</span>
+            <span class="badge badge-default badge-pill">2 Zellen</span>
+        </div>
+
+        <div class="card-block">
+            <h5 class="card-title">{{stack.name}}</h5>
+
+            <p>Markdown Description</p>
+
+            <div class="btn-group mb-3" dropdown>
+                <button type="button" class="btn btn-secondary"><i class="fa fa-info"></i> Details</button>
+                <button type="button" dropdownToggle class="btn btn-secondary dropdown-toggle dropdown-toggle-split">
+                    <span class="caret"></span>
+                    <span class="sr-only">Split button!</span>
+                </button>
+                <ul *dropdownMenu class="dropdown-menu" role="menu">
+                    <li role="menuitem"><a class="dropdown-item" href="#"><i class="fa fa-pencil"></i> Bearbeiten</a></li>
+                    <li role="menuitem"><a class="dropdown-item" (click)="deleteStack(stack); $event.stopPropagation()"><i class="fa fa-trash-o"></i> Löschen</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card-footer text-muted d-flex justify-content-between">
+            <span><small><i class="fa fa-table"></i>  Erstellt am {{stack.created | date:'mediumDate' }} um {{stack.created | date:'shortTime' }} Uhr</small></span>
+            <span><small><i class="fa fa-table"></i>  Geändert am {{stack.modified | date:'mediumDate' }} um {{stack.modified | date:'shortTime' }} Uhr</small></span>
+        </div>
+    </div>
+</div>

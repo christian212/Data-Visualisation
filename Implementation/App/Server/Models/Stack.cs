@@ -7,7 +7,7 @@ namespace AspCoreServer.Models
 
     public class Stack
     {
-        public int StackID { get; set; }
+        public int ID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public int CellCount { get; set; }
@@ -28,7 +28,6 @@ namespace AspCoreServer.Models
         //Setting Default value
         public Stack()
         {
-            Name = "Name";
             Description = "Beschreibung";
             Created = DateTime.Now;
             Modified = DateTime.Now;

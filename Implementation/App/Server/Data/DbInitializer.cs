@@ -13,28 +13,20 @@ namespace AspCoreServer.Data
         {
             context.Database.EnsureCreated();
 
-            if (context.User.Any())
+            if (context.Stacks.Any())
             {
                 return;   // DB has been seeded
             }
-            var users = new User[]
+            var stacks = new Stack[]
             {
-               new User(){Name = "Mark Pieszak"},
-               new User(){Name = "Abrar Jahin"},
-               new User(){Name = "hakonamatata"},
-               new User(){Name = "LiverpoolOwen"},
-               new User(){Name = "Ketrex"},
-               new User(){Name = "markwhitfeld"},
-               new User(){Name = "daveo1001"},
-               new User(){Name = "paonath"},
-               new User(){Name = "nalex095"},
-               new User(){Name = "ORuban"},
-               new User(){Name = "Gaulomatic"}
+               new Stack(){Name = "Test Stack 1"},
+               new Stack(){Name = "Test Stack 2"},
+               new Stack(){Name = "Test Stack 3"}
             };
 
-            foreach (User s in users)
+            foreach (Stack s in stacks)
             {
-                context.User.Add(s);
+                context.Stacks.Add(s);
             }
             context.SaveChanges();
         }

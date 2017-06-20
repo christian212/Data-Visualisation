@@ -16,12 +16,12 @@ import { NavMenuComponent } from './components/navmenu/navmenu.component';
 import { DropdownSplitComponent } from './components/dropdown-split/dropdown-split.component';
 import { HomeComponent } from './containers/home/home.component';
 import { DatabaseComponent } from './containers/database/database.component';
-import { UsersComponent } from './containers/users/users.component';
-import { UserDetailComponent } from './components/user-detail/user-detail.component';
+import { StacksComponent } from './containers/stacks/stacks.component';
+import { StackDetailComponent } from './components/stack-detail/stack-detail.component';
 import { NotFoundComponent } from './containers/not-found/not-found.component';
 
 import { LinkService } from './shared/link.service';
-import { UserService } from './shared/user.service';
+import { StackService } from './shared/stack.service';
 import { ConnectionResolver } from './shared/route.resolver';
 import { ORIGIN_URL } from './shared/constants/baseurl.constants';
 import { TransferHttpModule } from '../modules/transfer-http/transfer-http.module';
@@ -45,8 +45,8 @@ export function createTranslateLoader(http: Http, baseHref) {
         NavMenuComponent,
         DropdownSplitComponent,
         DatabaseComponent,
-        UsersComponent,
-        UserDetailComponent,
+        StacksComponent,
+        StackDetailComponent,
         HomeComponent,
         NotFoundComponent
     ],
@@ -104,21 +104,17 @@ export function createTranslateLoader(http: Http, baseHref) {
                 }
             },
             {
-                path: 'users', component: UsersComponent,
+                path: 'stacks', component: StacksComponent,
                 data: {
-                    title: 'Users REST example',
-                    meta: [{ name: 'description', content: 'This is User REST API example page Description!' }],
-                    links: [
-                        { rel: 'canonical', href: 'http://blogs.example.com/chat/something' },
-                        { rel: 'alternate', hreflang: 'es', href: 'http://es.example.com/users' }
-                    ]
+                    title: 'Stacks',
+                    meta: [{ name: 'description', content: '' }]
                 }
             }
         ])
     ],
     providers: [
         LinkService,
-        UserService,
+        StackService,
         ConnectionResolver,
         TranslateModule
     ]

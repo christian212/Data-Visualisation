@@ -1,9 +1,0 @@
-﻿.users .card {
-    cursor: pointer;
-    position: relative;
-    left: 0;
-  }
-
-.users .card:hover {
-  left: .1em;
-}

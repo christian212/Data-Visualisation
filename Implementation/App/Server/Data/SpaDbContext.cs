@@ -45,8 +45,5 @@ namespace AspCoreServer.Data
                 .HasForeignKey(bs => bs.StackID);
 
         }
-
-        //List of DB Models - Add your DB models here
-        public DbSet<User> User { get; set; }
     }
 }

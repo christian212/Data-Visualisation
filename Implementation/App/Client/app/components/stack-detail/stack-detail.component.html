@@ -1,0 +1,9 @@
+﻿<div *ngIf="stack">
+  <h2>{{stack.name}} details:</h2>
+  <div><label>id: </label>{{stack.id}}</div>
+  <div>
+    <label>name: </label>
+    <input [(ngModel)]="stack.name" placeholder="name" #details="ngModel" />
+  </div>
+  <button [class.disabled]="details.pristine" class="btn btn-success" (click)="updateStack(stack)">Save</button>
+</div>
