@@ -26,7 +26,8 @@ import { ConnectionResolver } from './shared/route.resolver';
 import { ORIGIN_URL } from './shared/constants/baseurl.constants';
 import { TransferHttpModule } from '../modules/transfer-http/transfer-http.module';
 
-import {BrowserModule} from "@angular/platform-browser";
+import { NgProgressModule } from 'ngx-progressbar';
+import { NgProgressBrowserXhr } from 'ngx-progressbar';
 
 export function createTranslateLoader(http: Http, baseHref) {
     // Temporary Azure hack
@@ -53,7 +54,7 @@ export function createTranslateLoader(http: Http, baseHref) {
         CommonModule,
         HttpModule,
         FormsModule,
-        BrowserModule,
+        NgProgressModule,
         Ng2BootstrapModule.forRoot(), // You could also split this up if you don't want the Entire Module imported
 
         TransferHttpModule, // Our Http TransferData method

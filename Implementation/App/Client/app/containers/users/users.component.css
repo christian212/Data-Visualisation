@@ -1,16 +1,9 @@
-﻿.selected {
-  background-color: #CFD8DC !important;
-  border: 5px;
-  border-color: blue;
-}
+﻿.users .card {
+    cursor: pointer;
+    position: relative;
+    left: 0;
+  }
 
-.users card:hover {
-  color: #607D8B;
-  background-color: #DDD;
-  left: 10px;
-}
-
-.users card.selected:hover {
-  background-color: #BBD8DC !important;
-  color: white;
+.users .card:hover {
+  left: .1em;
 }

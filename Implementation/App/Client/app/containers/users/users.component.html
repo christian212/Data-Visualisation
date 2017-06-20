@@ -7,10 +7,8 @@
 
 <p *ngIf="!users"><em>Loading...</em></p>
 
-<h2>Users</h2>
-
 <div class="users">
-    <div class="card mb-5" *ngFor="let user of users" [class.selected]="user === selectedUser" (click)="onSelect(user)" [@flyInOut]>
+    <div class="card mb-5" *ngFor="let user of users" [@flyInOut]>
         <div class="card-header d-flex justify-content-between">
             User ID: {{user.id}}
             <span class="badge badge-info badge-pill">Reihenschaltung</span>
@@ -36,8 +34,8 @@
         </div>
 
         <div class="card-footer text-muted d-flex justify-content-between">
-            <span><small><i class="fa fa-table"></i>  Erstellt: <br />  <br /> Creation.ToString("hh:mm") Uhr</small></span>
-            <span><small><i class="fa fa-table"></i>  Geändert: <br />  <br /> Modification.ToString("hh:mm") Uhr</small></span>
+            <span><small><i class="fa fa-table"></i>  Erstellt: Uhr</small></span>
+            <span><small><i class="fa fa-table"></i>  Geändert: Uhr</small></span>
         </div>
     </div>
 </div>

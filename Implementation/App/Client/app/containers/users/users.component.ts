@@ -11,8 +11,6 @@ import { UserService } from '../../shared/user.service';
     templateUrl: './users.component.html',
     styleUrls: ['./users.component.css'],
     animations: [
-        // Animation example
-        // Triggered in the ngFor with [@flyInOut]
         trigger('flyInOut', [
             state('in', style({ transform: 'translateY(0)' })),
             transition('void => *', [
@@ -30,11 +28,8 @@ export class UsersComponent implements OnInit {
     users: IUser[];
     selectedUser: IUser;
 
-    // Use "constructor"s only for dependency injection
     constructor(private userService: UserService) { }
 
-    // Here you want to handle anything with @Input()'s @Output()'s
-    // Data retrieval / etc - this is when the Component is "ready" and wired up
     ngOnInit() {
         this.userService.getUsers().subscribe(result => {
             console.log('Get user result: ', result);

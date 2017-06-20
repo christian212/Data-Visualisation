@@ -11,6 +11,9 @@ import { AppComponent } from './app.component';
 import { REQUEST } from './shared/constants/request';
 import { BrowserTransferStateModule } from '../modules/transfer-state/browser-transfer-state.module';
 
+import { NgProgressModule } from 'ngx-progressbar';
+import { NgProgressBrowserXhr } from 'ngx-progressbar';
+
 export function createConfig(): SignalRConfiguration {
     const signalRConfig = new SignalRConfiguration();
 
@@ -44,7 +47,9 @@ export function getRequest() {
         // Our Common AppModule
         AppModule,
 
-        SignalRModule.forRoot(createConfig)
+        SignalRModule.forRoot(createConfig),
+
+        NgProgressModule
     ],
     providers: [
         {
@@ -56,7 +61,8 @@ export function getRequest() {
             // The server provides these in main.server
             provide: REQUEST,
             useFactory: (getRequest)
-        }
+        },
+        //{ provide: BrowserXhr, useClass: NgProgressBrowserXhr }
     ]
 })
 export class BrowserAppModule {
