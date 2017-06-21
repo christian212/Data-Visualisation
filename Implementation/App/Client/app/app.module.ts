@@ -26,8 +26,10 @@ import { ConnectionResolver } from './shared/route.resolver';
 import { ORIGIN_URL } from './shared/constants/baseurl.constants';
 import { TransferHttpModule } from '../modules/transfer-http/transfer-http.module';
 
+import {BrowserXhr} from '@angular/http';
 import { NgProgressModule } from 'ngx-progressbar';
 import { NgProgressBrowserXhr } from 'ngx-progressbar';
+
 
 export function createTranslateLoader(http: Http, baseHref) {
     // Temporary Azure hack
@@ -84,7 +86,7 @@ export function createTranslateLoader(http: Http, baseHref) {
                 // When you change Routes it will automatically append these to your document for you on the Server-side
                 //  - check out app.component.ts to see how it's doing this
                 data: {
-                    title: 'Data Visualisation',
+                    title: 'Home',
                     meta: [{ name: 'description', content: 'This is an example Description Meta tag!' }],
                     links: [
                         { rel: 'canonical', href: 'http://blogs.example.com/blah/nice' },

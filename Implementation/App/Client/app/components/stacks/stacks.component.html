@@ -1,11 +1,11 @@
-﻿<div>
-    <label>Stack name:</label> <input #stackName />
-    <button class="btn btn-default" (click)="addStack(stackName.value); stackName.value=''">
-    Add
-  </button>
+﻿<div *ngIf="!stacks" class="alert alert-info" role="alert" [@flyInOut]>
+	<div class="container">
+		<div class="alert-icon">
+			<i class="now-ui-icons travel_info"></i>
+		</div>
+		 <strong>Loading Stacks ...</strong>
+	</div>
 </div>
-
-<p *ngIf="!stacks"><em>Loading...</em></p>
 
 <div class="stacks">
     <div class="card mb-5" *ngFor="let stack of stacks" [@flyInOut]>
@@ -38,4 +38,11 @@
             <span><small><i class="fa fa-table"></i>  Geändert am {{stack.modified | date:'mediumDate' }} um {{stack.modified | date:'shortTime' }} Uhr</small></span>
         </div>
     </div>
+</div>
+
+<div>
+    <label>Stack name:</label> <input #stackName />
+    <button class="btn btn-default" (click)="addStack(stackName.value); stackName.value=''">
+    Add
+  </button>
 </div>

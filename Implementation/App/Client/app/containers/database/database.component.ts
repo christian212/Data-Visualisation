@@ -4,4 +4,7 @@ import { Component } from '@angular/core';
   selector: 'database',
   templateUrl: './database.component.html'
 })
-export class DatabaseComponent { }
+export class DatabaseComponent { 
+
+  
+}
