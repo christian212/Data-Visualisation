@@ -9,6 +9,10 @@ import { AdComponent } from './ad.component';
   template: `
               <div class="ad-banner">
                 <h3>Advertisements</h3>
+                <button type="button" class="btn btn-secondary" (click)="loadComponent(0)">0</button>
+                <button type="button" class="btn btn-secondary" (click)="loadComponent(1)">1</button>
+                <button type="button" class="btn btn-secondary" (click)="loadComponent(2)">2</button>
+                <button type="button" class="btn btn-secondary" (click)="loadComponent(3)">Stacks</button>
                 <ng-template ad-host></ng-template>
               </div>
             `
@@ -23,17 +27,15 @@ export class AdBannerComponent implements AfterViewInit, OnDestroy {
   constructor(private _componentFactoryResolver: ComponentFactoryResolver) { }
 
   ngAfterViewInit() {
-    this.loadComponent();
-    this.getAds();
+    this.loadComponent(0);
   }
 
   ngOnDestroy() {
     clearInterval(this.interval);
   }
 
-  loadComponent() {
-    this.currentAddIndex = (this.currentAddIndex + 1) % this.ads.length;
-    let adItem = this.ads[this.currentAddIndex];
+  loadComponent(index) {
+    let adItem = this.ads[index];
 
     let componentFactory = this._componentFactoryResolver.resolveComponentFactory(adItem.component);
 
@@ -42,11 +44,5 @@ export class AdBannerComponent implements AfterViewInit, OnDestroy {
 
     let componentRef = viewContainerRef.createComponent(componentFactory);
     (<AdComponent>componentRef.instance).data = adItem.data;
-  }
-
-  getAds() {
-    this.interval = setInterval(() => {
-      this.loadComponent();
-    }, 3000);
   }
 }

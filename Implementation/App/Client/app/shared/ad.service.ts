@@ -2,6 +2,7 @@ import { Injectable }           from '@angular/core';
 
 import { HeroJobAdComponent }   from '../components/ad/hero-job-ad.component';
 import { HeroProfileComponent } from '../components/ad/hero-profile.component';
+import { StacksComponent } from '../components/stacks/stacks.component';
 import { AdItem }               from '../components/ad/ad-item';
 
 @Injectable()
@@ -15,8 +16,7 @@ export class AdService {
       new AdItem(HeroJobAdComponent,   {headline: 'Hiring for several positions',
                                         body: 'Submit your resume today!'}),
 
-      new AdItem(HeroJobAdComponent,   {headline: 'Openings in all departments',
-                                        body: 'Apply today'}),
+      new AdItem(StacksComponent,   {}),                             
     ];
   }
 }
