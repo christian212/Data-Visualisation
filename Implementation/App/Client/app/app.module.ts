@@ -12,7 +12,6 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { AppComponent } from './app.component';
 import { NavBarComponent } from './components/navbar/navbar.component';
-import { NavMenuComponent } from './components/navmenu/navmenu.component';
 import { DropdownSplitComponent } from './components/dropdown-split/dropdown-split.component';
 import { HomeComponent } from './containers/home/home.component';
 import { DatabaseComponent } from './containers/database/database.component';
@@ -30,9 +29,6 @@ import { BrowserXhr } from '@angular/http';
 import { NgProgressModule } from 'ngx-progressbar';
 import { NgProgressBrowserXhr } from 'ngx-progressbar';
 
-import { HeroJobAdComponent } from './components/ad/hero-job-ad.component';
-import { ListBannerComponent } from './components/list/list-banner.component';
-import { HeroProfileComponent } from './components/ad/hero-profile.component';
 import { ListDirective } from './directives/list.directive';
 import { ListService } from './shared/list.service';
 
@@ -49,17 +45,13 @@ export function createTranslateLoader(http: Http, baseHref) {
     declarations: [
         AppComponent,
         NavBarComponent,
-        NavMenuComponent,
         DropdownSplitComponent,
         DatabaseComponent,
         StacksComponent,
         StackDetailComponent,
         HomeComponent,
         NotFoundComponent,
-
-        ListBannerComponent,
-        HeroJobAdComponent,
-        HeroProfileComponent,
+        
         ListDirective
     ],
     imports: [
@@ -132,7 +124,7 @@ export function createTranslateLoader(http: Http, baseHref) {
 
         ListService
     ],
-    entryComponents: [ HeroJobAdComponent, HeroProfileComponent ]
+    entryComponents: [ StacksComponent, NotFoundComponent ]
 })
 export class AppModule {
 }
