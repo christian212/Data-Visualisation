@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { AdComponent }      from './ad.component';
+import { ListComponent }      from '../list/list.component';
 
 @Component({
   template: `
@@ -11,8 +11,7 @@ import { AdComponent }      from './ad.component';
     </div>
   `
 })
-export class HeroJobAdComponent implements AdComponent {
+export class HeroJobAdComponent implements ListComponent {
   @Input() data: any;
 
 }
-

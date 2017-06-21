@@ -31,10 +31,10 @@ import { NgProgressModule } from 'ngx-progressbar';
 import { NgProgressBrowserXhr } from 'ngx-progressbar';
 
 import { HeroJobAdComponent } from './components/ad/hero-job-ad.component';
-import { AdBannerComponent } from './components/ad/ad-banner.component';
+import { ListBannerComponent } from './components/list/list-banner.component';
 import { HeroProfileComponent } from './components/ad/hero-profile.component';
-import { AdDirective } from './directives/ad.directive';
-import { AdService } from './shared/ad.service';
+import { ListDirective } from './directives/list.directive';
+import { ListService } from './shared/list.service';
 
 export function createTranslateLoader(http: Http, baseHref) {
     // Temporary Azure hack
@@ -57,10 +57,10 @@ export function createTranslateLoader(http: Http, baseHref) {
         HomeComponent,
         NotFoundComponent,
 
-        AdBannerComponent,
+        ListBannerComponent,
         HeroJobAdComponent,
         HeroProfileComponent,
-        AdDirective
+        ListDirective
     ],
     imports: [
         CommonModule,
@@ -130,7 +130,7 @@ export function createTranslateLoader(http: Http, baseHref) {
         ConnectionResolver,
         TranslateModule,
 
-        AdService
+        ListService
     ],
     entryComponents: [ HeroJobAdComponent, HeroProfileComponent ]
 })

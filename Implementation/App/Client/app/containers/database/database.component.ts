@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 
-import { AdService } from '../../shared/ad.service';
-import { AdItem } from '../../components/ad/ad-item';
+import { ListService } from '../../shared/list.service';
+import { ListItem } from '../../models/ListItem';
 
 @Component({
   selector: 'database',
   templateUrl: './database.component.html'
 })
 export class DatabaseComponent implements OnInit {
-  ads: AdItem[];
+  lists: ListItem[];
 
-  constructor(private adService: AdService) {}
+  constructor(private listService: ListService) {}
 
   ngOnInit() {
-    this.ads = this.adService.getAds();
+    this.lists = this.listService.getLists();
   }
 }
