@@ -26,10 +26,15 @@ import { ConnectionResolver } from './shared/route.resolver';
 import { ORIGIN_URL } from './shared/constants/baseurl.constants';
 import { TransferHttpModule } from '../modules/transfer-http/transfer-http.module';
 
-import {BrowserXhr} from '@angular/http';
+import { BrowserXhr } from '@angular/http';
 import { NgProgressModule } from 'ngx-progressbar';
 import { NgProgressBrowserXhr } from 'ngx-progressbar';
 
+import { HeroJobAdComponent } from './components/ad/hero-job-ad.component';
+import { AdBannerComponent } from './components/ad/ad-banner.component';
+import { HeroProfileComponent } from './components/ad/hero-profile.component';
+import { AdDirective } from './directives/ad.directive';
+import { AdService } from './shared/ad.service';
 
 export function createTranslateLoader(http: Http, baseHref) {
     // Temporary Azure hack
@@ -50,7 +55,12 @@ export function createTranslateLoader(http: Http, baseHref) {
         StacksComponent,
         StackDetailComponent,
         HomeComponent,
-        NotFoundComponent
+        NotFoundComponent,
+
+        AdBannerComponent,
+        HeroJobAdComponent,
+        HeroProfileComponent,
+        AdDirective
     ],
     imports: [
         CommonModule,
@@ -118,8 +128,11 @@ export function createTranslateLoader(http: Http, baseHref) {
         LinkService,
         StackService,
         ConnectionResolver,
-        TranslateModule
-    ]
+        TranslateModule,
+
+        AdService
+    ],
+    entryComponents: [ HeroJobAdComponent, HeroProfileComponent ]
 })
 export class AppModule {
 }
