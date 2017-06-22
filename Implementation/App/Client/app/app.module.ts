@@ -12,7 +12,6 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { AppComponent } from './app.component';
 import { NavBarComponent } from './components/navbar/navbar.component';
-import { DropdownSplitComponent } from './components/dropdown-split/dropdown-split.component';
 import { HomeComponent } from './containers/home/home.component';
 import { DatabaseComponent } from './containers/database/database.component';
 import { StacksComponent } from './components/stacks/stacks.component';
@@ -28,6 +27,12 @@ import { TransferHttpModule } from '../modules/transfer-http/transfer-http.modul
 import { ListDirective } from './directives/list.directive';
 import { ListService } from './shared/list.service';
 
+import { NgProgressModule } from 'ngx-progressbar';
+import {NgProgressService} from 'ngx-progressbar';
+import { BrowserXhr } from '@angular/http';
+import { NgProgressBrowserXhr } from 'ngx-progressbar';
+
+
 export function createTranslateLoader(http: Http, baseHref) {
     // Temporary Azure hack
     if (baseHref === null && typeof window !== 'undefined') {
@@ -41,7 +46,6 @@ export function createTranslateLoader(http: Http, baseHref) {
     declarations: [
         AppComponent,
         NavBarComponent,
-        DropdownSplitComponent,
         DatabaseComponent,
         StacksComponent,
         StackDetailComponent,
@@ -109,7 +113,9 @@ export function createTranslateLoader(http: Http, baseHref) {
                     meta: [{ name: 'description', content: '' }]
                 }
             }
-        ])
+        ]),
+
+        NgProgressModule
     ],
     providers: [
         ConnectionResolver,
@@ -117,7 +123,9 @@ export function createTranslateLoader(http: Http, baseHref) {
 
         LinkService,
         StackService,
-        ListService
+        ListService,
+
+        { provide: BrowserXhr, useClass: NgProgressBrowserXhr }
     ],
     entryComponents: [ StacksComponent, NotFoundComponent ]
 })
