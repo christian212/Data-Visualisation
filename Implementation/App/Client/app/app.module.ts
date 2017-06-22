@@ -25,10 +25,6 @@ import { ConnectionResolver } from './shared/route.resolver';
 import { ORIGIN_URL } from './shared/constants/baseurl.constants';
 import { TransferHttpModule } from '../modules/transfer-http/transfer-http.module';
 
-import { BrowserXhr } from '@angular/http';
-import { NgProgressModule } from 'ngx-progressbar';
-import { NgProgressBrowserXhr } from 'ngx-progressbar';
-
 import { ListDirective } from './directives/list.directive';
 import { ListService } from './shared/list.service';
 
@@ -58,7 +54,6 @@ export function createTranslateLoader(http: Http, baseHref) {
         CommonModule,
         HttpModule,
         FormsModule,
-        NgProgressModule,
         Ng2BootstrapModule.forRoot(), // You could also split this up if you don't want the Entire Module imported
 
         TransferHttpModule, // Our Http TransferData method
@@ -117,11 +112,11 @@ export function createTranslateLoader(http: Http, baseHref) {
         ])
     ],
     providers: [
-        LinkService,
-        StackService,
         ConnectionResolver,
         TranslateModule,
 
+        LinkService,
+        StackService,
         ListService
     ],
     entryComponents: [ StacksComponent, NotFoundComponent ]

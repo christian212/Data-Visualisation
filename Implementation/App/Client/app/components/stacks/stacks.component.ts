@@ -54,7 +54,8 @@ export class StacksComponent implements OnInit {
         });
     }
 
-    addStack(newStackName) {
+    addStack() {
+        let newStackName: any = "Neuer Stack";
         this.stackService.addStack(newStackName).subscribe(result => {
             console.log('Post user result: ', result);
             if (result.ok) {
