@@ -24,8 +24,8 @@ export class StackService {
         return this.transferHttp.get(`${this.baseUrl}/api/stacks`);
     }
 
-    getStack(stack: IStack): Observable<IStack> {
-        return this.transferHttp.get(`${this.baseUrl}/api/stacks/` + stack.id);
+    getStack(stackId: number): Observable<IStack> {
+        return this.transferHttp.get(`${this.baseUrl}/api/stacks/` + stackId);
     }
 
     deleteStack(stack: IStack): Observable<any> {

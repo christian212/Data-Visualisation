@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { StacksComponent } from '../components/stacks/stacks.component';
+import { StackListComponent } from '../components/stacks/stack-list/stack-list.component';
 import { NotFoundComponent } from '../containers/not-found/not-found.component';
 import { ListItem } from '../models/ListItem';
 
@@ -9,7 +9,7 @@ export class ListService {
   getLists() {
     return [
       new ListItem(NotFoundComponent, {}),
-      new ListItem(StacksComponent, {}),
+      new ListItem(StackListComponent, {}),
       new ListItem(NotFoundComponent, {}),
       new ListItem(NotFoundComponent, {}),
     ];

@@ -1,9 +1,0 @@
-﻿.stacks .card {
-    cursor: pointer;
-    position: relative;
-    left: 0;
-  }
-
-.stacks .card:hover {
-  left: .1em;
-}

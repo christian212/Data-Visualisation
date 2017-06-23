@@ -1,0 +1,70 @@
+﻿<div *ngIf="!stacks" class="alert alert-info" role="alert" [@flyInOut]>
+    <div class="container">
+        <div class="alert-icon">
+            <i class="now-ui-icons travel_info"></i>
+        </div>
+        <strong>Loading Stacks ...</strong>
+    </div>
+</div>
+
+<div class="stacks">
+    <div class="card mb-5" *ngFor="let stack of stacks" [@flyInOut]>
+        <div class="card-header d-flex justify-content-between">
+            Stack ID: {{stack.id}}
+            <span class="badge badge-info badge-pill">Reihenschaltung</span>
+            <span class="badge badge-default badge-pill">2 Zellen</span>
+        </div>
+
+        <div class="card-block">
+            <h5 class="card-title">{{stack.name}}</h5>
+
+            <p>Markdown Description</p>
+
+            <div class="btn-group mb-3" dropdown>
+                <button type="button" class="btn btn-secondary" (click)="onSelect(stack)"><i class="fa fa-info"></i> Details</button>
+                <button type="button" dropdownToggle class="btn btn-secondary dropdown-toggle dropdown-toggle-split">
+                    <span class="caret"></span>
+                    <span class="sr-only">Split button!</span>
+                </button>
+                <ul *dropdownMenu class="dropdown-menu" role="menu">
+                    <li role="menuitem"><a class="dropdown-item" href="#"><i class="fa fa-pencil"></i> Bearbeiten</a></li>
+                    <li role="menuitem"><a class="dropdown-item" (click)="deleteStack(stack); $event.stopPropagation()"><i class="fa fa-trash-o"></i> Löschen</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card-footer text-muted d-flex justify-content-between">
+            <span><small><i class="fa fa-table"></i>  Erstellt am {{stack.created | date:'mediumDate' }} um {{stack.created | date:'shortTime' }} Uhr</small></span>
+            <span><small><i class="fa fa-table"></i>  Geändert am {{stack.modified | date:'mediumDate' }} um {{stack.modified | date:'shortTime' }} Uhr</small></span>
+        </div>
+    </div>
+</div>
+
+<div class="justify-content-center">
+    <ul class="pagination pagination-primary">
+        <li class="page-item arrow-margin-left">
+            <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true"><i class="fa fa-angle-double-left" aria-hidden="true"></i></span>
+                    </a>
+        </li>
+
+        <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item active"><a class="page-link" href="#">3</a></li>
+        <li class="page-item"><a class="page-link" href="#">4</a></li>
+        <li class="page-item"><a class="page-link" href="#">5</a></li>
+
+        <li class="page-item arrow-margin-right">
+            <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true"><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
+                    </a>
+        </li>
+    </ul>
+</div>
+
+<div>
+    <label>Stack name:</label> <input />
+    <button class="btn btn-default" (click)="addStack()">
+    Add
+  </button>
+</div>

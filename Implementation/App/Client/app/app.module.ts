@@ -14,8 +14,9 @@ import { AppComponent } from './app.component';
 import { NavBarComponent } from './components/navbar/navbar.component';
 import { HomeComponent } from './containers/home/home.component';
 import { DatabaseComponent } from './containers/database/database.component';
-import { StacksComponent } from './components/stacks/stacks.component';
-import { StackDetailComponent } from './components/stack-detail/stack-detail.component';
+import { StackListComponent } from './components/stacks/stack-list/stack-list.component';
+import { StackDetailComponent } from './components/stacks/stack-detail/stack-detail.component';
+import { StackEditComponent } from './components/stacks/stack-edit/stack-edit.component';
 import { NotFoundComponent } from './containers/not-found/not-found.component';
 
 import { LinkService } from './shared/link.service';
@@ -27,11 +28,8 @@ import { TransferHttpModule } from '../modules/transfer-http/transfer-http.modul
 import { ListDirective } from './directives/list.directive';
 import { ListService } from './shared/list.service';
 
-import { NgProgressModule } from 'ngx-progressbar';
-import {NgProgressService} from 'ngx-progressbar';
 import { BrowserXhr } from '@angular/http';
-import { NgProgressBrowserXhr } from 'ngx-progressbar';
-
+import { NgProgressModule, NgProgressBrowserXhr } from 'ngx-progressbar';
 
 export function createTranslateLoader(http: Http, baseHref) {
     // Temporary Azure hack
@@ -47,7 +45,7 @@ export function createTranslateLoader(http: Http, baseHref) {
         AppComponent,
         NavBarComponent,
         DatabaseComponent,
-        StacksComponent,
+        StackListComponent,
         StackDetailComponent,
         HomeComponent,
         NotFoundComponent,
@@ -106,13 +104,7 @@ export function createTranslateLoader(http: Http, baseHref) {
                     ]
                 }
             },
-            {
-                path: 'stacks', component: StacksComponent,
-                data: {
-                    title: 'Stacks',
-                    meta: [{ name: 'description', content: '' }]
-                }
-            }
+            { path: 'stack/:id', component: StackDetailComponent }
         ]),
 
         NgProgressModule
@@ -125,9 +117,9 @@ export function createTranslateLoader(http: Http, baseHref) {
         StackService,
         ListService,
 
-        { provide: BrowserXhr, useClass: NgProgressBrowserXhr }
+        //{ provide: BrowserXhr, useClass: NgProgressBrowserXhr }
     ],
-    entryComponents: [ StacksComponent, NotFoundComponent ]
+    entryComponents: [ StackListComponent, NotFoundComponent ]
 })
 export class AppModule {
 }
