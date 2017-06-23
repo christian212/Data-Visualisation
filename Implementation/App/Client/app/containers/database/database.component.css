@@ -1,0 +1,14 @@
+/* Fix bootstrap list group */
+
+.list-group {
+  width: 100%;
+}
+
+.list-group .active {
+  color: white;
+}
+
+.active span{
+  border-color: whitesmoke;
+  color: whitesmoke;
+}

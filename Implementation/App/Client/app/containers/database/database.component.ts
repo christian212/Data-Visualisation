@@ -7,15 +7,21 @@ import { ListService } from '../../shared/list.service';
 
 @Component({
   selector: 'database',
-  templateUrl: './database.component.html'
+  templateUrl: './database.component.html',
+  styleUrls: ['./database.component.css']
 })
 export class DatabaseComponent implements OnInit, AfterViewInit, OnDestroy {
   lists: ListItem[];
+  selectedListItem: number;
   @ViewChild(ListDirective) listHost: ListDirective;
   subscription: any;
   interval: any;
 
-  constructor(private _componentFactoryResolver: ComponentFactoryResolver, private listService: ListService) { }
+  constructor(
+    private _componentFactoryResolver: ComponentFactoryResolver,
+    private listService: ListService) {
+    this.selectedListItem = 0;
+  }
 
   ngAfterViewInit() {
     this.loadComponent(0);
@@ -23,6 +29,10 @@ export class DatabaseComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy() {
     clearInterval(this.interval);
+  }
+
+  onSelect(index): void {
+    this.selectedListItem = index;
   }
 
   loadComponent(index) {

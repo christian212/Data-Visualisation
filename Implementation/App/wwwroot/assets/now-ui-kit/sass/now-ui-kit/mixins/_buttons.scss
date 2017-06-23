@@ -133,7 +133,7 @@
         &:focus,
         &:active{
             background-color: $transparent-bg;
-            color: $btn-states-color;
+            color: red;
             text-decoration: none;
         }
     }
