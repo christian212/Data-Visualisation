@@ -1,13 +1,4 @@
-﻿<div *ngIf="!stacks" class="alert alert-info" role="alert" [@flyInOut]>
-    <div class="container">
-        <div class="alert-icon">
-            <i class="now-ui-icons travel_info"></i>
-        </div>
-        <strong>Loading Stacks ...</strong>
-    </div>
-</div>
-
-<div class="stacks">
+﻿<div class="stacks">
     <div class="card mb-5" *ngFor="let stack of stacks" [@flyInOut] (click)="onSelect(stack)">
         <div class="card-header d-flex justify-content-between">
             Stack ID: {{stack.id}}
@@ -22,13 +13,6 @@
 
             <div class="btn-group mb-3" dropdown>
                 <button type="button" class="btn btn-danger" (click)="deleteStack(stack); $event.stopPropagation()"><i class="fa fa-trash-o"></i> Löschen</button>
-                <button type="button" dropdownToggle class="btn btn-secondary dropdown-toggle dropdown-toggle-split">
-                    <span class="caret"></span>
-                    <span class="sr-only">Split button!</span>
-                </button>
-                <ul *dropdownMenu class="dropdown-menu" role="menu">
-                    <li role="menuitem"><a class="dropdown-item" (click)="onSelect(stack)"><i class="fa fa-pencil"></i> Bearbeiten</a></li>
-                </ul>
             </div>
         </div>
 
@@ -58,8 +42,3 @@
         </li>
     </ul>
 </nav>
-
-
-<button class="btn btn-default" (click)="addStack()">
-    Add
-  </button>

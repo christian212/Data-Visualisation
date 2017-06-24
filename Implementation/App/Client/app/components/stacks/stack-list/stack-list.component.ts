@@ -2,6 +2,7 @@
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { IStack } from '../../../models/Stack';
+import { ListComponent }      from '../../list/list.component';
 import { StackService } from '../../../shared/stack.service';
 
 @Component({
@@ -21,9 +22,11 @@ import { StackService } from '../../../shared/stack.service';
         ])
     ]
 })
-export class StackListComponent implements OnInit {
+export class StackListComponent implements ListComponent, OnInit {
 
+    data: any;
     stacks: IStack[];
+    count: number = 0;
     selectedStack: IStack;
 
     constructor(
@@ -38,6 +41,7 @@ export class StackListComponent implements OnInit {
             console.log('TransferHttp [GET] /api/stacks/allresult', result);
             this.stacks = result as IStack[];
         });
+        this.count = this.stacks.length;
     }
 
     onSelect(stack: IStack) {
@@ -57,7 +61,7 @@ export class StackListComponent implements OnInit {
         });
     }
 
-    addStack() {
+    add() {
         let newStackName: any = "Neuer Stack";
         this.stackService.addStack(newStackName).subscribe(result => {
             console.log('Post user result: ', result);
