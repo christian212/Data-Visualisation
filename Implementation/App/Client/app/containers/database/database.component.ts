@@ -1,8 +1,8 @@
 import { Component, Input, AfterViewInit, ViewChild, ComponentFactoryResolver, ComponentRef, OnInit, OnDestroy } from '@angular/core';
 
+import { List } from '../../models/List';
 import { ListDirective } from '../../directives/list.directive';
-import { ListItem } from '../../models/ListItem';
-import { ListComponent } from '../../components/list/list.component';
+import { ListComponent } from '../../components/lists/list.component';
 import { ListService } from '../../shared/list.service';
 import { IStack } from '../../models/Stack';
 import { StackService } from '../../shared/stack.service';
@@ -13,13 +13,17 @@ import { StackService } from '../../shared/stack.service';
   styleUrls: ['./database.component.css']
 })
 export class DatabaseComponent implements OnInit, AfterViewInit, OnDestroy {
-  lists: ListItem[];
-  listItem: ListItem;
+  lists: List[];
+  selectedList: List;
+  selectedListIndex: number;
+  counts: number[] = [0, 0, 0, 0];
   componentRef: ComponentRef<ListComponent>;
-  selectedListItem: number;
+
+  // Preliminary
+  stacks: IStack[];
+
   @ViewChild(ListDirective) listHost: ListDirective;
   interval: any;
-  count: number;
 
   constructor(
     private _componentFactoryResolver: ComponentFactoryResolver,
@@ -28,6 +32,14 @@ export class DatabaseComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     this.lists = this.listService.getLists();
+
+    // Preliminary
+    this.stackService.getStacks().subscribe(result => {
+      console.log('Get stack result: ', result);
+      console.log('TransferHttp [GET] /api/stacks/allresult', result);
+      this.stacks = result as IStack[];
+      this.counts[1] = result.length;
+    });
   }
 
   ngAfterViewInit() {
@@ -38,30 +50,28 @@ export class DatabaseComponent implements OnInit, AfterViewInit, OnDestroy {
     clearInterval(this.interval);
   }
 
-  onSelect(index): void {
-    this.selectedListItem = index;
+  onSelect(listIndex: number): void {
+    this.selectedListIndex = listIndex;
   }
 
   loadComponent(index) {
-    let listItem = this.lists[index];
-    this.listItem = listItem;
+    let list = this.lists[index];
+    this.selectedList = list;
 
     this.onSelect(index);
 
-    let componentFactory = this._componentFactoryResolver.resolveComponentFactory(listItem.component);
+    let componentFactory = this._componentFactoryResolver.resolveComponentFactory(list.component);
 
     let viewContainerRef = this.listHost.viewContainerRef;
     viewContainerRef.clear();
 
     let componentRef = viewContainerRef.createComponent(componentFactory);
-    (<ListComponent>componentRef.instance).data = listItem.data;
+    (<ListComponent>componentRef.instance).data = list.data;
 
     this.componentRef = componentRef;
-
-    this.count = (<ListComponent>componentRef.instance).count;
   }
 
   addItem() {
     this.componentRef.instance.add();
-   }
+  }
 }

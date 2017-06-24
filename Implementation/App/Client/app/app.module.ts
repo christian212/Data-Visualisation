@@ -14,7 +14,7 @@ import { AppComponent } from './app.component';
 import { NavBarComponent } from './components/navbar/navbar.component';
 import { HomeComponent } from './containers/home/home.component';
 import { DatabaseComponent } from './containers/database/database.component';
-import { StackListComponent } from './components/stacks/stack-list/stack-list.component';
+import { StackListComponent } from './components/lists/stack-list/stack-list.component';
 import { StackDetailComponent } from './components/stacks/stack-detail/stack-detail.component';
 import { StackEditComponent } from './components/stacks/stack-edit/stack-edit.component';
 import { NotFoundComponent } from './containers/not-found/not-found.component';
