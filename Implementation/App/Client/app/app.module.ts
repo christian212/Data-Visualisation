@@ -47,6 +47,7 @@ export function createTranslateLoader(http: Http, baseHref) {
         DatabaseComponent,
         StackListComponent,
         StackDetailComponent,
+        StackEditComponent,
         HomeComponent,
         NotFoundComponent,
         
@@ -104,7 +105,8 @@ export function createTranslateLoader(http: Http, baseHref) {
                     ]
                 }
             },
-            { path: 'stack/:id', component: StackDetailComponent }
+            { path: 'stack/details/:id', component: StackDetailComponent },
+            { path: 'stack/edit/:id', component: StackEditComponent }
         ]),
 
         NgProgressModule

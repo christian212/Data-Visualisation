@@ -24,11 +24,8 @@ export class StackDetailComponent {
             .subscribe((stack: IStack) => this.stack = stack);
     }
 
-    updateStack(stack) {
-        this.stackService.updateStack(stack).subscribe(result => {
-            console.log('Put stack result: ', result);
-        }, error => {
-            console.log(`There was an issue. ${error._body}.`);
-        });
+    edit(id: number) {
+        this.router.navigate(['/stack/edit/', id]);
     }
+
 }

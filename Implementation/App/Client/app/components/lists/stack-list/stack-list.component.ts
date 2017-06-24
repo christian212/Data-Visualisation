@@ -44,7 +44,7 @@ export class StackListComponent implements ListComponent, OnInit {
     }
 
     details(id: number) {
-        this.router.navigate(['/stack', id]);
+        this.router.navigate(['/stack/details/', id]);
     }
 
     delete(stack) {

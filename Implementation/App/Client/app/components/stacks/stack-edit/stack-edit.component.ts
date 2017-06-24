@@ -1,4 +1,5 @@
-﻿import { Component, Input } from '@angular/core';
+﻿import { Location } from '@angular/common';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { IStack } from '../../../models/Stack';
@@ -8,13 +9,14 @@ import { StackService } from '../../../shared/stack.service';
     selector: 'stack-edit',
     templateUrl: './stack-edit.component.html'
 })
-export class StackEditComponent {
+export class StackEditComponent implements OnInit {
     stack: IStack;
 
     constructor(
         private stackService: StackService,
         private route: ActivatedRoute,
-        private router: Router
+        private router: Router,
+        private location: Location
     ) { }
 
     ngOnInit() {
@@ -30,5 +32,9 @@ export class StackEditComponent {
         }, error => {
             console.log(`There was an issue. ${error._body}.`);
         });
+    }
+
+    goBack(): void {
+        this.location.back();
     }
 }

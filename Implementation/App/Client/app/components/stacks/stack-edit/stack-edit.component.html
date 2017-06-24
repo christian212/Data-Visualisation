@@ -1,9 +1,78 @@
-﻿<div *ngIf="stack">
-  <h2>{{stack.name}} details:</h2>
-  <div><label>id: </label>{{stack.id}}</div>
-  <div>
-    <label>name: </label>
-    <input [(ngModel)]="stack.name" placeholder="name" #details="ngModel" />
+﻿<form asp-action="Edit">
+  <h2>{{stack.name}}</h2>
+
+  <div class="row">
+    <div class="col-sm-10">
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Stack ID</label>
+        <div class="col-sm-10">
+          <div><span class="text-danger"></span></div>
+          <input class="form-control" placeholder="{{stack.id}}" readonly>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Name</label>
+        <div class="col-sm-10">
+          <div><span class="text-danger"></span></div>
+          <input class="form-control" [(ngModel)]="stack.name" placeholder="Name" />
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Kategorie</label>
+        <div class="col-sm-10">
+          <div><span class="text-danger"></span></div>
+          <input class="form-control" placeholder="Kategorie">
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Beschreibung</label>
+        <div class="col-sm-10">
+          <textarea class="form-control" rows="8" placeholder="Beschreibung"></textarea>
+          <p class="form-text text-muted">
+            <small><i class="fa fa-info" aria-hidden="true"></i> Das Beschreibungsfeld unterstützt Markdown Befehle.</small>
+          </p>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Schaltungsart</label>
+        <div class="col-sm-10">
+          <fieldset class="form-group">
+            <legend></legend>
+
+            <div class="form-check">
+              <label class="form-check-label">
+                                <input type="radio" class="form-check-input" value="Sonstige" checked>
+                                Sonstige
+                            </label>
+            </div>
+
+            <div class="form-check">
+              <label class="form-check-label">
+                                <input type="radio" class="form-check-input" value="Reihenschaltung">
+                                Reihenschaltung
+                            </label>
+            </div>
+
+            <div class="form-check">
+              <label class="form-check-label">
+                                <input type="radio" class="form-check-input" value="Parallelschaltung">
+                                Parallelschaltung
+                            </label>
+            </div>
+          </fieldset>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <div class="offset-sm-2 col-sm-10">
+          <button class="btn btn-primary" type="submit" [class.disabled]="details.pristine" (click)="updateStack(stack)">Speichern</button>
+          <a class="btn btn-link" role="button" (click)="goBack()">Abbrechen</a>
+        </div>
+      </div>
+    </div>
   </div>
-  <button [class.disabled]="details.pristine" class="btn btn-success" (click)="updateStack(stack)">Save</button>
-</div>
+</form>
