@@ -15,9 +15,9 @@ import { StackService } from '../../shared/stack.service';
 export class DatabaseComponent implements OnInit, AfterViewInit, OnDestroy {
   lists: List[];
   selectedList: List;
+  selectedListComponentRef: ListComponent;
   selectedListIndex: number;
   counts: number[] = [0, 0, 0, 0];
-  componentRef: ComponentRef<ListComponent>;
 
   // Preliminary
   stacks: IStack[];
@@ -40,6 +40,8 @@ export class DatabaseComponent implements OnInit, AfterViewInit, OnDestroy {
       this.stacks = result as IStack[];
       this.counts[1] = result.length;
     });
+
+    this.selectedList = this.lists[0];
   }
 
   ngAfterViewInit() {
@@ -68,10 +70,10 @@ export class DatabaseComponent implements OnInit, AfterViewInit, OnDestroy {
     let componentRef = viewContainerRef.createComponent(componentFactory);
     (<ListComponent>componentRef.instance).data = list.data;
 
-    this.componentRef = componentRef;
+    this.selectedListComponentRef = (<ListComponent>componentRef.instance);
   }
 
   addItem() {
-    this.componentRef.instance.add();
+    this.selectedListComponentRef.add();
   }
 }

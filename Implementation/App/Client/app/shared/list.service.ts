@@ -8,10 +8,10 @@ import { List } from '../models/List';
 export class ListService {
   getLists() {
     return [
-      new List(StackListComponent, {navName: "Systeme"}),
-      new List(StackListComponent, {navName: "Stacks"}),
-      new List(StackListComponent, {navName: "Zellen"}),
-      new List(StackListComponent, {navName: "Messungen"}),
+      new List(StackListComponent, {navName: "Systeme", newName: "Neues System"}),
+      new List(StackListComponent, {navName: "Stacks", newName: "Neuer Stack"}),
+      new List(StackListComponent, {navName: "Zellen", newName: "Neue Zelle"}),
+      new List(StackListComponent, {navName: "Messungen", newName: "Neue Messung"}),
     ];
   }
 }
