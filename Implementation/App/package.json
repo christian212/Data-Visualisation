@@ -55,6 +55,7 @@
     "isomorphic-fetch": "^2.2.1",
     "jquery": "^2.2.1",
     "json-loader": "^0.5.4",
+    "ng2-markdown-to-html": "^1.2.1",
     "ng2-signalr": "2.0.4",
     "ngx-bootstrap": "^1.7.1",
     "ngx-pagination": "^3.0.1",

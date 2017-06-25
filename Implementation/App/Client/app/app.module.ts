@@ -31,7 +31,8 @@ import { StackService } from './services/stack.service';
 import { BrowserXhr } from '@angular/http';
 import { NgProgressModule, NgProgressBrowserXhr } from 'ngx-progressbar';
 
-import {NgxPaginationModule} from 'ngx-pagination';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { MarkdownToHtmlModule } from 'ng2-markdown-to-html';
 
 export function createTranslateLoader(http: Http, baseHref) {
     // Temporary Azure hack
@@ -52,7 +53,7 @@ export function createTranslateLoader(http: Http, baseHref) {
         StackEditComponent,
         HomeComponent,
         NotFoundComponent,
-        
+
         ListDirective
     ],
     imports: [
@@ -112,7 +113,8 @@ export function createTranslateLoader(http: Http, baseHref) {
         ]),
 
         NgProgressModule,
-        NgxPaginationModule
+        NgxPaginationModule,
+        MarkdownToHtmlModule.forRoot()
     ],
     providers: [
         ConnectionResolver,
@@ -124,7 +126,7 @@ export function createTranslateLoader(http: Http, baseHref) {
 
         //{ provide: BrowserXhr, useClass: NgProgressBrowserXhr }
     ],
-    entryComponents: [ StackListComponent, NotFoundComponent ]
+    entryComponents: [StackListComponent, NotFoundComponent]
 })
 export class AppModule {
 }
