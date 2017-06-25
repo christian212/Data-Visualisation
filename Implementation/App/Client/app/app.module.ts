@@ -31,6 +31,8 @@ import { StackService } from './services/stack.service';
 import { BrowserXhr } from '@angular/http';
 import { NgProgressModule, NgProgressBrowserXhr } from 'ngx-progressbar';
 
+import {NgxPaginationModule} from 'ngx-pagination';
+
 export function createTranslateLoader(http: Http, baseHref) {
     // Temporary Azure hack
     if (baseHref === null && typeof window !== 'undefined') {
@@ -109,7 +111,8 @@ export function createTranslateLoader(http: Http, baseHref) {
             { path: 'stack/edit/:id', component: StackEditComponent }
         ]),
 
-        NgProgressModule
+        NgProgressModule,
+        NgxPaginationModule
     ],
     providers: [
         ConnectionResolver,

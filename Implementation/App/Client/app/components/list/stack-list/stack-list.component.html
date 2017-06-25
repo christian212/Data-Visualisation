@@ -1,8 +1,8 @@
 ﻿<div class="stacks">
-    <div class="card mb-5" *ngFor="let stack of stacks" (click)="details(stack.id)">
+    <div class="card mb-5" *ngFor="let stack of stacks | paginate: config" (click)="details(stack.id)">
         <div class="card-header d-flex justify-content-between">
             Stack ID: {{stack.id}}
-            <span class="badge badge-info badge-pill">{{stack.circuitType}}</span>
+            <span class="badge badge-info badge-pill">{{CircuitType[stack.circuitType]}}</span>
             <span class="badge badge-default badge-pill">{{stack.cellCount}} Zellen</span>
         </div>
 
@@ -23,22 +23,26 @@
     </div>
 </div>
 
-<nav aria-label="Page navigation example">
-    <ul class="pagination pagination-primary d-flex justify-content-end">
-        <li class="page-item active">
-            <a class="page-link" href="#">1</a>
-        </li>
-        <li class="page-item">
-            <a class="page-link" href="#">2</a>
-        </li>
-        <li class="page-item">
-            <a class="page-link" href="#">3</a>
-        </li>
-        <li class="page-item">
-            <a class="page-link" href="#">4</a>
-        </li>
-        <li class="page-item">
-            <a class="page-link" href="#">5</a>
-        </li>
-    </ul>
-</nav>
+<pagination-template #p="paginationApi" [id]="config.id" (pageChange)="config.currentPage = $event">
+
+    <div class="d-flex justify-content-center">
+        <ul class="pagination pagination-primary">
+            <li class="page-item arrow-margin-left" [class.disabled]="p.isFirstPage()">
+                <a class="page-link" (click)="p.previous()">
+                <span aria-hidden="true"><i class="fa fa-angle-double-left" aria-hidden="true"></i></span>
+            </a>
+            </li>
+
+            <li *ngFor="let page of p.pages" [class.active]="p.getCurrent() === page.value" class="page-item">
+                <a (click)="p.setCurrent(page.value)" class="page-link">{{ page.label }}</a>
+            </li>
+
+            <li class="page-item arrow-margin-right" [class.disabled]="p.isLastPage()">
+                <a class="page-link" (click)="p.next()">
+                <span aria-hidden="true"><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
+            </a>
+            </li>
+        </ul>
+    </div>
+
+</pagination-template>

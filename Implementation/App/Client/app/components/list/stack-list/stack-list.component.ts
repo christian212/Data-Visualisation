@@ -1,9 +1,17 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { PaginationInstance } from '../../../../../node_modules/ngx-pagination/dist/ngx-pagination.module';
 
 import { ListComponent } from '../../list/list.component';
 import { StackService } from '../../../services/stack.service';
 import { Stack } from '../../../models/Stack';
+
+enum CircuitType {
+    Undefined = 0,
+    Reihenschaltung,
+    Parallelschaltung,
+    Sonstige
+}
 
 @Component({
     selector: 'stack-list',
@@ -13,8 +21,16 @@ import { Stack } from '../../../models/Stack';
 export class StackListComponent implements ListComponent, OnInit {
 
     stacks: Stack[];
-    count: number;
+    count: number = 0;
     data: any;
+
+    public CircuitType = CircuitType;
+
+    public config: PaginationInstance = {
+        id: 'custom',
+        itemsPerPage: 2,
+        currentPage: 1
+    };
 
     constructor(
         private stackService: StackService,

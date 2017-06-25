@@ -32,16 +32,16 @@ export class DatabaseComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     this.lists = this.listService.getLists();
+    this.selectedList = this.lists[0];
 
-    // Preliminary
+    /* Preliminary */
     this.stackService.getStacks().subscribe(result => {
       console.log('Get stack result: ', result);
       console.log('TransferHttp [GET] /api/stacks/allresult', result);
       this.stacks = result as Stack[];
       this.counts[1] = result.length;
     });
-
-    this.selectedList = this.lists[0];
+    /* Preliminary */
   }
 
   ngAfterViewInit() {
@@ -75,5 +75,6 @@ export class DatabaseComponent implements OnInit, AfterViewInit, OnDestroy {
 
   addItem() {
     this.selectedListComponentRef.add();
+    this.counts[this.selectedListIndex] += 1; 
   }
 }

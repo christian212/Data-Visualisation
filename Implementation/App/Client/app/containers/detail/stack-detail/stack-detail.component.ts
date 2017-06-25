@@ -4,12 +4,21 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Stack } from '../../../models/Stack';
 import { StackService } from '../../../services/stack.service';
 
+enum CircuitType {
+    Undefined = 0,
+    Reihenschaltung,
+    Parallelschaltung,
+    Sonstige
+}
+
 @Component({
     selector: 'stack-detail',
     templateUrl: './stack-detail.component.html'
 })
 export class StackDetailComponent implements OnInit {
     stack: Stack;
+
+    public CircuitType = CircuitType;
 
     constructor(
         private stackService: StackService,
