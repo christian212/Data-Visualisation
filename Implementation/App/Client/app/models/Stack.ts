@@ -1,16 +1,16 @@
-﻿enum circuitType {
+﻿enum CircuitType {
     Undefined = 0,
     Reihenschaltung,
     Parallelschaltung,
     Sonstige
 }
 
-export interface IStack {
+export interface Stack {
     id: number;
     name: string;
     description: string;
     cellCount: number;
-    circuitType: circuitType;
+    circuitType: CircuitType;
     created: Date;
     modified: Date;
 }

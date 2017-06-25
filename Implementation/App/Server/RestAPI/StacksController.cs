@@ -42,9 +42,9 @@ namespace AspCoreServer.Controllers
     public async Task<IActionResult> Get(int id)
     {
       var stack = await _context.Stacks
-          .Where(s => s.ID == id)
+          .Where(s => s.Id == id)
           .AsNoTracking()
-          .SingleOrDefaultAsync(m => m.ID == id);
+          .SingleOrDefaultAsync(m => m.Id == id);
 
       if (stack == null)
       {
@@ -80,7 +80,7 @@ namespace AspCoreServer.Controllers
 
         var stackToEdit = await _context.Stacks
           .AsNoTracking()
-          .SingleOrDefaultAsync(m => m.ID == id);
+          .SingleOrDefaultAsync(m => m.Id == id);
 
         if (stackToEdit == null)
         {
@@ -108,7 +108,7 @@ namespace AspCoreServer.Controllers
     {
       var stackToRemove = await _context.Stacks
           .AsNoTracking()
-      .SingleOrDefaultAsync(m => m.ID == id);
+      .SingleOrDefaultAsync(m => m.Id == id);
       if (stackToRemove == null)
       {
         return NotFound("Could not delete stack as it was not Found");

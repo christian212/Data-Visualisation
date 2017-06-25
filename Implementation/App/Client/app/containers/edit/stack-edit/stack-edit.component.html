@@ -1,0 +1,69 @@
+﻿<h2>{{stack.name}}</h2>
+
+<div class="row">
+  <div class="col-sm-10">
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label">Stack ID</label>
+      <div class="col-sm-10">
+        <div><span class="text-danger"></span></div>
+        <input class="form-control has-success form-group-no-border" placeholder="{{stack.id}}" readonly>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label">Name</label>
+      <div class="col-sm-10">
+        <div><span class="text-danger"></span></div>
+        <input class="form-control" [(ngModel)]="stack.name" placeholder="Name" #details="ngModel" />
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label">Beschreibung</label>
+      <div class="col-sm-10">
+        <textarea class="form-control" [(ngModel)]="stack.description" rows="8" placeholder="Beschreibung" #details="ngModel"></textarea>
+
+        <p class="form-text text-muted">
+          <small><i class="fa fa-info"></i> Das Beschreibungsfeld unterstützt Markdown Befehle.</small>
+        </p>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label">Schaltungsart</label>
+      <div class="col-sm-10">
+        <fieldset class="form-group" [(ngModel)]="stack.circuitType">
+          <legend></legend>
+
+          <div class="radio">
+            <input type="radio" name="radio1" id="radio1" value="Sonstige">
+             <label for="radio1">
+              Sonstige
+             </label>
+          </div>
+
+          <div class="radio">
+            <input type="radio" name="radio2" id="radio2" value="Reihenschaltung">
+             <label for="radio2">
+              Reihenschaltung
+             </label>
+          </div>
+
+          <div class="radio">
+            <input type="radio" name="radio3" id="radio3" value="Parallelschaltung">
+             <label for="radio3">
+              Parallelschaltung
+             </label>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <div class="offset-sm-2 col-sm-10">
+        <button class="btn btn-primary" [class.disabled]="details.pristine" (click)="updateStack(stack)">Speichern</button>
+        <a class="btn btn-link" role="button" (click)="goBack()">Abbrechen</a>
+      </div>
+    </div>
+  </div>
+</div>

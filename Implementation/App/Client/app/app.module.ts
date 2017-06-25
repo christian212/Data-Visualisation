@@ -10,23 +10,23 @@ import { Ng2BootstrapModule } from 'ngx-bootstrap';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
-import { AppComponent } from './app.component';
-import { NavBarComponent } from './components/navbar/navbar.component';
-import { HomeComponent } from './containers/home/home.component';
-import { DatabaseComponent } from './containers/database/database.component';
-import { StackListComponent } from './components/lists/stack-list/stack-list.component';
-import { StackDetailComponent } from './components/stacks/stack-detail/stack-detail.component';
-import { StackEditComponent } from './components/stacks/stack-edit/stack-edit.component';
-import { NotFoundComponent } from './containers/not-found/not-found.component';
-
 import { LinkService } from './shared/link.service';
-import { StackService } from './shared/stack.service';
 import { ConnectionResolver } from './shared/route.resolver';
 import { ORIGIN_URL } from './shared/constants/baseurl.constants';
 import { TransferHttpModule } from '../modules/transfer-http/transfer-http.module';
 
+import { AppComponent } from './app.component';
+import { NavBarComponent } from './components/navbar/navbar.component';
+import { HomeComponent } from './containers/home/home.component';
+import { DatabaseComponent } from './containers/database/database.component';
+import { StackListComponent } from './components/list/stack-list/stack-list.component';
+import { StackDetailComponent } from './containers/detail/stack-detail/stack-detail.component';
+import { StackEditComponent } from './containers/edit/stack-edit/stack-edit.component';
+import { NotFoundComponent } from './containers/not-found/not-found.component';
+
 import { ListDirective } from './directives/list.directive';
-import { ListService } from './shared/list.service';
+import { ListService } from './services/list.service';
+import { StackService } from './services/stack.service';
 
 import { BrowserXhr } from '@angular/http';
 import { NgProgressModule, NgProgressBrowserXhr } from 'ngx-progressbar';

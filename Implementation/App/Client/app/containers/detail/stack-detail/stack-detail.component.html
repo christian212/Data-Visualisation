@@ -1,0 +1,90 @@
+﻿<div class="card mb-5">
+  <div class="card-header d-flex justify-content-between">
+    Stack ID: {{stack.id}}
+    <span class="badge badge-info badge-pill">Reihenschaltung</span>
+    <span class="badge badge-default badge-pill">2 Zellen</span>
+  </div>
+
+  <div class="card-block">
+    <h5 class="card-title">{{stack.name}}</h5>
+
+    <p>{{stack.description}}</p>
+
+    <div class="btn-group mb-3" dropdown>
+      <button type="button" class="btn btn-danger" (click)="deleteStack(stack); $event.stopPropagation()"><i class="fa fa-trash-o"></i> Löschen</button>
+      <button type="button" dropdownToggle class="btn btn-secondary dropdown-toggle dropdown-toggle-split">
+                    <span class="caret"></span>
+                    <span class="sr-only">Split button!</span>
+                </button>
+      <ul *dropdownMenu class="dropdown-menu" role="menu">
+        <li role="menuitem"><a class="dropdown-item" (click)="edit(stack.id)"><i class="fa fa-pencil"></i> Bearbeiten</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <hr/>
+
+  <div class="card-block">
+    <h3>Zellen</h3>
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#home" role="tab">Zelle 1</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#home" role="tab">Zelle 3</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#home" role="tab">Zelle 3</a>
+      </li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <div class="tab-pane active" id="home" role="tabpanel">
+        <div class="media mt-2 mb-4">
+          <div class="media-body">
+            <h5 class="mt-2 mb-3">Zellname</h5>
+
+            Name
+          </div>
+          <img class="d-flex align-self-center ml-3 rounded img-raised" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22100%22%20height%3D%22100%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_15c656d1ef9%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A10pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_15c656d1ef9%22%3E%3Crect%20width%3D%22100%22%20height%3D%22100%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2213.6015625%22%20y%3D%2236.6546875%22%3E64x64%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"
+            alt="Image">
+        </div>
+
+        <div class="btn-group mb-3" role="group">
+          <button type="button" class="btn btn-primary"><i class="fa fa-line-chart"></i> Plot</button>
+
+          <div class="btn-group" role="group">
+            <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+              aria-expanded="false">Mehr</button>
+
+            <div class="dropdown-menu">
+              <a class="dropdown-item"><i class="fa fa-cloud-download"></i> Download</a>
+              <a class="dropdown-item"><i class="fa fa-pencil"></i> Bearbeiten</a>
+              <a class="dropdown-item"><i class="fa fa-trash-o"></i> Löschen</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12">
+      <div class="row mt-3 mb-4">
+        Es sind keine Zellen für diesen Stack vorhanden.
+      </div>
+
+      <div class="row mb-3">
+        <button class="btn btn-primary"><i class="fa fa-plus"></i> Zelle hinzufügen</button>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="card-footer text-muted d-flex justify-content-between">
+    <span><small><i class="fa fa-table"></i>  Erstellt am {{stack.created | date:'mediumDate' }} um {{stack.created | date:'shortTime' }} Uhr</small></span>
+    <span><small><i class="fa fa-table"></i>  Geändert am {{stack.modified | date:'mediumDate' }} um {{stack.modified | date:'shortTime' }} Uhr</small></span>
+  </div>
+
+</div>

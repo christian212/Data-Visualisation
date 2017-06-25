@@ -1,6 +1,6 @@
 import { Type } from '@angular/core';
 
-import { ListComponent } from '../components/lists/list.component';
+import { ListComponent } from '../components/list/list.component';
 
 export class List {
   constructor(

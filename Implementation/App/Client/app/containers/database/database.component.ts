@@ -2,10 +2,10 @@ import { Component, Input, AfterViewInit, ViewChild, ComponentFactoryResolver, C
 
 import { List } from '../../models/List';
 import { ListDirective } from '../../directives/list.directive';
-import { ListComponent } from '../../components/lists/list.component';
-import { ListService } from '../../shared/list.service';
-import { IStack } from '../../models/Stack';
-import { StackService } from '../../shared/stack.service';
+import { ListComponent } from '../../components/list/list.component';
+import { ListService } from '../../services/list.service';
+import { Stack } from '../../models/Stack';
+import { StackService } from '../../services/stack.service';
 
 @Component({
   selector: 'database',
@@ -20,7 +20,7 @@ export class DatabaseComponent implements OnInit, AfterViewInit, OnDestroy {
   counts: number[] = [0, 0, 0, 0];
 
   // Preliminary
-  stacks: IStack[];
+  stacks: Stack[];
 
   @ViewChild(ListDirective) listHost: ListDirective;
   interval: any;
@@ -37,7 +37,7 @@ export class DatabaseComponent implements OnInit, AfterViewInit, OnDestroy {
     this.stackService.getStacks().subscribe(result => {
       console.log('Get stack result: ', result);
       console.log('TransferHttp [GET] /api/stacks/allresult', result);
-      this.stacks = result as IStack[];
+      this.stacks = result as Stack[];
       this.counts[1] = result.length;
     });
 
