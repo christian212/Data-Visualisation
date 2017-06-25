@@ -223,6 +223,8 @@
     margin-left: 0;
 }
 textarea.form-control{
+     display: inline-block;
+        position: relative;
     max-width: 100%;
     padding: 10px 10px 0 0;
     resize: none;

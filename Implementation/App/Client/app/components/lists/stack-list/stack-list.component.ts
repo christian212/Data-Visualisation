@@ -31,7 +31,7 @@ export class StackListComponent implements ListComponent, OnInit {
     }
 
     add() {
-        let newStackName: any = "Neuer Stack";
+        let newStackName: string = "Neuer Stack";
         this.stackService.addStack(newStackName).subscribe(result => {
             console.log('Post user result: ', result);
             if (result.ok) {

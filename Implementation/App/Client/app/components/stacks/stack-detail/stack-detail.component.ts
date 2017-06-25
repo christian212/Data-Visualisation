@@ -1,4 +1,4 @@
-﻿import { Component, Input } from '@angular/core';
+﻿import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { IStack } from '../../../models/Stack';
@@ -8,7 +8,7 @@ import { StackService } from '../../../shared/stack.service';
     selector: 'stack-detail',
     templateUrl: './stack-detail.component.html'
 })
-export class StackDetailComponent {
+export class StackDetailComponent implements OnInit {
     stack: IStack;
 
     constructor(
