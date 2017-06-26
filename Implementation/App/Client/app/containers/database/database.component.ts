@@ -32,7 +32,6 @@ export class DatabaseComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     this.lists = this.listService.getLists();
-    this.selectedList = this.lists[0];
 
     /* Preliminary */
     this.stackService.getStacks().subscribe(result => {
@@ -52,15 +51,10 @@ export class DatabaseComponent implements OnInit, AfterViewInit, OnDestroy {
     clearInterval(this.interval);
   }
 
-  onSelect(listIndex: number): void {
-    this.selectedListIndex = listIndex;
-  }
-
   loadComponent(index) {
     let list = this.lists[index];
     this.selectedList = list;
-
-    this.onSelect(index);
+    this.selectedListIndex = index;
 
     let componentFactory = this._componentFactoryResolver.resolveComponentFactory(list.component);
 
