@@ -27,7 +27,7 @@
 
 <pagination-template #p="paginationApi" [id]="config.id" (pageChange)="config.currentPage = $event">
 
-    <div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-center" *ngIf="p.pages.length > 1">
         <ul class="pagination pagination-primary">
             <li class="page-item arrow-margin-left" [class.disabled]="p.isFirstPage()">
                 <a class="page-link" (click)="p.previous()">
