@@ -1,4 +1,4 @@
-import { Component, Input, AfterViewInit, ViewChild, ComponentFactoryResolver, ComponentRef, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, ViewChild, ComponentFactoryResolver, ComponentRef, OnInit, AfterViewInit, OnDestroy, OnChanges, SimpleChange } from '@angular/core';
 
 import { List } from '../../models/List';
 import { ListDirective } from '../../directives/list.directive';
@@ -18,6 +18,7 @@ export class DatabaseComponent implements OnInit, AfterViewInit, OnDestroy {
   selectedListComponentRef: ListComponent;
   selectedListIndex: number;
   counts: number[] = [0, 0, 0, 0];
+  searchTerm: string;
 
   // Preliminary
   stacks: Stack[];
@@ -32,6 +33,8 @@ export class DatabaseComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     this.lists = this.listService.getLists();
+    this.selectedList = this.lists[0];
+    this.selectedListIndex = 1;
 
     /* Preliminary */
     this.stackService.getStacks().subscribe(result => {
@@ -62,13 +65,18 @@ export class DatabaseComponent implements OnInit, AfterViewInit, OnDestroy {
     viewContainerRef.clear();
 
     let componentRef = viewContainerRef.createComponent(componentFactory);
-    (<ListComponent>componentRef.instance).data = list.data;
 
     this.selectedListComponentRef = (<ListComponent>componentRef.instance);
+
+    this.selectedListComponentRef.searchTerm = this.searchTerm;
+    this.selectedListComponentRef.countUpdated.subscribe(count => this.counts[this.selectedListIndex] = count);
+  }
+
+  onSearchChange() {
+    this.selectedListComponentRef.searchTerm = this.searchTerm;
   }
 
   addItem() {
     this.selectedListComponentRef.add();
-    this.counts[this.selectedListIndex] += 1; 
   }
 }

@@ -1,5 +1,5 @@
-﻿import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+﻿import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
 import { PaginationInstance } from '../../../../../node_modules/ngx-pagination/dist/ngx-pagination.module';
 
 import { ListComponent } from '../../list/list.component';
@@ -20,9 +20,11 @@ enum CircuitType {
 })
 export class StackListComponent implements ListComponent, OnInit {
 
+    @Input() searchTerm: string;
+    @Output() countUpdated = new EventEmitter();
+
     stacks: Stack[];
     count: number = 0;
-    data: any;
 
     public CircuitType = CircuitType;
 
@@ -34,7 +36,6 @@ export class StackListComponent implements ListComponent, OnInit {
 
     constructor(
         private stackService: StackService,
-        private route: ActivatedRoute,
         private router: Router) { }
 
     ngOnInit() {
@@ -53,6 +54,7 @@ export class StackListComponent implements ListComponent, OnInit {
             if (result.ok) {
                 this.stacks.push(result.json());
                 this.count = this.count + 1;
+                this.countUpdated.emit(this.count)
             }
         }, error => {
             console.log(`There was an issue. ${error._body}.`);
@@ -70,6 +72,7 @@ export class StackListComponent implements ListComponent, OnInit {
                 let position = this.stacks.indexOf(stack);
                 this.stacks.splice(position, 1);
                 this.count = this.count - 1;
+                this.countUpdated.emit(this.count)
             }
         }, error => {
             console.log(`There was an issue. ${error._body}.`);

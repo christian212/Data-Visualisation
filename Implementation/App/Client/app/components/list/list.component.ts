@@ -1,8 +1,13 @@
+import { EventEmitter } from '@angular/core';
+
 export interface ListComponent {
-  data: any;
   count: number;
+
+  searchTerm: string;
+
+  countUpdated: EventEmitter<any>;
   
   add();
-  details(id);
-  delete(item);
+  details(id: number);
+  delete(item: any);
 }

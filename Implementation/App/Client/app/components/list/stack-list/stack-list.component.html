@@ -1,5 +1,5 @@
 ﻿<div class="stacks">
-    <div class="card mb-5" *ngFor="let stack of stacks | paginate: config" (click)="details(stack.id)">
+    <div class="card mb-5" *ngFor="let stack of stacks | filter:searchTerm | paginate: config" (click)="details(stack.id)">
         <div class="card-header d-flex justify-content-between">
             Stack ID: {{stack.id}}
             <span class="badge badge-info badge-pill">{{CircuitType[stack.circuitType]}}</span>

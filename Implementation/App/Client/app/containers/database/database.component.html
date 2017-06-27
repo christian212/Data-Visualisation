@@ -3,7 +3,7 @@
         <div class="row mb-5">
             <div class="col-sm-12 col-md-8 offset-md-2 col-lg-12 offset-lg-0 mb-3">
                 <div class="input-group form-group-no-border">
-                    <input type="text" class="form-control" placeholder="Suche">
+                    <input type="text" class="form-control" placeholder="Suche" [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()">
                     <span class="input-group-addon">
                             <i class="now-ui-icons ui-1_zoom-bold"></i>
                         </span>
