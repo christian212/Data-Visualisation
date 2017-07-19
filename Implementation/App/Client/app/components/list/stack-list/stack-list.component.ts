@@ -55,6 +55,7 @@ export class StackListComponent implements ListComponent, OnInit {
                 this.stacks.push(result.json());
                 this.count = this.count + 1;
                 this.countUpdated.emit(this.count)
+                this.edit(result.json().id);
             }
         }, error => {
             console.log(`There was an issue. ${error._body}.`);
@@ -63,6 +64,10 @@ export class StackListComponent implements ListComponent, OnInit {
 
     details(id: number) {
         this.router.navigate(['/stack/details/', id]);
+    }
+
+    edit(id: number) {
+        this.router.navigate(['/stack/edit/', id]);
     }
 
     delete(stack) {

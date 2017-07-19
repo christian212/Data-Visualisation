@@ -8,6 +8,10 @@ import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class StackService {
+
+    currentPageNo: number = 1;
+    pageSize: number = 1000;
+
     constructor(
         private transferHttp: TransferHttp, // Use only for GETS that you want re-used between Server render -> Client render
         private http: Http, // Use for everything else
@@ -15,8 +19,12 @@ export class StackService {
 
     }
 
-    getStacks(): Observable<Stack[]> {
+    getStackCount(): Observable<number> {
         return this.transferHttp.get(`${this.baseUrl}/api/stacks`);
+    }
+
+    getStacks(): Observable<Stack[]> {
+        return this.transferHttp.get(`${this.baseUrl}/api/stacks/`, {method: "Get"});
     }
 
     getStack(stackId: number): Observable<Stack> {

@@ -9,5 +9,6 @@ export interface ListComponent {
   
   add();
   details(id: number);
+  edit(id: number);
   delete(item: any);
 }

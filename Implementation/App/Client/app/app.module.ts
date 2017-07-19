@@ -126,9 +126,10 @@ export function createTranslateLoader(http: Http, baseHref) {
         StackService,
         ListService,
 
-        //{ provide: BrowserXhr, useClass: NgProgressBrowserXhr }
+        // { provide: BrowserXhr, useClass: NgProgressBrowserXhr }
     ],
     entryComponents: [StackListComponent, NotFoundComponent]
 })
-export class AppModule {
+export class AppModule { 
+    
 }
