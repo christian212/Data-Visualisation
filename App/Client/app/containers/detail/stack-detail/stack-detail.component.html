@@ -7,38 +7,13 @@
 
   <div class="card-block">
     <h5 class="card-title">{{stack.name}}</h5>
-    
+
     <div markdown-to-html [data]="stack.description"></div>
 
     <div class="btn-group mb-3" dropdown>
-      <button type="button" class="btn btn-danger" (click)="deleteStack(stack); $event.stopPropagation()"><i class="fa fa-trash-o"></i> Löschen</button>
-      <button type="button" dropdownToggle class="btn btn-secondary dropdown-toggle dropdown-toggle-split">
-                    <span class="caret"></span>
-                    <span class="sr-only">Split button!</span>
-                </button>
-      <ul *dropdownMenu class="dropdown-menu" role="menu">
-        <li role="menuitem"><a class="dropdown-item" (click)="edit(stack.id)"><i class="fa fa-pencil"></i> Bearbeiten</a></li>
-      </ul>
+      <button type="button" class="btn btn-secondary" (click)="edit(stack.id); $event.stopPropagation()"><i class="fa fa-pencil"></i> Bearbeiten</button>
+      <button type="button" class="btn btn-danger" (click)="delete(stack); $event.stopPropagation()"><i class="fa fa-trash-o"></i> Löschen</button>
     </div>
-    
-    <div class="btn-group" dropdown>
-      <button type="button" class="btn btn-danger">Action</button>
-      <button type="button" dropdownToggle class="btn btn-danger dropdown-toggle dropdown-toggle-split">
-        <span class="caret"></span>
-        <span class="sr-only">Split button!</span>
-      </button>
-      <ul *dropdownMenu class="dropdown-menu" role="menu">
-        <li role="menuitem"><a class="dropdown-item" href="#">Action</a></li>
-        <li role="menuitem"><a class="dropdown-item" href="#">Another action</a>
-        </li>
-        <li role="menuitem"><a class="dropdown-item" href="#">Something else
-          here</a></li>
-        <li class="divider dropdown-divider"></li>
-        <li role="menuitem"><a class="dropdown-item" href="#">Separated link</a>
-        </li>
-      </ul>
-    </div>
-  </div>
 
   <hr/>
 

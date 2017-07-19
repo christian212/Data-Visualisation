@@ -55,7 +55,7 @@ export class StackListComponent implements ListComponent, OnInit {
                 this.stacks.push(result.json());
                 this.count = this.count + 1;
                 this.countUpdated.emit(this.count)
-                this.edit(result.json().id);
+                this.details(result.json().id);
             }
         }, error => {
             console.log(`There was an issue. ${error._body}.`);

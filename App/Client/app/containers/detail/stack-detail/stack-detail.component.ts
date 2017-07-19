@@ -37,4 +37,15 @@ export class StackDetailComponent implements OnInit {
         this.router.navigate(['/stack/edit/', id]);
     }
 
+    delete(stack) {
+        this.stackService.deleteStack(stack).subscribe(result => {
+            console.log('Delete stack result: ', result);
+            if (result.ok) {
+                this.router.navigate(['/database/']);
+            }
+        }, error => {
+            console.log(`There was an issue. ${error._body}.`);
+        });
+    }
+
 }
