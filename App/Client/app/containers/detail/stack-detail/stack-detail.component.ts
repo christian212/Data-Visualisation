@@ -18,6 +18,12 @@ enum CircuitType {
 export class StackDetailComponent implements OnInit {
     stack: Stack;
 
+    public cells: any[] = [
+        { name: 'Zelle 1', description: 'Beschreibung 1', active: true},
+        { name: 'Zelle 2', description: 'Beschreibung 2'},
+        { name: 'Zelle 3', description: 'Beschreibung 3'}
+    ];
+
     public CircuitType = CircuitType;
 
     constructor(

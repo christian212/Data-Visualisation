@@ -13,9 +13,7 @@
                 <markdown-to-html [data]="stack.description"></markdown-to-html>
             </div>
 
-            <div class="btn-group mb-3" dropdown>
-                <button type="button" class="btn btn-danger" (click)="delete(stack); $event.stopPropagation()"><i class="fa fa-trash-o"></i> Löschen</button>
-            </div>
+            <button type="button" class="btn btn-danger" (click)="delete(stack); $event.stopPropagation()"><i class="fa fa-trash-o"></i> Löschen</button>
         </div>
 
         <div class="card-footer text-muted d-flex justify-content-between">
