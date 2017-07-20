@@ -36,31 +36,37 @@
     <div class="form-group row">
       <label class="col-sm-2 col-form-label">Schaltungsart</label>
       <div class="col-sm-10">
-        <fieldset class="form-group" [(ngModel)]="stack.circuitType">
+        <fieldset class="form-group">
           <legend></legend>
 
           <div class="radio">
-            <input type="radio" name="radio1" id="radio1" value="Sonstige">
+            <input type="radio" name="radio" id="radio1" value="1" [(ngModel)]="stack.circuitType" btnRadio="1">
             <label for="radio1">
-              Sonstige
-             </label>
-          </div>
-
-          <div class="radio">
-            <input type="radio" name="radio2" id="radio2" value="Reihenschaltung">
-            <label for="radio2">
               Reihenschaltung
              </label>
           </div>
 
           <div class="radio">
-            <input type="radio" name="radio3" id="radio3" value="Parallelschaltung">
-            <label for="radio3">
+            <input type="radio" name="radio" id="radio2" value="2" [(ngModel)]="stack.circuitType" btnRadio="2">
+            <label for="radio2">
               Parallelschaltung
+             </label>
+          </div>
+
+          <div class="radio">
+            <input type="radio" name="radio" id="radio3" value="3" [(ngModel)]="stack.circuitType" btnRadio="3">
+            <label for="radio3">
+              Sonstige
              </label>
           </div>
         </fieldset>
       </div>
+    </div>
+
+    <div class="btn-group">
+      <label class="btn btn-primary" [(ngModel)]="stack.circuitType" btnRadio="1">Reihenschaltung</label>
+      <label class="btn btn-primary" [(ngModel)]="stack.circuitType" btnRadio="2">Parallelschaltung</label>
+      <label class="btn btn-primary" [(ngModel)]="stack.circuitType" btnRadio="3">Sonstige</label>
     </div>
 
     <div class="form-group row">

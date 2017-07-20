@@ -6,6 +6,13 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Stack } from '../../../models/Stack';
 import { StackService } from '../../../services/stack.service';
 
+enum CircuitType {
+    Undefined = 0,
+    Reihenschaltung,
+    Parallelschaltung,
+    Sonstige
+}
+
 @Component({
     selector: 'stack-edit',
     templateUrl: './stack-edit.component.html'
