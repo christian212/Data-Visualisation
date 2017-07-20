@@ -1,6 +1,7 @@
-﻿import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+﻿import { Component, OnInit, Input, Output, EventEmitter, SecurityContext } from '@angular/core';
 import { Router } from '@angular/router';
 import { PaginationInstance } from '../../../../../node_modules/ngx-pagination/dist/ngx-pagination.module';
+import { DomSanitizer } from '@angular/platform-browser';
 
 import { ListComponent } from '../../list/list.component';
 import { StackService } from '../../../services/stack.service';
@@ -26,6 +27,8 @@ export class StackListComponent implements ListComponent, OnInit {
     stacks: Stack[];
     count: number = 0;
 
+    public alerts: any = [];
+
     public CircuitType = CircuitType;
 
     public config: PaginationInstance = {
@@ -36,7 +39,14 @@ export class StackListComponent implements ListComponent, OnInit {
 
     constructor(
         private stackService: StackService,
-        private router: Router) { }
+        private router: Router,
+        sanitizer: DomSanitizer
+    ) {
+        this.alerts = this.alerts.map((alert: any) => ({
+            type: alert.type,
+            msg: sanitizer.sanitize(SecurityContext.HTML, alert.msg)
+        }));
+    }
 
     ngOnInit() {
         this.stackService.getStacks().subscribe(result => {
@@ -54,7 +64,7 @@ export class StackListComponent implements ListComponent, OnInit {
             if (result.ok) {
                 this.stacks.push(result.json());
                 this.count = this.count + 1;
-                this.countUpdated.emit(this.count)
+                this.countUpdated.emit(this.count);
                 this.details(result.json().id);
             }
         }, error => {
@@ -77,10 +87,18 @@ export class StackListComponent implements ListComponent, OnInit {
                 let position = this.stacks.indexOf(stack);
                 this.stacks.splice(position, 1);
                 this.count = this.count - 1;
-                this.countUpdated.emit(this.count)
+                this.countUpdated.emit(this.count);
+                this.alerts.push({
+                    type: 'info',
+                    msg: '<div class="alert-icon"><i class="now-ui-icons travel_info"></i></div><strong>' + stack.name + '</strong> wurde erfolgreich gelöscht!'
+                });
             }
         }, error => {
             console.log(`There was an issue. ${error._body}.`);
+            this.alerts.push({
+                type: 'danger',
+                msg: '<div class="alert-icon"><i class="now-ui-icons objects_support-17"></i></div><strong>' + stack.name + '</strong> konnte nicht gelöscht werden!'
+            });
         });
     }
 }

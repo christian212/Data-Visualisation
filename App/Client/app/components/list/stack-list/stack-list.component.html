@@ -1,4 +1,8 @@
-﻿<div class="stacks">
+﻿<div *ngFor="let alert of alerts">
+    <alert [type]="alert.type" dismissOnTimeout="15000"><span [innerHtml]="alert.msg"></span></alert>
+</div>
+
+<div class="stacks">
     <div class="card mb-5" *ngFor="let stack of stacks | filter:searchTerm | paginate: config" (click)="details(stack.id)">
         <div class="card-header d-flex justify-content-between">
             Stack ID: {{stack.id}}
