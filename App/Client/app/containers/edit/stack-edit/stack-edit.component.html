@@ -3,7 +3,6 @@
 </div>
 
 <h2>{{stack.name}}</h2>
-
 <div class="row">
   <div class="col-sm-10">
     <div class="form-group row">
@@ -18,14 +17,14 @@
       <label class="col-sm-2 col-form-label">Name</label>
       <div class="col-sm-4">
         <div><span class="text-danger"></span></div>
-        <input class="form-control" [(ngModel)]="stack.name" placeholder="Name" #details="ngModel" />
+        <input class="form-control" [(ngModel)]="stack.name" placeholder="Name" />
       </div>
     </div>
 
     <div class="form-group row">
       <label class="col-sm-2 col-form-label">Beschreibung</label>
       <div class="col-sm-10">
-        <textarea class="form-control" [(ngModel)]="stack.description" rows="8" placeholder="Beschreibung" #details="ngModel"></textarea>
+        <textarea class="form-control" [(ngModel)]="stack.description" rows="8" placeholder="Beschreibung"></textarea>
 
         <p class="form-text text-muted">
           <small><i class="fa fa-info"></i> Das Beschreibungsfeld unterstützt Markdown Befehle.</small>
@@ -40,21 +39,21 @@
           <legend></legend>
 
           <div class="radio">
-            <input type="radio" name="radio" id="radio1" value="1" [(ngModel)]="stack.circuitType" btnRadio="1">
+            <input type="radio" name="radio" id="radio1" [(ngModel)]="stack.circuitType" [value]="1">
             <label for="radio1">
               Reihenschaltung
              </label>
           </div>
 
           <div class="radio">
-            <input type="radio" name="radio" id="radio2" value="2" [(ngModel)]="stack.circuitType" btnRadio="2">
+            <input type="radio" name="radio" id="radio2" [(ngModel)]="stack.circuitType" [value]="2">
             <label for="radio2">
               Parallelschaltung
              </label>
           </div>
 
           <div class="radio">
-            <input type="radio" name="radio" id="radio3" value="3" [(ngModel)]="stack.circuitType" btnRadio="3">
+            <input type="radio" name="radio" id="radio3" [(ngModel)]="stack.circuitType" [value]="3">
             <label for="radio3">
               Sonstige
              </label>
@@ -63,15 +62,9 @@
       </div>
     </div>
 
-    <div class="btn-group">
-      <label class="btn btn-primary" [(ngModel)]="stack.circuitType" btnRadio="1">Reihenschaltung</label>
-      <label class="btn btn-primary" [(ngModel)]="stack.circuitType" btnRadio="2">Parallelschaltung</label>
-      <label class="btn btn-primary" [(ngModel)]="stack.circuitType" btnRadio="3">Sonstige</label>
-    </div>
-
     <div class="form-group row">
       <div class="offset-sm-2 col-sm-10">
-        <button class="btn btn-primary" [class.disabled]="details.pristine" (click)="updateStack(stack)">Speichern</button>
+        <button class="btn btn-primary" (click)="updateStack(stack)"><i class="fa fa-floppy-o" aria-hidden="true"></i> Speichern</button>
         <a class="btn btn-link" role="button" (click)="goBack()">Zurück</a>
       </div>
     </div>
