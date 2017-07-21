@@ -1,0 +1,24 @@
+.my-drop-zone {
+    box-shadow: none;
+    background-color: rgba(0, 0, 0, 0.02);
+    display: -webkit-flex;
+    display: flex;
+    outline: 3px dashed #ccc;
+    outline-offset: 5px;
+    position: relative;
+    color: rgba(0, 0, 0, 0.2);
+    font-size: 6em;
+}
+
+.my-drop-zone input {
+    display: none;
+}
+
+.my-drop-zone label {
+    cursor: pointer;
+}
+
+.nv-file-over {
+    outline: 3px dashed #18ce0f;
+    color: #18ce0f;
+}

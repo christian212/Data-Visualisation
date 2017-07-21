@@ -19,6 +19,7 @@ import { AppComponent } from './app.component';
 import { NavBarComponent } from './components/navbar/navbar.component';
 import { HomeComponent } from './containers/home/home.component';
 import { DatabaseComponent } from './containers/database/database.component';
+import { UploadComponent } from './containers/upload/upload.component';
 import { StackListComponent } from './components/list/stack-list/stack-list.component';
 import { StackDetailComponent } from './containers/detail/stack-detail/stack-detail.component';
 import { StackEditComponent } from './containers/edit/stack-edit/stack-edit.component';
@@ -27,6 +28,7 @@ import { NotFoundComponent } from './containers/not-found/not-found.component';
 import { ListDirective } from './directives/list.directive';
 import { ListService } from './services/list.service';
 import { StackService } from './services/stack.service';
+import { FileUploadModule } from 'ng2-file-upload';
 
 import { BrowserXhr } from '@angular/http';
 import { NgProgressModule, NgProgressBrowserXhr } from 'ngx-progressbar';
@@ -49,6 +51,7 @@ export function createTranslateLoader(http: Http, baseHref) {
         AppComponent,
         NavBarComponent,
         DatabaseComponent,
+        UploadComponent,
         StackListComponent,
         StackDetailComponent,
         StackEditComponent,
@@ -109,6 +112,17 @@ export function createTranslateLoader(http: Http, baseHref) {
                     ]
                 }
             },
+            {
+                path: 'upload', component: UploadComponent,
+                data: {
+                    title: 'Upload',
+                    meta: [{ name: 'description', content: 'Upload' }],
+                    links: [
+                        { rel: 'canonical', href: 'http://blogs.example.com/counter/something' },
+                        { rel: 'alternate', hreflang: 'es', href: 'http://es.example.com/counter' }
+                    ]
+                }
+            },
             { path: 'stack/details/:id', component: StackDetailComponent },
             { path: 'stack/edit/:id', component: StackEditComponent }
         ]),
@@ -116,7 +130,8 @@ export function createTranslateLoader(http: Http, baseHref) {
         NgProgressModule,
         NgxPaginationModule,
         Ng2SearchPipeModule,
-        MarkdownToHtmlModule.forRoot()
+        MarkdownToHtmlModule.forRoot(),
+        FileUploadModule
     ],
     providers: [
         ConnectionResolver,
