@@ -30,9 +30,6 @@ import { ListService } from './services/list.service';
 import { StackService } from './services/stack.service';
 import { FileUploadModule } from 'ng2-file-upload';
 
-import { BrowserXhr } from '@angular/http';
-import { NgProgressModule, NgProgressBrowserXhr } from 'ngx-progressbar';
-
 import { NgxPaginationModule } from 'ngx-pagination';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { MarkdownToHtmlModule } from 'ng2-markdown-to-html';
@@ -127,7 +124,6 @@ export function createTranslateLoader(http: Http, baseHref) {
             { path: 'stack/edit/:id', component: StackEditComponent }
         ]),
 
-        NgProgressModule,
         NgxPaginationModule,
         Ng2SearchPipeModule,
         MarkdownToHtmlModule.forRoot(),
@@ -139,12 +135,10 @@ export function createTranslateLoader(http: Http, baseHref) {
 
         LinkService,
         StackService,
-        ListService,
-
-        // { provide: BrowserXhr, useClass: NgProgressBrowserXhr }
+        ListService
     ],
     entryComponents: [StackListComponent, NotFoundComponent]
 })
-export class AppModule { 
-    
+export class AppModule {
+
 }
