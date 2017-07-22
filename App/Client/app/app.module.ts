@@ -20,6 +20,7 @@ import { NavBarComponent } from './components/navbar/navbar.component';
 import { HomeComponent } from './containers/home/home.component';
 import { DatabaseComponent } from './containers/database/database.component';
 import { UploadComponent } from './containers/upload/upload.component';
+import { PlotComponent } from './containers/plot/plot.component';
 import { StackListComponent } from './components/list/stack-list/stack-list.component';
 import { StackDetailComponent } from './containers/detail/stack-detail/stack-detail.component';
 import { StackEditComponent } from './containers/edit/stack-edit/stack-edit.component';
@@ -33,6 +34,7 @@ import { FileUploadModule } from 'ng2-file-upload';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { MarkdownToHtmlModule } from 'ng2-markdown-to-html';
+import { ChartModule } from 'angular-highcharts';
 
 export function createTranslateLoader(http: Http, baseHref) {
     // Temporary Azure hack
@@ -49,6 +51,7 @@ export function createTranslateLoader(http: Http, baseHref) {
         NavBarComponent,
         DatabaseComponent,
         UploadComponent,
+        PlotComponent,
         StackListComponent,
         StackDetailComponent,
         StackEditComponent,
@@ -120,6 +123,17 @@ export function createTranslateLoader(http: Http, baseHref) {
                     ]
                 }
             },
+            {
+                path: 'plot', component: PlotComponent,
+                data: {
+                    title: 'Plot',
+                    meta: [{ name: 'description', content: 'Plot' }],
+                    links: [
+                        { rel: 'canonical', href: 'http://blogs.example.com/counter/something' },
+                        { rel: 'alternate', hreflang: 'es', href: 'http://es.example.com/counter' }
+                    ]
+                }
+            },
             { path: 'stack/details/:id', component: StackDetailComponent },
             { path: 'stack/edit/:id', component: StackEditComponent }
         ]),
@@ -127,7 +141,8 @@ export function createTranslateLoader(http: Http, baseHref) {
         NgxPaginationModule,
         Ng2SearchPipeModule,
         MarkdownToHtmlModule.forRoot(),
-        FileUploadModule
+        FileUploadModule,
+        ChartModule
     ],
     providers: [
         ConnectionResolver,
