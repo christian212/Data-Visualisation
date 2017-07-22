@@ -45,7 +45,7 @@ $default-color-opacity:      rgba(182, 182, 182, .6) !default;
 
 $primary-color:              #0275d8 !default; // #f96332
 $primary-states-color:       darken($primary-color, 5%) !default;
-$primary-color-opacity:      rgba(249, 99, 50, .3) !default;
+$primary-color-opacity:      lighten($primary-color, 50%) !default;
 $primary-color-alert:        rgba(249, 99, 50, .8) !default;
 
 $success-color:              #18ce0f !default;

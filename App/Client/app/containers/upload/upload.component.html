@@ -21,7 +21,7 @@
     <div *ngIf="uploader?.queue?.length" class="row">
         <div class="col-md-12" style="margin-bottom: 40px">
 
-            <p>Ausgewählte Dateien: {{ uploader?.queue?.length }}</p>
+            <p>{{ uploader?.queue?.length }} Dateien ausgewählt</p>
 
             <table class="table">
                 <thead>
@@ -38,7 +38,7 @@
                         <td><strong>{{ item?.file?.name }}</strong></td>
                         <td *ngIf="uploader.options.isHTML5" nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
                         <td *ngIf="uploader.options.isHTML5">
-                            <div class="progress-container progress-info">
+                            <div class="progress-container progress-primary">
                                 <div class="progress">
                                     <div class="progress-bar progress-bar-warning" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }">
                                         <span class="progress-value">{{ item.progress + '%' }}</span>
@@ -67,8 +67,8 @@
             </table>
 
             <div>
-                Gesamtfortschritt:
-                <div class="progress-container progress-info mb-4">
+                Gesamtfortschritt
+                <div class="progress-container progress-primary mb-4">
                     <div class="progress">
                         <div class="progress-bar progress-bar-warning" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }">
                             <span class="progress-value">{{ uploader.progress + '%' }}</span>
