@@ -689,3 +689,6 @@ testem.log
 /typings
 
 *.map
+*.jpg
+
+/App/wwwroot/uploads

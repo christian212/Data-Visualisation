@@ -30,6 +30,7 @@ import { ListDirective } from './directives/list.directive';
 import { ListService } from './services/list.service';
 import { StackService } from './services/stack.service';
 import { FileUploadModule } from 'ng2-file-upload';
+import { ToastyModule } from 'ng2-toasty';
 
 import { NgxPaginationModule } from 'ngx-pagination';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
@@ -142,7 +143,8 @@ export function createTranslateLoader(http: Http, baseHref) {
         Ng2SearchPipeModule,
         MarkdownToHtmlModule.forRoot(),
         FileUploadModule,
-        ChartModule
+        ChartModule,
+        ToastyModule.forRoot()
     ],
     providers: [
         ConnectionResolver,
