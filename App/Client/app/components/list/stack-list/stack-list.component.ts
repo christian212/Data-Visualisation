@@ -1,7 +1,7 @@
 ﻿import { Component, OnInit, Input, Output, EventEmitter, SecurityContext } from '@angular/core';
 import { Router } from '@angular/router';
 import { PaginationInstance } from '../../../../../node_modules/ngx-pagination/dist/ngx-pagination.module';
-import { DomSanitizer } from '@angular/platform-browser';
+import { ToastyService, ToastOptions } from 'ng2-toasty';
 
 import { ListComponent } from '../../list/list.component';
 import { StackService } from '../../../services/stack.service';
@@ -27,8 +27,6 @@ export class StackListComponent implements ListComponent, OnInit {
     stacks: Stack[];
     count: number = 0;
 
-    public alerts: any = [];
-
     public CircuitType = CircuitType;
 
     public config: PaginationInstance = {
@@ -39,14 +37,8 @@ export class StackListComponent implements ListComponent, OnInit {
 
     constructor(
         private stackService: StackService,
-        private router: Router,
-        sanitizer: DomSanitizer
-    ) {
-        this.alerts = this.alerts.map((alert: any) => ({
-            type: alert.type,
-            msg: sanitizer.sanitize(SecurityContext.HTML, alert.msg)
-        }));
-    }
+        private toastyService: ToastyService,
+        private router: Router) { }
 
     ngOnInit() {
         this.stackService.getStacks().subscribe(result => {
@@ -54,21 +46,49 @@ export class StackListComponent implements ListComponent, OnInit {
             console.log('TransferHttp [GET] /api/stacks/allresult', result);
             this.stacks = result as Stack[];
             this.count = result.length;
+        }, error => {
+            console.log(`There was an issue. ${error._body}.`);
+
+            this.toastyService.error(
+                <ToastOptions>{
+                    title: 'Error!',
+                    msg: 'Stacks konnten nicht geladen werden!',
+                    showClose: true,
+                    timeout: 15000
+                }
+            );
         });
     }
 
     add() {
-        let newStackName: string = "Neuer Stack";
+        let newStackName: string = 'Neuer Stack';
         this.stackService.addStack(newStackName).subscribe(result => {
             console.log('Post user result: ', result);
             if (result.ok) {
-                this.stacks.push(result.json());
+                this.stacks.unshift(result.json());
                 this.count = this.count + 1;
                 this.countUpdated.emit(this.count);
-                this.details(result.json().id);
+
+                this.toastyService.success(
+                    <ToastOptions>{
+                        title: 'Hinzufügen erfolgreich!',
+                        msg: 'Ein neuer Stack wurde erfolgreich hinzugefügt!',
+                        showClose: true,
+                        timeout: 15000
+                    }
+                );
             }
         }, error => {
             console.log(`There was an issue. ${error._body}.`);
+
+            this.toastyService.error(
+                <ToastOptions>{
+                    title: 'Error!',
+                    msg: 'Es konnte kein neuer Stack hinzugefügt werden!',
+                    showClose: true,
+                    timeout: 15000
+                }
+            );
         });
     }
 
@@ -88,17 +108,27 @@ export class StackListComponent implements ListComponent, OnInit {
                 this.stacks.splice(position, 1);
                 this.count = this.count - 1;
                 this.countUpdated.emit(this.count);
-                this.alerts.push({
-                    type: 'info',
-                    msg: '<div class="alert-icon"><i class="now-ui-icons travel_info"></i></div><strong>' + stack.name + '</strong> wurde erfolgreich gelöscht!'
-                });
+
+                this.toastyService.success(
+                    <ToastOptions>{
+                        title: 'Löschen erfolgreich!',
+                        msg: stack.name + ' wurde erfolgreich gelöscht!',
+                        showClose: true,
+                        timeout: 15000
+                    }
+                );
             }
         }, error => {
             console.log(`There was an issue. ${error._body}.`);
-            this.alerts.push({
-                type: 'danger',
-                msg: '<div class="alert-icon"><i class="now-ui-icons objects_support-17"></i></div><strong>' + stack.name + '</strong> konnte nicht gelöscht werden!'
-            });
+
+            this.toastyService.error(
+                <ToastOptions>{
+                    title: 'Error!',
+                    msg: stack.name + ' konnte nicht gelöscht werden!',
+                    showClose: true,
+                    timeout: 15000
+                }
+            );
         });
     }
 }

@@ -1,12 +1,12 @@
 import { NgForm } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 
-import { ToastyService, ToastOptions } from 'ng2-toasty';
+import { ToastyService, ToastOptions, ToastyConfig } from 'ng2-toasty';
 import { FileUploader, FileUploaderOptions, FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
 
 import { Ticket } from '../../models/Ticket';
 
-const URL = 'api/Upload/SaveTicket';
+const URL = 'api/File/Upload';
 
 @Component({
   selector: 'upload',
@@ -21,7 +21,11 @@ export class UploadComponent implements OnInit {
   fileUploader: FileUploader;
   model = new Ticket();
 
-  constructor(private toastyService: ToastyService) { }
+  constructor(private toastyService:ToastyService, private toastyConfig: ToastyConfig) { 
+        // Assign the selected theme name to the `theme` property of the instance of ToastyConfig. 
+        // Possible values: default, bootstrap, material
+        this.toastyConfig.theme = 'default';
+    }
 
    public fileOverBase(e: any): void {
     this.hasBaseDropZoneOver = e;
@@ -61,7 +65,7 @@ export class UploadComponent implements OnInit {
           title: 'Success!',
           msg:
           'Your ticket has been submitted successfully and will be resolved shortly!',
-          theme: 'bootstrap',
+          theme: 'default',
           showClose: true,
           timeout: 15000
         }
@@ -73,7 +77,7 @@ export class UploadComponent implements OnInit {
         <ToastOptions>{
           title: 'Error!',
           msg: `You can't select ${item.name} file because of the ${filter.name} filter.`,
-          theme: 'bootstrap',
+          theme: 'default',
           showClose: true,
           timeout: 15000
         }
