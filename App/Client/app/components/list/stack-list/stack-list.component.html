@@ -15,7 +15,7 @@
             <div class="mb-3">
                 <button type="button" class="btn btn-primary btn-simple btn-round btn-icon btn-icon-mini mr-1" (click)="details(stack.id); $event.stopPropagation()"><i class="fa fa-info"></i></button>
                 <button type="button" class="btn btn-primary btn-simple btn-round btn-icon btn-icon-mini mr-1" (click)="edit(stack.id); $event.stopPropagation()"><i class="fa fa-pencil"></i></button>
-                <button type="button" class="btn btn-danger btn-simple btn-round btn-icon btn-icon-mini mr-1" (click)="delete(stack); $event.stopPropagation()"><i class="fa fa-trash-o"></i></button>
+                <button type="button" class="btn btn-danger btn-simple btn-round btn-icon btn-icon-mini mr-1" (click)="select(stack); stackModal.show(); $event.stopPropagation()"><i class="fa fa-trash-o"></i></button>
             </div>
         </div>
 
@@ -47,3 +47,23 @@
         </ul>
     </div>
 </pagination-template>
+
+<!-- Modal Core -->
+<div class="modal fade show" bsModal #stackModal="bs-modal" [config]="{backdrop: 'true', animated: 'true'}" tabindex="-1"
+    role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" (click)="stackModal.hide()">&times;</button>
+                <h4 class="modal-title">Löschen</h4>
+            </div>
+            <div class="modal-body">
+                Wollen Sie den Stack wirklich löschen?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-simple" (click)="stackModal.hide()">Abbrechen</button>
+                <button type="button" class="btn btn-danger btn-simple" (click)="stackModal.hide(); delete()"><i class="fa fa-trash-o"></i> Löschen</button>
+            </div>
+        </div>
+    </div>
+</div>

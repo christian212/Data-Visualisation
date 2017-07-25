@@ -1,5 +1,6 @@
 ﻿import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import { ToastyService, ToastOptions } from 'ng2-toasty';
 
 import { Stack } from '../../../models/Stack';
 import { StackService } from '../../../services/stack.service';
@@ -29,6 +30,7 @@ export class StackDetailComponent implements OnInit {
 
     constructor(
         private stackService: StackService,
+        private toastyService: ToastyService,
         private route: ActivatedRoute,
         private router: Router
     ) { }
@@ -43,14 +45,32 @@ export class StackDetailComponent implements OnInit {
         this.router.navigate(['/stack/edit/', id]);
     }
 
-    deleteStack(stack) {
-        this.stackService.deleteStack(stack).subscribe(result => {
+    deleteStack() {
+        this.stackService.deleteStack(this.stack).subscribe(result => {
             console.log('Delete stack result: ', result);
             if (result.ok) {
+                this.toastyService.success(
+                    <ToastOptions>{
+                        title: 'Löschen erfolgreich!',
+                        msg: this.stack.name + ' wurde erfolgreich gelöscht!',
+                        showClose: true,
+                        timeout: 15000
+                    }
+                );
+
                 this.router.navigate(['/database/']);
             }
         }, error => {
             console.log(`There was an issue. ${error._body}.`);
+
+            this.toastyService.error(
+                <ToastOptions>{
+                    title: 'Error!',
+                    msg: this.stack.name + ' konnte nicht gelöscht werden!',
+                    showClose: true,
+                    timeout: 15000
+                }
+            );
         });
     }
 
@@ -63,18 +83,11 @@ export class StackDetailComponent implements OnInit {
     }
 
     editCell(id: number) {
-        this.router.navigate(['/stack/edit/', id]);
+
     }
 
-    deleteCell(stack) {
-        this.stackService.deleteStack(stack).subscribe(result => {
-            console.log('Delete stack result: ', result);
-            if (result.ok) {
-                this.router.navigate(['/database/']);
-            }
-        }, error => {
-            console.log(`There was an issue. ${error._body}.`);
-        });
+    deleteCell() {
+
     }
 
     plotCell() {

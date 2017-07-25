@@ -25,6 +25,7 @@ export class StackListComponent implements ListComponent, OnInit {
     @Output() countUpdated = new EventEmitter();
 
     stacks: Stack[];
+    selectedStack: Stack;
     count: number = 0;
 
     public CircuitType = CircuitType;
@@ -100,7 +101,13 @@ export class StackListComponent implements ListComponent, OnInit {
         this.router.navigate(['/stack/edit/', id]);
     }
 
-    delete(stack) {
+    select(stack: Stack) {
+        this.selectedStack = stack;
+    }
+
+    delete() {
+        let stack = this.selectedStack;
+
         this.stackService.deleteStack(stack).subscribe(result => {
             console.log('Delete stack result: ', result);
             if (result.ok) {
