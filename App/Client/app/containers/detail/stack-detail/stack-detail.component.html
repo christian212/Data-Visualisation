@@ -1,8 +1,7 @@
 ﻿<div class="card mb-5">
   <div class="card-header d-flex justify-content-between">
     Stack ID: {{stack.id}}
-    <span class="badge badge-info badge-pill">{{CircuitType[stack.circuitType]}}</span>
-    <span class="badge badge-default badge-pill">{{cells.length}} Zellen</span>
+    <span class="badge badge-info badge-pill">{{CircuitType[stack.circuitType]}} | {{stack.cellCount}} Zellen</span>
   </div>
 
   <div class="card-block">
@@ -10,9 +9,10 @@
 
     <div markdown-to-html [data]="stack.description"></div>
 
-    <div class="btn-group mb-3" dropdown>
-      <button type="button" class="btn btn-secondary" (click)="edit(stack.id); $event.stopPropagation()"><i class="fa fa-pencil"></i> Bearbeiten</button>
-      <button type="button" class="btn btn-danger" (click)="delete(stack); $event.stopPropagation()"><i class="fa fa-trash-o"></i> Löschen</button>
+    <div class="mb-4">
+      <button type="button" class="btn btn-primary btn-simple btn-round btn-icon btn-icon-mini mr-1" (click)="plotStack(stack.id); $event.stopPropagation()"><i class="fa fa-line-chart"></i></button>
+      <button type="button" class="btn btn-primary btn-simple btn-round btn-icon btn-icon-mini mr-1" (click)="editStack(stack.id); $event.stopPropagation()"><i class="fa fa-pencil"></i></button>
+      <button type="button" class="btn btn-danger btn-simple btn-round btn-icon btn-icon-mini mr-1" (click)="deleteStack(stack); $event.stopPropagation()"><i class="fa fa-trash-o"></i></button>
     </div>
 
     <hr/>
@@ -33,9 +33,10 @@
               alt="Image">
           </div>
 
-          <div class="btn-group mb-3" role="group">
-            <button type="button" class="btn btn-secondary"><i class="fa fa-line-chart"></i> Plot</button>
-            <button type="button" class="btn btn-secondary"><i class="fa fa-info"></i> Mehr</button>
+          <div class="mb-4">
+            <button type="button" class="btn btn-primary btn-simple btn-round btn-icon btn-icon-mini mr-1" (click)="plotCell(stack.id); $event.stopPropagation()"><i class="fa fa-line-chart"></i></button>
+            <button type="button" class="btn btn-primary btn-simple btn-round btn-icon btn-icon-mini mr-1" (click)="editCell(stack.id); $event.stopPropagation()"><i class="fa fa-pencil"></i></button>
+            <button type="button" class="btn btn-danger btn-simple btn-round btn-icon btn-icon-mini mr-1" (click)="deleteCell(stack); $event.stopPropagation()"><i class="fa fa-trash-o"></i></button>
           </div>
         </tab>
       </tabset>
@@ -44,8 +45,8 @@
         <i class="fa fa-info"></i> Es sind keine Zellen für diesen Stack vorhanden.
       </div>
 
-      <div class="mb-3">
-        <button class="btn btn-primary"><i class="fa fa-plus"></i> Zelle hinzufügen</button>
+      <div class="mt-3 mb-3">
+        <button class="btn btn-primary btn-simple" (click)="addCell(stack.id); $event.stopPropagation()"><i class="fa fa-plus"></i> Zelle hinzufügen</button>
       </div>
 
     </div>

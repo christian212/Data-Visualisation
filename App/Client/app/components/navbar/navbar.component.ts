@@ -21,6 +21,6 @@ export class NavBarComponent {
   }
 
   toggleCollapse() {
-    this.show = !this.show
+    this.show = !this.show;
   }
 }

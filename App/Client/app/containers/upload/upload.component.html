@@ -52,14 +52,14 @@
                             <span *ngIf="item.isError"><i class="fa fa-trash-o"></i></span>
                         </td>
                         <td nowrap>
-                            <button type="button" class="btn btn-success btn-xs" (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
-                            <i class="fa fa-upload"></i> Upload
+                            <button type="button" class="btn btn-success btn-simple btn-round btn-icon btn-icon-mini" (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
+                            <i class="fa fa-upload"></i>
                         </button>
-                            <button type="button" class="btn btn-warning btn-xs" (click)="item.cancel()" [disabled]="!item.isUploading">
-                            <i class="fa fa-ban"></i> Cancel
+                            <button type="button" class="btn btn-warning  btn-simple btn-round btn-icon btn-icon-mini" (click)="item.cancel()" [disabled]="!item.isUploading">
+                            <i class="fa fa-ban"></i>
                         </button>
-                            <button type="button" class="btn btn-danger btn-xs" (click)="item.remove()">
-                            <i class="fa fa-trash-o"></i> Remove
+                            <button type="button" class="btn btn-danger  btn-simple btn-round btn-icon btn-icon-mini" (click)="item.remove()">
+                            <i class="fa fa-trash-o"></i>
                         </button>
                         </td>
                     </tr>

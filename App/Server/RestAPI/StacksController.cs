@@ -19,13 +19,13 @@ namespace AspCoreServer.Controllers
             _context = context;
         }
 
-        // [HttpGet]
-        // public async Task<IActionResult> Get()
-        // {
-        //     var stackCount = await _context.Stacks.CountAsync();
+        [HttpGet("[action]")]
+        public async Task<IActionResult> Count()
+        {
+            var stackCount = await _context.Stacks.CountAsync();
 
-        //     return Ok(stackCount);
-        // }
+            return Ok(stackCount);
+        }
 
         [HttpGet]
         public async Task<IActionResult> Get(int currentPageNo = 1, int pageSize = 1000)

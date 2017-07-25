@@ -20,11 +20,11 @@ export class StackService {
     }
 
     getStackCount(): Observable<number> {
-        return this.transferHttp.get(`${this.baseUrl}/api/stacks`);
+        return this.transferHttp.get(`${this.baseUrl}/api/stacks/count`);
     }
 
     getStacks(): Observable<Stack[]> {
-        return this.transferHttp.get(`${this.baseUrl}/api/stacks/`, {method: "Get"});
+        return this.transferHttp.get(`${this.baseUrl}/api/stacks`);
     }
 
     getStack(stackId: number): Observable<Stack> {
@@ -40,6 +40,6 @@ export class StackService {
     }
 
     addStack(newStackName: string): Observable<any> {
-        return this.http.post(`${this.baseUrl}/api/stacks`, { name: newStackName })
+        return this.http.post(`${this.baseUrl}/api/stacks`, { name: newStackName });
     }
 }

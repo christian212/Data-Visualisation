@@ -12,6 +12,7 @@ import { StackService } from '../../services/stack.service';
   templateUrl: './database.component.html',
   styleUrls: ['./database.component.css']
 })
+
 export class DatabaseComponent implements OnInit, AfterViewInit, OnDestroy {
   lists: List[];
   selectedList: List;
@@ -19,9 +20,6 @@ export class DatabaseComponent implements OnInit, AfterViewInit, OnDestroy {
   selectedListIndex: number;
   counts: number[] = [0, 0, 0, 0];
   searchTerm: string;
-
-  // Preliminary
-  stacks: Stack[];
 
   @ViewChild(ListDirective) listHost: ListDirective;
   interval: any;
@@ -36,14 +34,7 @@ export class DatabaseComponent implements OnInit, AfterViewInit, OnDestroy {
     this.selectedList = this.lists[0];
     this.selectedListIndex = 1;
 
-    /* Preliminary */
-    this.stackService.getStacks().subscribe(result => {
-      console.log('Get stack result: ', result);
-      console.log('TransferHttp [GET] /api/stacks/allresult', result);
-      this.stacks = result as Stack[];
-      this.counts[1] = result.length;
-    });
-    /* Preliminary */
+    this.getCounts();
   }
 
   ngAfterViewInit() {
@@ -52,6 +43,14 @@ export class DatabaseComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy() {
     clearInterval(this.interval);
+  }
+
+  getCounts() {
+    this.stackService.getStackCount().subscribe(result => {
+      console.log('Get stack count result: ', result);
+      console.log('TransferHttp [GET] /api/stacks/allresult', result);
+      this.counts[1] = result;
+    });
   }
 
   loadComponent(index) {
