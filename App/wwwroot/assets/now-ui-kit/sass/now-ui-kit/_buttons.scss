@@ -46,7 +46,7 @@
             &.btn-icon-mini{
                 i.fa,
                 i.now-ui-icons{
-                    line-height: $btn-icon-line-height - 0.0;
+                    line-height: $btn-icon-line-height + 0.2;
                 }
             }
         }
@@ -59,7 +59,7 @@
             .fa,
             .now-ui-icons{
                 font-size: $btn-icon-font-size-mini;
-                line-height: $btn-icon-line-height - 0.0;
+                line-height: $btn-icon-line-height + 0.2;
             }
         }
 

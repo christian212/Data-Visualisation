@@ -1,7 +1,7 @@
 ﻿import { Location } from '@angular/common';
 import { Component, Input, OnInit, SecurityContext } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { DomSanitizer } from '@angular/platform-browser';
+import { ToastyService, ToastOptions } from 'ng2-toasty';
 
 import { Stack } from '../../../models/Stack';
 import { StackService } from '../../../services/stack.service';
@@ -20,20 +20,13 @@ enum CircuitType {
 export class StackEditComponent implements OnInit {
     stack: Stack;
 
-    public alerts: any = [];
-
     constructor(
         private stackService: StackService,
+        private toastyService: ToastyService,
         private route: ActivatedRoute,
-        private router: Router,
         private location: Location,
-        sanitizer: DomSanitizer
-    ) {
-        this.alerts = this.alerts.map((alert: any) => ({
-            type: alert.type,
-            msg: sanitizer.sanitize(SecurityContext.HTML, alert.msg)
-        }));
-    }
+        private router: Router
+    ) { }
 
     ngOnInit() {
         this.route.params
@@ -45,16 +38,26 @@ export class StackEditComponent implements OnInit {
     updateStack(stack) {
         this.stackService.updateStack(stack).subscribe(result => {
             console.log('Put stack result: ', result);
-            this.alerts.push({
-                type: 'success',
-                msg: '<div class="alert-icon"><i class="now-ui-icons ui-2_like"></i></div><strong>' + stack.name + '</strong> wurde gespeichert!'
-            });
+
+            this.toastyService.success(
+                <ToastOptions>{
+                    title: 'Speichern erfolgreich!',
+                    msg: stack.name + ' wurde erfolgreich gespeichert!',
+                    showClose: true,
+                    timeout: 15000
+                }
+            );
         }, error => {
             console.log(`There was an issue. ${error._body}.`);
-            this.alerts.push({
-                type: 'danger',
-                msg: '<div class="alert-icon"><i class="now-ui-icons objects_support-17"></i></div><strong>' + stack.name + '</strong> konnte nicht gespeichert werden!'
-            });
+
+            this.toastyService.error(
+                <ToastOptions>{
+                    title: 'Error!',
+                    msg: stack.name + ' konnte nicht gespeichert werden!',
+                    showClose: true,
+                    timeout: 15000
+                }
+            );
         });
     }
 

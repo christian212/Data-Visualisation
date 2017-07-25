@@ -1,72 +1,67 @@
-﻿<div *ngFor="let alert of alerts">
-  <alert [type]="alert.type" dismissOnTimeout="15000"><span [innerHtml]="alert.msg"></span></alert>
-</div>
+﻿<h2>{{stack.name}}</h2>
 
-<h2>{{stack.name}}</h2>
-<div class="row">
-  <div class="col-sm-10">
-    <div class="form-group row">
-      <label class="col-sm-2 col-form-label">Stack ID</label>
-      <div class="col-sm-4">
-        <div><span class="text-danger"></span></div>
-        <input class="form-control" placeholder="{{stack.id}}" readonly>
-      </div>
+<div class="col-sm-12">
+  <div class="form-group row py-4 pb-md-1">
+    <label class="category col-md-3 col-lg-2 col-form-label text-md-right mr-1">Stack ID</label>
+    <div class="col-md-8 col-lg-4">
+      <div><span class="text-danger"></span></div>
+      <input class="form-control" placeholder="{{stack.id}}" readonly>
     </div>
+  </div>
 
-    <div class="form-group row">
-      <label class="col-sm-2 col-form-label">Name</label>
-      <div class="col-sm-4">
-        <div><span class="text-danger"></span></div>
-        <input class="form-control" [(ngModel)]="stack.name" placeholder="Name" />
-      </div>
+  <div class="form-group row py-4 py-md-0">
+    <label class="category col-md-3 col-lg-2 col-form-label text-md-right">Name</label>
+    <div class="col-md-8 col-lg-4">
+      <div><span class="text-danger"></span></div>
+      <input class="form-control" [(ngModel)]="stack.name" placeholder="Name" />
     </div>
+  </div>
 
-    <div class="form-group row">
-      <label class="col-sm-2 col-form-label">Beschreibung</label>
-      <div class="col-sm-10">
-        <textarea class="form-control" [(ngModel)]="stack.description" rows="8" placeholder="Beschreibung"></textarea>
+  <div class="form-group row py-4 py-md-0">
+    <label class="category col-md-3 col-lg-2 col-form-label text-md-right">Beschreibung</label>
+    <div class="col-md-9 col-lg-10">
+      <textarea class="form-control" [(ngModel)]="stack.description" rows="8" placeholder="Beschreibung"></textarea>
 
-        <p class="form-text text-muted">
-          <small><i class="fa fa-info"></i> Das Beschreibungsfeld unterstützt Markdown Befehle.</small>
-        </p>
-      </div>
+      <p class="form-text text-muted">
+        <small><i class="fa fa-info"></i> Das Beschreibungsfeld unterstützt Markdown Befehle.</small>
+      </p>
     </div>
+  </div>
 
-    <div class="form-group row">
-      <label class="col-sm-2 col-form-label">Schaltungsart</label>
-      <div class="col-sm-10">
-        <fieldset class="form-group">
-          <legend></legend>
+  <div class="form-group row">
+    <label class="category col-md-3 col-lg-2 col-form-label text-md-right">Schaltungsart</label>
+    <div class="col-md-9 col-lg-10">
+      <fieldset class="form-group">
+        <legend></legend>
 
-          <div class="radio">
-            <input type="radio" name="radio" id="radio1" [(ngModel)]="stack.circuitType" [value]="1">
-            <label for="radio1">
+        <div class="radio">
+          <input type="radio" name="radio" id="radio1" [(ngModel)]="stack.circuitType" [value]="1">
+          <label for="radio1">
               Reihenschaltung
              </label>
-          </div>
+        </div>
 
-          <div class="radio">
-            <input type="radio" name="radio" id="radio2" [(ngModel)]="stack.circuitType" [value]="2">
-            <label for="radio2">
+        <div class="radio">
+          <input type="radio" name="radio" id="radio2" [(ngModel)]="stack.circuitType" [value]="2">
+          <label for="radio2">
               Parallelschaltung
              </label>
-          </div>
+        </div>
 
-          <div class="radio">
-            <input type="radio" name="radio" id="radio3" [(ngModel)]="stack.circuitType" [value]="3">
-            <label for="radio3">
+        <div class="radio">
+          <input type="radio" name="radio" id="radio3" [(ngModel)]="stack.circuitType" [value]="3">
+          <label for="radio3">
               Sonstige
              </label>
-          </div>
-        </fieldset>
-      </div>
+        </div>
+      </fieldset>
     </div>
+  </div>
 
-    <div class="form-group row">
-      <div class="offset-sm-2 col-sm-10">
-        <button class="btn btn-primary" (click)="updateStack(stack)"><i class="fa fa-floppy-o" aria-hidden="true"></i> Speichern</button>
-        <a class="btn btn-link" role="button" (click)="goBack()">Zurück</a>
-      </div>
+  <div class="form-group row">
+    <div class="offset-md-3 col-md-9 offset-lg-2 col-lg-10">
+      <button class="btn btn-primary btn-simple" (click)="updateStack(stack)"><i class="fa fa-floppy-o" aria-hidden="true"></i> Speichern</button>
+      <a class="btn btn-link" role="button" (click)="goBack()">Zurück</a>
     </div>
   </div>
 </div>
