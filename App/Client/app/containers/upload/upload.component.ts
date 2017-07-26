@@ -1,7 +1,7 @@
 import { NgForm } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 
-import { ToastyService, ToastOptions, ToastyConfig } from 'ng2-toasty';
+import { ToastyService, ToastOptions } from 'ng2-toasty';
 import { FileUploader, FileUploaderOptions, FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
 
 import { Ticket } from '../../models/Ticket';
@@ -16,18 +16,14 @@ const URL = 'api/File/Upload';
 export class UploadComponent implements OnInit {
 
   public hasBaseDropZoneOver: boolean = false;
-  public hasAnotherDropZoneOver: boolean = false;
 
   fileUploader: FileUploader;
+
   model = new Ticket();
 
-  constructor(private toastyService:ToastyService, private toastyConfig: ToastyConfig) { 
-        // Assign the selected theme name to the `theme` property of the instance of ToastyConfig. 
-        // Possible values: default, bootstrap, material
-        this.toastyConfig.theme = 'default';
-    }
+  constructor(private toastyService: ToastyService) { }
 
-   public fileOverBase(e: any): void {
+  public fileOverBase(e: any): void {
     this.hasBaseDropZoneOver = e;
   }
 
@@ -62,9 +58,9 @@ export class UploadComponent implements OnInit {
     this.fileUploader.onCompleteAll = () => {
       this.toastyService.success(
         <ToastOptions>{
-          title: 'Success!',
+          title: 'Erfolg!',
           msg:
-          'Your ticket has been submitted successfully and will be resolved shortly!',
+          'Upload erfolgreich durchgeführt!',
           theme: 'default',
           showClose: true,
           timeout: 15000
@@ -76,7 +72,7 @@ export class UploadComponent implements OnInit {
       this.toastyService.error(
         <ToastOptions>{
           title: 'Error!',
-          msg: `You can't select ${item.name} file because of the ${filter.name} filter.`,
+          msg: `${item.name} kann nicht ausgewählt werden da es nicht dem ${filter.name}-Filter entspricht. Erlaubte Fileformate sind .JSON und .JPG.`,
           theme: 'default',
           showClose: true,
           timeout: 15000
@@ -110,14 +106,6 @@ export class UploadComponent implements OnInit {
     if (parts.length === 2) {
       return decodeURIComponent(parts.pop().split(';').shift());
     }
-  }
-
-  submitForm(form: NgForm) {
-    console.log('this.model', this.model);
-    console.log('form.value', form.value);
-    console.log('this.fileUploader', this.fileUploader);
-
-    this.fileUploader.uploadAll();
   }
 
 }

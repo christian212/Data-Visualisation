@@ -38,7 +38,21 @@ export class StackDetailComponent implements OnInit {
     ngOnInit() {
         this.route.params
             .switchMap((params: Params) => this.stackService.getStack(+params['id']))
-            .subscribe((stack: Stack) => this.stack = stack);
+            .subscribe((stack: Stack) => this.stack = stack,
+            error => {
+                console.log(`There was an issue. ${error._body}.`);
+
+                this.toastyService.error(
+                    <ToastOptions>{
+                        title: 'Error!',
+                        msg: 'Stack existiert nicht oder konnten nicht geladen werden!',
+                        showClose: true,
+                        timeout: 15000
+                    }
+                );
+
+                this.router.navigate(['/database/']);
+            });
     }
 
     editStack(id: number) {

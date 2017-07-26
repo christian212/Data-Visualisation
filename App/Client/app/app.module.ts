@@ -86,57 +86,40 @@ export function createTranslateLoader(http: Http, baseHref) {
                 pathMatch: 'full'
             },
             {
-                path: 'home', component: HomeComponent,
-
-                // *** SEO Magic ***
-                // We're using "data" in our Routes to pass in our <title> <meta> <link> tag information
-                // Note: This is only happening for ROOT level Routes, you'd have to add some additional logic if you wanted this for Child level routing
-                // When you change Routes it will automatically append these to your document for you on the Server-side
-                //  - check out app.component.ts to see how it's doing this
-                data: {
-                    title: 'Home',
-                    meta: [{ name: 'description', content: 'This is an example Description Meta tag!' }],
-                    links: [
-                        { rel: 'canonical', href: 'http://blogs.example.com/blah/nice' },
-                        { rel: 'alternate', hreflang: 'es', href: 'http://es.example.com/' }
-                    ]
-                }
+                path: 'home',
+                component: HomeComponent,
+                data: { title: 'Home' }
             },
             {
-                path: 'database', component: DatabaseComponent,
-                data: {
-                    title: 'Datenbank',
-                    meta: [{ name: 'description', content: 'Datenbank' }],
-                    links: [
-                        { rel: 'canonical', href: 'http://blogs.example.com/counter/something' },
-                        { rel: 'alternate', hreflang: 'es', href: 'http://es.example.com/counter' }
-                    ]
-                }
+                path: 'database',
+                component: DatabaseComponent,
+                data: { title: 'Datenbank' }
             },
             {
-                path: 'upload', component: UploadComponent,
-                data: {
-                    title: 'Upload',
-                    meta: [{ name: 'description', content: 'Upload' }],
-                    links: [
-                        { rel: 'canonical', href: 'http://blogs.example.com/counter/something' },
-                        { rel: 'alternate', hreflang: 'es', href: 'http://es.example.com/counter' }
-                    ]
-                }
+                path: 'upload',
+                component: UploadComponent,
+                data: { title: 'Upload' }
             },
             {
-                path: 'plot', component: PlotComponent,
-                data: {
-                    title: 'Plot',
-                    meta: [{ name: 'description', content: 'Plot' }],
-                    links: [
-                        { rel: 'canonical', href: 'http://blogs.example.com/counter/something' },
-                        { rel: 'alternate', hreflang: 'es', href: 'http://es.example.com/counter' }
-                    ]
-                }
+                path: 'plot',
+                component: PlotComponent,
+                data: { title: 'Plot' }
             },
-            { path: 'stack/details/:id', component: StackDetailComponent },
-            { path: 'stack/edit/:id', component: StackEditComponent }
+            {
+                path: 'stack/details/:id',
+                component: StackDetailComponent,
+                data: { title: 'Stack Details' }
+            },
+            {
+                path: 'stack/edit/:id',
+                component: StackEditComponent,
+                data: { title: 'Stack Bearbeiten' }
+            },
+            {
+                path: '**',
+                component: NotFoundComponent,
+                data: { title: 'Error' }
+            }
         ]),
 
         NgxPaginationModule,
