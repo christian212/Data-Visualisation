@@ -5,7 +5,10 @@ import { ListDirective } from '../../directives/list.directive';
 import { ListComponent } from '../../components/list/list.component';
 import { ListService } from '../../services/list.service';
 import { Stack } from '../../models/Stack';
+import { BatteryService } from '../../services/battery.service';
 import { StackService } from '../../services/stack.service';
+import { CellService } from '../../services/cell.service';
+import { MeasurementService } from '../../services/measurement.service';
 
 @Component({
   selector: 'database',
@@ -27,7 +30,10 @@ export class DatabaseComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private _componentFactoryResolver: ComponentFactoryResolver,
     private listService: ListService,
-    private stackService: StackService) { }
+    private batteryService: BatteryService,
+    private stackService: StackService,
+    private cellService: CellService,
+    private measurementService: MeasurementService) { }
 
   ngOnInit() {
     this.lists = this.listService.getLists();
@@ -46,10 +52,28 @@ export class DatabaseComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getCounts() {
+    this.batteryService.getBatteryCount().subscribe(result => {
+      console.log('Get stack count result: ', result);
+      console.log('TransferHttp [GET] /api/stacks/allresult', result);
+      this.counts[0] = result;
+    });
+
     this.stackService.getStackCount().subscribe(result => {
       console.log('Get stack count result: ', result);
       console.log('TransferHttp [GET] /api/stacks/allresult', result);
       this.counts[1] = result;
+    });
+
+    this.cellService.getCellCount().subscribe(result => {
+      console.log('Get stack count result: ', result);
+      console.log('TransferHttp [GET] /api/stacks/allresult', result);
+      this.counts[2] = result;
+    });
+
+    this.measurementService.getMeasurementCount().subscribe(result => {
+      console.log('Get stack count result: ', result);
+      console.log('TransferHttp [GET] /api/stacks/allresult', result);
+      this.counts[3] = result;
     });
   }
 

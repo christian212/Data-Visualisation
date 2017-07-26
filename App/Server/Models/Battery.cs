@@ -12,7 +12,7 @@ namespace AspCoreServer.Models
 
     public class Battery
     {
-        public int BatteryID { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public int StackCount { get; set; }

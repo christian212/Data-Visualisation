@@ -28,7 +28,11 @@ import { NotFoundComponent } from './containers/not-found/not-found.component';
 
 import { ListDirective } from './directives/list.directive';
 import { ListService } from './services/list.service';
+import { BatteryService } from './services/battery.service';
 import { StackService } from './services/stack.service';
+import { CellService } from './services/cell.service';
+import { MeasurementService } from './services/measurement.service';
+
 import { FileUploadModule } from 'ng2-file-upload';
 import { ToastyModule } from 'ng2-toasty';
 
@@ -134,7 +138,10 @@ export function createTranslateLoader(http: Http, baseHref) {
         TranslateModule,
 
         LinkService,
+        BatteryService,
         StackService,
+        CellService,
+        MeasurementService,
         ListService
     ],
     entryComponents: [StackListComponent, NotFoundComponent]
