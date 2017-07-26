@@ -38,13 +38,13 @@ export class DatabaseComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
     this.lists = this.listService.getLists();
     this.selectedList = this.lists[0];
-    this.selectedListIndex = 1;
+    this.selectedListIndex = 0;
 
     this.getCounts();
   }
 
   ngAfterViewInit() {
-    this.loadComponent(1);
+    this.loadComponent(0);
   }
 
   ngOnDestroy() {
@@ -52,29 +52,33 @@ export class DatabaseComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getCounts() {
+    let counts: number[] = [0, 0, 0, 0];
+
     this.batteryService.getBatteryCount().subscribe(result => {
       console.log('Get stack count result: ', result);
       console.log('TransferHttp [GET] /api/stacks/allresult', result);
-      this.counts[0] = result;
+      counts[0] = result;
     });
 
     this.stackService.getStackCount().subscribe(result => {
       console.log('Get stack count result: ', result);
       console.log('TransferHttp [GET] /api/stacks/allresult', result);
-      this.counts[1] = result;
+      counts[1] = result;
     });
 
     this.cellService.getCellCount().subscribe(result => {
       console.log('Get stack count result: ', result);
       console.log('TransferHttp [GET] /api/stacks/allresult', result);
-      this.counts[2] = result;
+      counts[2] = result;
     });
 
     this.measurementService.getMeasurementCount().subscribe(result => {
       console.log('Get stack count result: ', result);
       console.log('TransferHttp [GET] /api/stacks/allresult', result);
-      this.counts[3] = result;
+      counts[3] = result;
     });
+
+    this.counts = counts;
   }
 
   loadComponent(index) {

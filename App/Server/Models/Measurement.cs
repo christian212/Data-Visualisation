@@ -7,7 +7,10 @@ namespace AspCoreServer.Models
 
     public enum MeasurementType
     {
-        Undefined, TimeSeries, Locus
+        Undefined,
+        Zeitreihe,
+        Ortskurve,
+        Sonstige
     }
 
     public enum OperationMode
@@ -40,7 +43,7 @@ namespace AspCoreServer.Models
 
         //Setting Default value
         public Measurement()
-        {   
+        {
             Name = "Name";
             Description = "Beschreibung";
             Created = DateTime.Now;

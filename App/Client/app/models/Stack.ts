@@ -1,5 +1,5 @@
 ﻿enum CircuitType {
-    Undefined = 0,
+    Undefined,
     Reihenschaltung,
     Parallelschaltung,
     Sonstige

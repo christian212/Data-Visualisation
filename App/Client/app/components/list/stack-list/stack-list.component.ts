@@ -8,7 +8,7 @@ import { StackService } from '../../../services/stack.service';
 import { Stack } from '../../../models/Stack';
 
 enum CircuitType {
-    Undefined = 0,
+    Undefined,
     Reihenschaltung,
     Parallelschaltung,
     Sonstige

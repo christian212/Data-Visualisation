@@ -1,0 +1,9 @@
+﻿.cells .card {
+    cursor: pointer;
+    position: relative;
+    left: 0;
+  }
+
+.cells .card:hover {
+  left: .1em;
+}

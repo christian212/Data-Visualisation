@@ -1,0 +1,69 @@
+﻿<div class="cells">
+    <div class="card mb-5" *ngFor="let cell of cells | filter:searchTerm | paginate: config" (click)="details(cell.id)">
+        <div class="card-header d-flex justify-content-between">
+            Zellen ID: {{cell.id}}
+            <span class="badge badge-info badge-pill">{{cell.measurementCount}} Zellen</span>
+        </div>
+
+        <div class="card-block">
+            <h5 class="card-title">{{cell.name}}</h5>
+
+            <div>
+                <markdown-to-html [data]="cell.description"></markdown-to-html>
+            </div>
+
+            <div class="mb-3">
+                <button type="button" class="btn btn-primary btn-simple btn-round btn-icon btn-icon-mini mr-1" (click)="details(cell.id); $event.stopPropagation()"><i class="fa fa-info"></i></button>
+                <button type="button" class="btn btn-primary btn-simple btn-round btn-icon btn-icon-mini mr-1" (click)="edit(cell.id); $event.stopPropagation()"><i class="fa fa-pencil"></i></button>
+                <button type="button" class="btn btn-danger btn-simple btn-round btn-icon btn-icon-mini mr-1" (click)="select(cell); cellModal.show(); $event.stopPropagation()"><i class="fa fa-trash-o"></i></button>
+            </div>
+        </div>
+
+        <div class="card-footer text-muted d-flex justify-content-between">
+            <span><small><i class="fa fa-table"></i>  Erstellt am {{cell.created | date:'mediumDate' }} um {{cell.created | date:'shortTime' }} Uhr</small></span>
+            <span><small><i class="fa fa-table"></i>  Geändert am {{cell.modified | date:'mediumDate' }} um {{cell.modified | date:'shortTime' }} Uhr</small></span>
+        </div>
+    </div>
+</div>
+
+<pagination-template #p="paginationApi" [id]="config.id" (pageChange)="config.currentPage = $event">
+    <div class="d-flex justify-content-center" *ngIf="p.pages.length > 1">
+        <ul class="pagination pagination-primary">
+            <li class="page-item arrow-margin-left" [class.disabled]="p.isFirstPage()">
+                <a class="page-link" (click)="p.previous()">
+                <span aria-hidden="true"><i class="fa fa-angle-double-left" aria-hidden="true"></i></span>
+            </a>
+            </li>
+
+            <li *ngFor="let page of p.pages" [class.active]="p.getCurrent() === page.value" class="page-item">
+                <a (click)="p.setCurrent(page.value)" class="page-link">{{ page.label }}</a>
+            </li>
+
+            <li class="page-item arrow-margin-right" [class.disabled]="p.isLastPage()">
+                <a class="page-link" (click)="p.next()">
+                <span aria-hidden="true"><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
+            </a>
+            </li>
+        </ul>
+    </div>
+</pagination-template>
+
+<!-- Modal Core -->
+<div class="modal fade show" bsModal #cellModal="bs-modal" [config]="{backdrop: 'true', animated: 'true'}" tabindex="-1"
+    role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" (click)="cellModal.hide()">&times;</button>
+                <h4 class="modal-title">Löschen</h4>
+            </div>
+            <div class="modal-body">
+                Wollen Sie die Zelle wirklich löschen?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-simple" (click)="cellModal.hide()">Abbrechen</button>
+                <button type="button" class="btn btn-danger btn-simple" (click)="cellModal.hide(); delete()"><i class="fa fa-trash-o"></i> Löschen</button>
+            </div>
+        </div>
+    </div>
+</div>

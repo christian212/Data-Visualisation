@@ -21,7 +21,10 @@ import { HomeComponent } from './containers/home/home.component';
 import { DatabaseComponent } from './containers/database/database.component';
 import { UploadComponent } from './containers/upload/upload.component';
 import { PlotComponent } from './containers/plot/plot.component';
+import { BatteryListComponent } from './components/list/battery-list/battery-list.component';
 import { StackListComponent } from './components/list/stack-list/stack-list.component';
+import { CellListComponent } from './components/list/cell-list/cell-list.component';
+import { MeasurementListComponent } from './components/list/measurement-list/measurement-list.component';
 import { StackDetailComponent } from './containers/detail/stack-detail/stack-detail.component';
 import { StackEditComponent } from './containers/edit/stack-edit/stack-edit.component';
 import { NotFoundComponent } from './containers/not-found/not-found.component';
@@ -57,7 +60,10 @@ export function createTranslateLoader(http: Http, baseHref) {
         DatabaseComponent,
         UploadComponent,
         PlotComponent,
+        BatteryListComponent,
         StackListComponent,
+        CellListComponent,
+        MeasurementListComponent,
         StackDetailComponent,
         StackEditComponent,
         HomeComponent,
@@ -144,8 +150,12 @@ export function createTranslateLoader(http: Http, baseHref) {
         MeasurementService,
         ListService
     ],
-    entryComponents: [StackListComponent, NotFoundComponent]
+    entryComponents: [
+        BatteryListComponent,
+        StackListComponent,
+        CellListComponent,
+        MeasurementListComponent,
+        NotFoundComponent]
 })
-export class AppModule {
 
-}
+export class AppModule { }
