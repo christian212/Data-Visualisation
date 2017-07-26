@@ -1,0 +1,46 @@
+﻿<div class="card mb-5">
+  <div class="card-header d-flex justify-content-between">
+    Messungs ID: {{measurement.id}}
+    <span class="badge badge-info badge-pill">{{MeasurementType[measurement.measurementType]}}</span>
+  </div>
+
+  <div class="card-block">
+    <h5 class="card-title">{{measurement.name}}</h5>
+
+    <div markdown-to-html [data]="measurement.description"></div>
+
+    <div class="mb-4">
+      <button type="button" class="btn btn-primary btn-simple btn-round btn-icon btn-icon-mini mr-1" (click)="plotMeasurement(measurement.id); $event.stopPropagation()"><i class="fa fa-line-chart"></i></button>
+      <button type="button" class="btn btn-primary btn-simple btn-round btn-icon btn-icon-mini mr-1" (click)="editMeasurement(measurement.id); $event.stopPropagation()"><i class="fa fa-pencil"></i></button>
+      <button type="button" class="btn btn-danger btn-simple btn-round btn-icon btn-icon-mini mr-1" (click)="measurementModal.show(); $event.stopPropagation()"><i class="fa fa-trash-o"></i></button>
+    </div>
+
+    <hr/>
+
+  </div>
+
+  <div class="card-footer text-muted d-flex justify-content-between">
+    <span><small><i class="fa fa-table"></i>  Erstellt am {{measurement.created | date:'mediumDate' }} um {{measurement.created | date:'shortTime' }} Uhr</small></span>
+    <span><small><i class="fa fa-table"></i>  Geändert am {{measurement.modified | date:'mediumDate' }} um {{measurement.modified | date:'shortTime' }} Uhr</small></span>
+  </div>
+</div>
+
+<!-- Modal Core -->
+<div class="modal fade show" bsModal #measurementModal="bs-modal" [config]="{backdrop: 'true', animated: 'true'}" tabindex="-1"
+  role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" (click)="measurementModal.hide()">&times;</button>
+        <h4 class="modal-title">Löschen</h4>
+      </div>
+      <div class="modal-body">
+        Wollen Sie den Measurement wirklich löschen?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default btn-simple" (click)="measurementModal.hide()">Abbrechen</button>
+        <button type="button" class="btn btn-danger btn-simple" (click)="measurementModal.hide(); deleteMeasurement()"><i class="fa fa-trash-o"></i> Löschen</button>
+      </div>
+    </div>
+  </div>
+</div>

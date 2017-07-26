@@ -2,7 +2,7 @@
     <div class="card mb-5" *ngFor="let cell of cells | filter:searchTerm | paginate: config" (click)="details(cell.id)">
         <div class="card-header d-flex justify-content-between">
             Zellen ID: {{cell.id}}
-            <span class="badge badge-info badge-pill">{{cell.measurementCount}} Zellen</span>
+            <span class="badge badge-info badge-pill">{{cell.measurementCount}} Messungen</span>
         </div>
 
         <div class="card-block">

@@ -1,31 +1,33 @@
-﻿<table class="measurements table table-responsive mb-5">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Typ</th>
-            <th>Erstellt</th>
-            <th>Geändert</th>
-            <th>Aktionen</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let measurement of measurements | filter:searchTerm | paginate: config" (click)="details(measurement.id)">
-            <td><strong>{{measurement.id}}</strong></td>
-            <td>{{measurement.name}}</td>
-            <td class="text-center">
-                <span class="badge badge-warning">{{MeasurementType[measurement.measurementType]}}</span>
-            </td>
-            <td>{{measurement.created | date:'mediumDate' }}</td>
-            <td>{{measurement.modified | date:'mediumDate' }}</td>
-            <td nowrap>
-                <button type="button" class="btn btn-primary btn-simple btn-round btn-icon btn-icon-mini mr-1" (click)="details(measurement.id); $event.stopPropagation()"><i class="fa fa-info"></i></button>
-                <button type="button" class="btn btn-primary btn-simple btn-round btn-icon btn-icon-mini mr-1" (click)="edit(measurement.id); $event.stopPropagation()"><i class="fa fa-pencil"></i></button>
-                <button type="button" class="btn btn-danger btn-simple btn-round btn-icon btn-icon-mini mr-1" (click)="select(measurement); measurementModal.show(); $event.stopPropagation()"><i class="fa fa-trash-o"></i></button>
-            </td>
-        </tr>
-    </tbody>
-</table>
+﻿<div class="measurements table-responsive mb-5">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Typ</th>
+                <th>Erstellt</th>
+                <th>Geändert</th>
+                <th>Aktionen</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let measurement of measurements | filter:searchTerm | paginate: config" (click)="details(measurement.id)">
+                <td><strong>{{measurement.id}}</strong></td>
+                <td>{{measurement.name}}</td>
+                <td class="text-center">
+                    <span class="badge badge-warning">{{MeasurementType[measurement.measurementType]}}</span>
+                </td>
+                <td>{{measurement.created | date:'mediumDate' }}</td>
+                <td>{{measurement.modified | date:'mediumDate' }}</td>
+                <td nowrap>
+                    <button type="button" class="btn btn-primary btn-simple btn-round btn-icon btn-icon-mini mr-1" (click)="details(measurement.id); $event.stopPropagation()"><i class="fa fa-info"></i></button>
+                    <button type="button" class="btn btn-primary btn-simple btn-round btn-icon btn-icon-mini mr-1" (click)="edit(measurement.id); $event.stopPropagation()"><i class="fa fa-pencil"></i></button>
+                    <button type="button" class="btn btn-danger btn-simple btn-round btn-icon btn-icon-mini mr-1" (click)="select(measurement); measurementModal.show(); $event.stopPropagation()"><i class="fa fa-trash-o"></i></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 
 <pagination-template #p="paginationApi" [id]="config.id" (pageChange)="config.currentPage = $event">
     <div class="d-flex justify-content-center" *ngIf="p.pages.length > 1">

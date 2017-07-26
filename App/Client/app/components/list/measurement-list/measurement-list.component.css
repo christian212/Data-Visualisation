@@ -1,9 +1,3 @@
-﻿.measurement .tr {
+﻿tr {
     cursor: pointer;
-    position: relative;
-    left: 0;
   }
-
-.measurement .tr:hover {
-  left: .1em;
-}

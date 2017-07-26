@@ -25,7 +25,10 @@ import { BatteryListComponent } from './components/list/battery-list/battery-lis
 import { StackListComponent } from './components/list/stack-list/stack-list.component';
 import { CellListComponent } from './components/list/cell-list/cell-list.component';
 import { MeasurementListComponent } from './components/list/measurement-list/measurement-list.component';
+import { BatteryDetailComponent } from './containers/detail/battery-detail/battery-detail.component';
 import { StackDetailComponent } from './containers/detail/stack-detail/stack-detail.component';
+import { CellDetailComponent } from './containers/detail/cell-detail/cell-detail.component';
+import { MeasurementDetailComponent } from './containers/detail/measurement-detail/measurement-detail.component';
 import { StackEditComponent } from './containers/edit/stack-edit/stack-edit.component';
 import { NotFoundComponent } from './containers/not-found/not-found.component';
 
@@ -64,7 +67,10 @@ export function createTranslateLoader(http: Http, baseHref) {
         StackListComponent,
         CellListComponent,
         MeasurementListComponent,
+        BatteryDetailComponent,
         StackDetailComponent,
+        CellDetailComponent,
+        MeasurementDetailComponent,
         StackEditComponent,
         HomeComponent,
         NotFoundComponent,
@@ -116,6 +122,11 @@ export function createTranslateLoader(http: Http, baseHref) {
                 data: { title: 'Plot' }
             },
             {
+                path: 'battery/details/:id',
+                component: BatteryDetailComponent,
+                data: { title: 'System Details' }
+            },
+            {
                 path: 'stack/details/:id',
                 component: StackDetailComponent,
                 data: { title: 'Stack Details' }
@@ -124,6 +135,16 @@ export function createTranslateLoader(http: Http, baseHref) {
                 path: 'stack/edit/:id',
                 component: StackEditComponent,
                 data: { title: 'Stack Bearbeiten' }
+            },
+            {
+                path: 'cell/details/:id',
+                component: CellDetailComponent,
+                data: { title: 'Zellen Details' }
+            },
+            {
+                path: 'measurement/details/:id',
+                component: MeasurementDetailComponent,
+                data: { title: 'Messungs Details' }
             },
             {
                 path: '**',
