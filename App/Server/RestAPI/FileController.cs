@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using AspCoreServer.Models;
+using AspCoreServer.Data;
 
 namespace AspCoreServer.Controllers
 {
@@ -10,9 +11,12 @@ namespace AspCoreServer.Controllers
     public class FileController : Controller
     {
         private readonly IHostingEnvironment _environment;
-        public FileController(IHostingEnvironment environment)
+        private readonly SpaDbContext _context;
+
+        public FileController(IHostingEnvironment environment, SpaDbContext context)
         {
             _environment = environment;
+            _context = context;
         }
 
         [HttpPost("[action]")]
@@ -42,6 +46,15 @@ namespace AspCoreServer.Controllers
                 {
                     await file.CopyToAsync(fileStream).ConfigureAwait(false);
                 }
+
+                var measurement = new Measurement();
+
+                measurement.Name = "Uploaded Measurement";
+                measurement.Description = "Diese Messung wurde automatisch durch einen Upload hinzugefügt";
+                measurement.FileName = filePath;
+
+                _context.Add(measurement);
+                await _context.SaveChangesAsync();
             }
 
             return Created("", ticket);
