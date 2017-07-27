@@ -1,4 +1,5 @@
-﻿import { NgModule, Inject } from '@angular/core';
+﻿
+import { NgModule, Inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule, APP_BASE_HREF } from '@angular/common';
 import { HttpModule, Http } from '@angular/http';
@@ -21,6 +22,7 @@ import { HomeComponent } from './containers/home/home.component';
 import { DatabaseComponent } from './containers/database/database.component';
 import { UploadComponent } from './containers/upload/upload.component';
 import { PlotComponent } from './containers/plot/plot.component';
+import { ChartComponent } from './components/chart/chart.component';
 import { BatteryListComponent } from './components/list/battery-list/battery-list.component';
 import { StackListComponent } from './components/list/stack-list/stack-list.component';
 import { CellListComponent } from './components/list/cell-list/cell-list.component';
@@ -63,6 +65,7 @@ export function createTranslateLoader(http: Http, baseHref) {
         DatabaseComponent,
         UploadComponent,
         PlotComponent,
+        ChartComponent,
         BatteryListComponent,
         StackListComponent,
         CellListComponent,

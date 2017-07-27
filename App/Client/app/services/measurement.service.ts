@@ -28,6 +28,10 @@ export class MeasurementService {
         return this.transferHttp.get(`${this.baseUrl}/api/measurements/` + measurementId);
     }
 
+    getMeasurementData(measurementId: number): Observable<any> {
+        return this.transferHttp.get(`${this.baseUrl}/api/measurements/data/` + measurementId);
+    }
+
     deleteMeasurement(measurement: Measurement): Observable<any> {
         return this.http.delete(`${this.baseUrl}/api/measurements/` + measurement.id);
     }

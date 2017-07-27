@@ -1,9 +1,10 @@
-﻿import { Component, OnInit, Input } from '@angular/core';
+﻿import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { ToastyService, ToastOptions } from 'ng2-toasty';
 
 import { Measurement } from '../../../models/Measurement';
 import { MeasurementService } from '../../../services/measurement.service';
+import { ChartComponent } from './../../../components/chart/chart.component';
 
 enum MeasurementType {
     Undefined,
@@ -20,7 +21,12 @@ enum MeasurementType {
 export class MeasurementDetailComponent implements OnInit {
     measurement: Measurement;
 
+    measurementData: number[] = [0, 0, 0, 0];
+
     public MeasurementType = MeasurementType;
+
+    @ViewChild(ChartComponent)
+    private chartComponent: ChartComponent;
 
     constructor(
         private measurementService: MeasurementService,
@@ -47,6 +53,32 @@ export class MeasurementDetailComponent implements OnInit {
 
                 this.router.navigate(['/database/']);
             });
+
+        this.route.params
+            .switchMap((params: Params) => this.measurementService.getMeasurementData(+params['id']))
+            .subscribe((measurementData: any) => {
+                console.log('Get measurement data result: ', measurementData);
+                this.measurementData = measurementData;
+                this.plotMeasurementData('Messdaten vom Server', measurementData);
+            },
+            error => {
+                console.log(`There was an issue. ${error._body}.`);
+
+                this.toastyService.error(
+                    <ToastOptions>{
+                        title: 'Error!',
+                        msg: 'Messdaten konnten nicht geladen werden!',
+                        showClose: true,
+                        timeout: 15000
+                    }
+                );
+
+                this.router.navigate(['/database/']);
+            });
+    }
+
+    onClick() {
+        this.plotMeasurementData('Messdaten vom Click', this.measurementData);
     }
 
     editMeasurement(id: number) {
@@ -82,8 +114,8 @@ export class MeasurementDetailComponent implements OnInit {
         });
     }
 
-    plotMeasurement() {
-
+    plotMeasurementData(title: string, data: any) {
+        this.chartComponent.addSerie(title, data);
     }
 
 }

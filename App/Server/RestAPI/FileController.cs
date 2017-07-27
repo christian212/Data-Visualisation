@@ -36,6 +36,8 @@ namespace AspCoreServer.Controllers
             {
                 //TODO: do security checks ...!
 
+                var measurement = new Measurement();
+
                 if (file == null || file.Length == 0)
                 {
                     continue;
@@ -47,11 +49,11 @@ namespace AspCoreServer.Controllers
                     await file.CopyToAsync(fileStream).ConfigureAwait(false);
                 }
 
-                var measurement = new Measurement();
-
                 measurement.Name = "Uploaded Measurement";
                 measurement.Description = "Diese Messung wurde automatisch durch einen Upload hinzugefügt";
-                measurement.FileName = filePath;
+                measurement.FileName = file.FileName;
+                measurement.FilePath = filePath;
+                measurement.FileSize = file.Length;
 
                 _context.Add(measurement);
                 await _context.SaveChangesAsync();

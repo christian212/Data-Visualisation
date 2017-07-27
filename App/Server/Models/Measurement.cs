@@ -13,11 +13,6 @@ namespace AspCoreServer.Models
         Sonstige
     }
 
-    public enum OperationMode
-    {
-        Undefined, Charge, Discharge
-    }
-
     public class Measurement
     {
         public int Id { get; set; }
@@ -25,6 +20,7 @@ namespace AspCoreServer.Models
         public string Description { get; set; }
 
         public string FileName { get; set; }
+        public string FilePath { get; set; }
         public long FileSize { get; set; }
         public MeasurementType MeasurementType { get; set; }
 

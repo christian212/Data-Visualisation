@@ -88,6 +88,8 @@ namespace App.Migrations
 
                     b.Property<string>("FileName");
 
+                    b.Property<string>("FilePath");
+
                     b.Property<long>("FileSize");
 
                     b.Property<int>("MeasurementType");

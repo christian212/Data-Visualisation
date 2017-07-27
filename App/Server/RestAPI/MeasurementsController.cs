@@ -3,6 +3,7 @@ using AspCoreServer.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -61,6 +62,25 @@ namespace AspCoreServer.Controllers
             else
             {
                 return Ok(measurement);
+            }
+        }
+
+        [HttpGet("[action]/{id}")]
+        public async Task<IActionResult> Data(int id)
+        {
+            var measurement = await _context.Measurements
+                .Where(s => s.Id == id)
+                .AsNoTracking()
+                .SingleOrDefaultAsync(m => m.Id == id);
+
+            if (measurement == null)
+            {
+                return NotFound("Measurement not Found");
+            }
+            else
+            {
+                var data = new int[] { 3, 1, 2, 6, 0, 3 };
+                return Ok(data);
             }
         }
 
