@@ -8,25 +8,27 @@ import { Chart } from 'angular-highcharts';
 
 export class ChartComponent {
 
-    chart = new Chart({
-        chart: {
-            type: 'line',
-            zoomType: 'x'
-        },
-        title: {
-            text: 'Messdaten'
-        },
-        credits: {
-            enabled: false
-        },
-        series: []
-    });
+    chart: any;
 
     addSerie(legendName: string, data: any) {
-        this.chart.addSerie({
-            name: legendName,
-            data: data
+
+        this.chart = new Chart({
+            chart: {
+                type: 'line',
+                zoomType: 'x'
+            },
+            title: {
+                text: 'Messdaten'
+            },
+            xAxis: {
+                type: 'datetime'
+            },
+            credits: {
+                enabled: false
+            },
+            series: data
         });
+
     }
 
 }

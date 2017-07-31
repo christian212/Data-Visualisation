@@ -81,17 +81,17 @@ namespace AspCoreServer.Controllers
             }
             else
             {
-                FileStream fileStream = new FileStream(measurement.FilePath, FileMode.Open);
-                using (StreamReader reader = new StreamReader(fileStream))
-                {
-                    string line = reader.ReadToEnd();
+                // FileStream fileStream = new FileStream(measurement.FilePath, FileMode.Open);
+                // using (StreamReader reader = new StreamReader(fileStream))
+                // {
+                //     string line = reader.ReadToEnd();
 
-                    return Ok(line);
-                }
+                //     return Ok(line);
+                // }
 
-                //var owners = System.IO.File.ReadAllLines(measurement.FilePath);
+                var text = System.IO.File.ReadAllText(measurement.FilePath);
 
-                //return Ok(owners);
+                return Ok(text);
             }
         }
 
