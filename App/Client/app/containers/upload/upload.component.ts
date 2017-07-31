@@ -40,7 +40,7 @@ export class UploadComponent implements OnInit {
           { name: 'Accept', value: 'application/json' }
         ],
         isHTML5: true,
-        allowedMimeType: ['image/jpeg', 'application/json', 'application/zip'],
+        allowedMimeType: ['image/jpeg', 'text/csv', 'application/json', 'application/zip'],
         removeAfterUpload: false,
         autoUpload: false,
         maxFileSize: 100 * 1024 * 1024

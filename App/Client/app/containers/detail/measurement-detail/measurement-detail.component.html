@@ -9,21 +9,22 @@
 
     <div markdown-to-html [data]="measurement.description"></div>
 
-    Dateiname: <code>{{measurement.fileName}}</code>
-    <br /> Dateipfad: <code>{{measurement.filePath}}</code>
-    <br /> Größe: {{measurement.fileSize/1024/1024 | number:'.2' }} MB
-
-    <button (click)="onClick()" type="button" class="btn btn-primary"><i class="fa fa-line-chart"></i> Plot</button>
-
     <div class="mb-4">
       <button type="button" class="btn btn-primary btn-simple btn-round btn-icon btn-icon-mini mr-1" (click)="plotMeasurement(measurement.id); $event.stopPropagation()"><i class="fa fa-line-chart"></i></button>
       <button type="button" class="btn btn-primary btn-simple btn-round btn-icon btn-icon-mini mr-1" (click)="editMeasurement(measurement.id); $event.stopPropagation()"><i class="fa fa-pencil"></i></button>
       <button type="button" class="btn btn-danger btn-simple btn-round btn-icon btn-icon-mini mr-1" (click)="measurementModal.show(); $event.stopPropagation()"><i class="fa fa-trash-o"></i></button>
     </div>
 
-    <hr/>
-
     <chart></chart>
+
+     Dateiname: <code>{{measurement.fileName}}</code>
+    <br /> Dateipfad: <code>{{measurement.filePath}}</code>
+    <br /> Größe: {{measurement.fileSize/1024/1024 | number:'.2' }} MB
+
+    {{measurementData}}
+    <pre>{{measurementData | json}}</pre>
+
+    <button (click)="onClick()" type="button" class="btn btn-primary"><i class="fa fa-line-chart"></i> Plot</button>
 
   </div>
 

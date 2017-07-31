@@ -1,6 +1,7 @@
 ﻿import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { ToastyService, ToastOptions } from 'ng2-toasty';
+import { Chart } from 'angular-highcharts';
 
 import { Measurement } from '../../../models/Measurement';
 import { MeasurementService } from '../../../services/measurement.service';
@@ -21,7 +22,7 @@ enum MeasurementType {
 export class MeasurementDetailComponent implements OnInit {
     measurement: Measurement;
 
-    measurementData: number[] = [0, 0, 0, 0];
+    measurementData: any;
 
     public MeasurementType = MeasurementType;
 
@@ -73,7 +74,6 @@ export class MeasurementDetailComponent implements OnInit {
                     }
                 );
 
-                this.router.navigate(['/database/']);
             });
     }
 

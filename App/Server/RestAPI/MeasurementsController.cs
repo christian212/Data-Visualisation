@@ -5,7 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.IO;
 using System.Linq;
+using System.Data;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace AspCoreServer.Controllers
 {
@@ -75,12 +77,21 @@ namespace AspCoreServer.Controllers
 
             if (measurement == null)
             {
-                return NotFound("Measurement not Found");
+                return NotFound("Measurement Data not Found");
             }
             else
             {
-                var data = new int[] { 3, 1, 2, 6, 0, 3 };
-                return Ok(data);
+                FileStream fileStream = new FileStream(measurement.FilePath, FileMode.Open);
+                using (StreamReader reader = new StreamReader(fileStream))
+                {
+                    string line = reader.ReadToEnd();
+
+                    return Ok(line);
+                }
+
+                //var owners = System.IO.File.ReadAllLines(measurement.FilePath);
+
+                //return Ok(owners);
             }
         }
 

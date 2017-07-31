@@ -14,11 +14,12 @@ export class ChartComponent {
             zoomType: 'x'
         },
         title: {
-            text: ''
+            text: 'Messdaten'
         },
         credits: {
             enabled: false
-        }
+        },
+        series: []
     });
 
     addSerie(legendName: string, data: any) {
