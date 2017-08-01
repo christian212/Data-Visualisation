@@ -24,7 +24,7 @@ export class MeasurementListComponent implements ListComponent, OnInit {
     @Input() searchTerm: string;
     @Output() countUpdated = new EventEmitter();
 
-    measurements: Measurement[];
+    measurements: Measurement[] = [];
     selectedMeasurement: Measurement;
     count: number = 0;
 
@@ -62,35 +62,7 @@ export class MeasurementListComponent implements ListComponent, OnInit {
     }
 
     add() {
-        let newMeasurementName: string = 'Neue Messung';
-        this.measurementService.addMeasurement(newMeasurementName).subscribe(result => {
-            console.log('Post user result: ', result);
-            if (result.ok) {
-                this.measurements.unshift(result.json());
-                this.count = this.count + 1;
-                this.countUpdated.emit(this.count);
-
-                this.toastyService.success(
-                    <ToastOptions>{
-                        title: 'Hinzufügen erfolgreich!',
-                        msg: 'Ein neue Messung wurde erfolgreich hinzugefügt!',
-                        showClose: true,
-                        timeout: 15000
-                    }
-                );
-            }
-        }, error => {
-            console.log(`There was an issue. ${error._body}.`);
-
-            this.toastyService.error(
-                <ToastOptions>{
-                    title: 'Error!',
-                    msg: 'Es konnte keine neue Messung hinzugefügt werden!',
-                    showClose: true,
-                    timeout: 15000
-                }
-            );
-        });
+        this.router.navigate(['/upload']);
     }
 
     details(id: number) {

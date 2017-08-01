@@ -29,8 +29,8 @@ namespace AspCoreServer.Models
         {   
             Name = "Name";
             Description = "Beschreibung";
-            Created = DateTime.Now;
-            Modified = DateTime.Now;
+            Created = DateTime.Now.ToUniversalTime();
+            Modified = DateTime.Now.ToUniversalTime();
         }
     }
 

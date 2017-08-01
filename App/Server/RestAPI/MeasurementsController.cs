@@ -1,6 +1,7 @@
 using AspCoreServer.Data;
 using AspCoreServer.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.IO;
@@ -17,11 +18,13 @@ namespace AspCoreServer.Controllers
     [Route("api/[controller]")]
     public class MeasurementsController : Controller
     {
+        private readonly IHostingEnvironment _environment;
         private readonly SpaDbContext _context;
 
-        public MeasurementsController(SpaDbContext context)
+        public MeasurementsController(IHostingEnvironment environment, SpaDbContext context)
         {
             _context = context;
+            _environment = environment;
         }
 
         [HttpGet("[action]")]
@@ -70,7 +73,7 @@ namespace AspCoreServer.Controllers
         }
 
         [HttpGet("[action]/{id}")]
-        public async Task<IActionResult> Data(int id)
+        public async Task<IActionResult> Locus(int id)
         {
             var measurement = await _context.Measurements
                 .Where(s => s.Id == id)
@@ -83,7 +86,10 @@ namespace AspCoreServer.Controllers
             }
             else
             {
-                var json = System.IO.File.ReadAllText(measurement.FilePath);
+                var filePath = Path.Combine(_environment.WebRootPath,
+                "uploads", "Measurements", measurement.Id.ToString(), measurement.FileName);
+
+                var json = System.IO.File.ReadAllText(filePath);
 
                 var locus = new Locus();
                 JsonConvert.PopulateObject(json, locus);
@@ -93,7 +99,7 @@ namespace AspCoreServer.Controllers
 
                 timeseriesImpedance.Data = locus.Spectrum.Impedance.ArrayData;
 
-                var result = new TimeSeries[] {timeseriesImpedance};
+                var result = new TimeSeries[] { timeseriesImpedance };
 
                 return Ok(Json(result));
             }
@@ -113,7 +119,10 @@ namespace AspCoreServer.Controllers
             }
             else
             {
-                FileStream fileStream = new FileStream(measurement.FilePath, FileMode.Open);
+                var filePath = Path.Combine(_environment.WebRootPath,
+                "uploads", "Measurements", measurement.Id.ToString(), measurement.FileName);
+
+                FileStream fileStream = new FileStream(filePath, FileMode.Open);
                 StreamReader reader = new StreamReader(fileStream);
 
                 var csv = new CsvReader(reader);
@@ -218,6 +227,14 @@ namespace AspCoreServer.Controllers
             }
             else
             {
+                var filePath = Path.Combine(_environment.WebRootPath,
+                "uploads", "Measurements", measurementToRemove.Id.ToString());
+
+                if (System.IO.Directory.Exists(filePath))
+                {
+                    System.IO.Directory.Delete(filePath, true);
+                }
+
                 _context.Measurements.Remove(measurementToRemove);
                 await _context.SaveChangesAsync();
                 return Ok("Deleted measurement - " + measurementToRemove.Name);

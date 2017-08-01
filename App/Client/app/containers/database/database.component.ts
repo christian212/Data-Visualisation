@@ -1,4 +1,5 @@
 import { Component, Input, ViewChild, ComponentFactoryResolver, ComponentRef, OnInit, AfterViewInit, OnDestroy, OnChanges, SimpleChange } from '@angular/core';
+import { ActivatedRoute, Router, Params } from '@angular/router';
 
 import { List } from '../../models/List';
 import { ListDirective } from '../../directives/list.directive';
@@ -20,7 +21,7 @@ export class DatabaseComponent implements OnInit, AfterViewInit, OnDestroy {
   lists: List[];
   selectedList: List;
   selectedListComponentRef: ListComponent;
-  selectedListIndex: number;
+  selectedListIndex: number = 0;
   counts: number[] = [0, 0, 0, 0];
   searchTerm: string;
 
@@ -29,6 +30,8 @@ export class DatabaseComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(
     private _componentFactoryResolver: ComponentFactoryResolver,
+    private route: ActivatedRoute,
+    private router: Router,
     private listService: ListService,
     private batteryService: BatteryService,
     private stackService: StackService,
@@ -37,14 +40,14 @@ export class DatabaseComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     this.lists = this.listService.getLists();
-    this.selectedList = this.lists[0];
-    this.selectedListIndex = 0;
+    this.selectedListIndex = Number(this.route.snapshot.paramMap.get('category'));
+    this.selectedList = this.lists[this.selectedListIndex];
 
     this.getCounts();
   }
 
   ngAfterViewInit() {
-    this.loadComponent(0);
+    this.loadComponent(this.selectedListIndex);
   }
 
   ngOnDestroy() {

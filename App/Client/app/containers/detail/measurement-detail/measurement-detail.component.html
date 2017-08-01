@@ -17,11 +17,8 @@
 
     <chart></chart>
 
-     Dateiname: <code>{{measurement.fileName}}</code>
-    <br /> Dateipfad: <code>{{measurement.filePath}}</code>
+    Dateiname: <code>{{measurement.fileName}}</code>
     <br /> Größe: {{measurement.fileSize/1024/1024 | number:'.2' }} MB
-
-    {{measurementData}}
     <pre>{{measurementData | json}}</pre>
 
     <button (click)="onClick()" type="button" class="btn btn-primary"><i class="fa fa-line-chart"></i> Plot</button>

@@ -115,6 +115,11 @@ export function createTranslateLoader(http: Http, baseHref) {
                 data: { title: 'Datenbank' }
             },
             {
+                path: 'database/:category',
+                component: DatabaseComponent,
+                data: { title: 'Datenbank' }
+            },
+            {
                 path: 'upload',
                 component: UploadComponent,
                 data: { title: 'Upload' }

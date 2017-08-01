@@ -24,7 +24,7 @@ export class BatteryListComponent implements ListComponent, OnInit {
     @Input() searchTerm: string;
     @Output() countUpdated = new EventEmitter();
 
-    batteries: Battery[];
+    batteries: Battery[] = [];
     selectedBattery: Battery;
     count: number = 0;
 

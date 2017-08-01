@@ -1,11 +1,11 @@
-﻿<div class="measurements table-responsive mb-5">
+﻿<div class="measurements table-responsive mb-3">
     <table class="table table-hover">
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Name</th>
                 <th>Typ</th>
-                <th>Erstellt</th>
+                <th>Größe</th>
                 <th>Geändert</th>
                 <th>Aktionen</th>
             </tr>
@@ -17,7 +17,7 @@
                 <td class="text-center">
                     <span class="badge badge-warning">{{MeasurementType[measurement.measurementType]}}</span>
                 </td>
-                <td>{{measurement.created | date:'mediumDate' }}</td>
+                <td>{{measurement.fileSize/1024/1024 | number:'.2' }} MB</td>
                 <td>{{measurement.modified | date:'mediumDate' }}</td>
                 <td nowrap>
                     <button type="button" class="btn btn-primary btn-simple btn-round btn-icon btn-icon-mini mr-1" (click)="details(measurement.id); $event.stopPropagation()"><i class="fa fa-info"></i></button>

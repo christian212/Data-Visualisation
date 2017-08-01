@@ -17,7 +17,7 @@ export class CellListComponent implements ListComponent, OnInit {
     @Input() searchTerm: string;
     @Output() countUpdated = new EventEmitter();
 
-    cells: Cell[];
+    cells: Cell[] = [];
     selectedCell: Cell;
     count: number = 0;
 

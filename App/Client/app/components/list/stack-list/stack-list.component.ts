@@ -24,7 +24,7 @@ export class StackListComponent implements ListComponent, OnInit {
     @Input() searchTerm: string;
     @Output() countUpdated = new EventEmitter();
 
-    stacks: Stack[];
+    stacks: Stack[] = [];
     selectedStack: Stack;
     count: number = 0;
 

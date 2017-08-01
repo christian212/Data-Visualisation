@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 
@@ -21,7 +22,9 @@ export class UploadComponent implements OnInit {
 
   model = new Ticket();
 
-  constructor(private toastyService: ToastyService) { }
+  constructor(
+    private toastyService: ToastyService,
+    private router: Router) { }
 
   public fileOverBase(e: any): void {
     this.hasBaseDropZoneOver = e;
@@ -66,6 +69,8 @@ export class UploadComponent implements OnInit {
           timeout: 15000
         }
       );
+
+      this.router.navigate(['/database/', 3]);
     };
 
     this.fileUploader.onWhenAddingFileFailed = (item, filter, options) => {

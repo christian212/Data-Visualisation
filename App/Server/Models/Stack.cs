@@ -29,8 +29,8 @@ namespace AspCoreServer.Models
         public Stack()
         {
             Description = "Beschreibung";
-            Created = DateTime.Now;
-            Modified = DateTime.Now;
+            Created = DateTime.Now.ToUniversalTime();
+            Modified = DateTime.Now.ToUniversalTime();
         }
     }
 

@@ -39,7 +39,53 @@ export class MeasurementDetailComponent implements OnInit {
     ngOnInit() {
         this.route.params
             .switchMap((params: Params) => this.measurementService.getMeasurement(+params['id']))
-            .subscribe((measurement: Measurement) => this.measurement = measurement,
+            .subscribe((measurement: Measurement) => {
+                this.measurement = measurement;
+
+                if (this.measurement.measurementType === MeasurementType.Zeitreihe) {
+                    this.route.params
+                        .switchMap((params: Params) => this.measurementService.getTimeSeries(+params['id']))
+                        .subscribe((measurementData: any) => {
+                            console.log('Get measurement data result: ', measurementData.value);
+                            this.measurementData = measurementData;
+                            this.plotMeasurementData('Messdaten vom Server', measurementData.value);
+                        },
+                        error => {
+                            console.log(`There was an issue. ${error._body}.`);
+
+                            this.toastyService.error(
+                                <ToastOptions>{
+                                    title: 'Error!',
+                                    msg: 'Messdaten konnten nicht geladen werden!',
+                                    showClose: true,
+                                    timeout: 15000
+                                }
+                            );
+
+                        });
+                } else if (this.measurement.measurementType === MeasurementType.Ortskurve) {
+                    this.route.params
+                        .switchMap((params: Params) => this.measurementService.getLocus(+params['id']))
+                        .subscribe((measurementData: any) => {
+                            console.log('Get measurement data result: ', measurementData.value);
+                            this.measurementData = measurementData;
+                            this.plotMeasurementData('Messdaten vom Server', measurementData.value);
+                        },
+                        error => {
+                            console.log(`There was an issue. ${error._body}.`);
+
+                            this.toastyService.error(
+                                <ToastOptions>{
+                                    title: 'Error!',
+                                    msg: 'Messdaten konnten nicht geladen werden!',
+                                    showClose: true,
+                                    timeout: 15000
+                                }
+                            );
+
+                        });
+                }
+            },
             error => {
                 console.log(`There was an issue. ${error._body}.`);
 
@@ -53,27 +99,6 @@ export class MeasurementDetailComponent implements OnInit {
                 );
 
                 this.router.navigate(['/database/']);
-            });
-
-        this.route.params
-            .switchMap((params: Params) => this.measurementService.getMeasurementData(+params['id']))
-            .subscribe((measurementData: any) => {
-                console.log('Get measurement data result: ', measurementData.value);
-                this.measurementData = measurementData;
-                this.plotMeasurementData('Messdaten vom Server', measurementData.value);
-            },
-            error => {
-                console.log(`There was an issue. ${error._body}.`);
-
-                this.toastyService.error(
-                    <ToastOptions>{
-                        title: 'Error!',
-                        msg: 'Messdaten konnten nicht geladen werden!',
-                        showClose: true,
-                        timeout: 15000
-                    }
-                );
-
             });
     }
 
