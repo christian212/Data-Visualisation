@@ -58,9 +58,9 @@ export class MeasurementDetailComponent implements OnInit {
         this.route.params
             .switchMap((params: Params) => this.measurementService.getMeasurementData(+params['id']))
             .subscribe((measurementData: any) => {
-                console.log('Get measurement data result: ', measurementData);
+                console.log('Get measurement data result: ', measurementData.value);
                 this.measurementData = measurementData;
-                this.plotMeasurementData('Messdaten vom Server', measurementData);
+                this.plotMeasurementData('Messdaten vom Server', measurementData.value);
             },
             error => {
                 console.log(`There was an issue. ${error._body}.`);

@@ -6,6 +6,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Data;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
@@ -89,9 +90,58 @@ namespace AspCoreServer.Controllers
                 //     return Ok(line);
                 // }
 
-                var text = System.IO.File.ReadAllText(measurement.FilePath);
+                var json = System.IO.File.ReadAllText(measurement.FilePath);
 
-                return Ok(text);
+                var timeseries1 = new TimeSeries();
+                var timeseries2 = new TimeSeries();
+                var timeseries3 = new TimeSeries();
+
+                timeseries1.Name = "TimeSeries Objekt 1 vom Server";
+                timeseries2.Name = "TimeSeries Objekt 2 vom Server";
+                timeseries3.Name = "Geladen von Disk";
+
+                var data1 = new float[10][];
+                var data2 = new float[10][];
+
+                for (int i = 0; i < data1.Length; i++)
+                {
+                    data1[i] = new float[2];
+                }
+
+                for (int i = 0; i < data2.Length; i++)
+                {
+                    data2[i] = new float[2];
+                }
+
+                int Min = 0;
+                int Max = 20;
+
+                Random randNum1 = new Random();
+                for (int i = 0; i < data1.Length; i++)
+                {
+                    data1[i][0] = i;
+                    data1[i][1] = randNum1.Next(Min, Max);
+                }
+
+                timeseries1.Data = data1;
+
+                Random randNum2 = new Random();
+                for (int i = 0; i < data2.Length; i++)
+                {
+                    data2[i][0] = i;
+                    data2[i][1] = randNum2.Next(Min, Max) + 5;
+                }
+
+                timeseries2.Data = data2;
+
+                //JsonConvert.PopulateObject(json, timeseries3);
+                //timeseries3 = JsonConvert.DeserializeObject<TimeSeries>(json);
+
+                var timeseriesArray = new TimeSeries[] {timeseries1, timeseries2};
+
+                var result = Json(timeseriesArray);
+
+                return Ok(result);
             }
         }
 
