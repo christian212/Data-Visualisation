@@ -83,70 +83,19 @@ namespace AspCoreServer.Controllers
             }
             else
             {
-                // FileStream fileStream = new FileStream(measurement.FilePath, FileMode.Open);
-                // using (StreamReader reader = new StreamReader(fileStream))
-                // {
-                //     string line = reader.ReadToEnd();
-
-                //     return Ok(line);
-                // }
-
                 var json = System.IO.File.ReadAllText(measurement.FilePath);
-
-                var timeseries1 = new TimeSeries();
-                var timeseries2 = new TimeSeries();
-                var timeseries3 = new TimeSeries();
-
-                timeseries1.Name = "TimeSeries Objekt 1 vom Server";
-                timeseries2.Name = "TimeSeries Objekt 2 vom Server";
-                timeseries3.Name = "Geladen von Disk";
-
-                var data1 = new double[10][];
-                var data2 = new double[10][];
-
-                for (int i = 0; i < data1.Length; i++)
-                {
-                    data1[i] = new double[2];
-                }
-
-                for (int i = 0; i < data2.Length; i++)
-                {
-                    data2[i] = new double[2];
-                }
-
-                int Min = 0;
-                int Max = 20;
-
-                Random randNum1 = new Random();
-                for (int i = 0; i < data1.Length; i++)
-                {
-                    data1[i][0] = i;
-                    data1[i][1] = randNum1.Next(Min, Max);
-                }
-
-                timeseries1.Data = data1;
-
-                Random randNum2 = new Random();
-                for (int i = 0; i < data2.Length; i++)
-                {
-                    data2[i][0] = i;
-                    data2[i][1] = randNum2.Next(Min, Max) + 5;
-                }
-
-                timeseries2.Data = data2;
 
                 var locus = new Locus();
                 JsonConvert.PopulateObject(json, locus);
 
-                //var locusobject = JsonConvert.DeserializeObject<Locus>(json);
+                var timeseriesImpedance = new TimeSeries();
+                timeseriesImpedance.Name = "Impedanz";
 
-                measurement.Description = locus.Mode;
+                timeseriesImpedance.Data = locus.Spectrum.Impedance.ArrayData;
 
-                var timeseriesArray = new TimeSeries[] { timeseries1, timeseries2 };
+                var result = new TimeSeries[] {timeseriesImpedance};
 
-                var result = Json(timeseriesArray);
-
-                return Ok(result);
+                return Ok(Json(result));
             }
         }
 
