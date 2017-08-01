@@ -56,7 +56,7 @@ export class MeasurementDetailComponent implements OnInit {
             });
 
         this.route.params
-            .switchMap((params: Params) => this.measurementService.getMeasurementData(+params['id']))
+            .switchMap((params: Params) => this.measurementService.getTimeSeries(+params['id']))
             .subscribe((measurementData: any) => {
                 console.log('Get measurement data result: ', measurementData.value);
                 this.measurementData = measurementData;

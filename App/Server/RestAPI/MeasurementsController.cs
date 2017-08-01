@@ -9,6 +9,7 @@ using System.Data;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using CsvHelper;
 
 namespace AspCoreServer.Controllers
 {
@@ -100,17 +101,17 @@ namespace AspCoreServer.Controllers
                 timeseries2.Name = "TimeSeries Objekt 2 vom Server";
                 timeseries3.Name = "Geladen von Disk";
 
-                var data1 = new float[10][];
-                var data2 = new float[10][];
+                var data1 = new double[10][];
+                var data2 = new double[10][];
 
                 for (int i = 0; i < data1.Length; i++)
                 {
-                    data1[i] = new float[2];
+                    data1[i] = new double[2];
                 }
 
                 for (int i = 0; i < data2.Length; i++)
                 {
-                    data2[i] = new float[2];
+                    data2[i] = new double[2];
                 }
 
                 int Min = 0;
@@ -134,10 +135,74 @@ namespace AspCoreServer.Controllers
 
                 timeseries2.Data = data2;
 
-                //JsonConvert.PopulateObject(json, timeseries3);
-                //timeseries3 = JsonConvert.DeserializeObject<TimeSeries>(json);
+                var locus = new Locus();
+                JsonConvert.PopulateObject(json, locus);
 
-                var timeseriesArray = new TimeSeries[] {timeseries1, timeseries2};
+                //var locusobject = JsonConvert.DeserializeObject<Locus>(json);
+
+                measurement.Description = locus.Mode;
+
+                var timeseriesArray = new TimeSeries[] { timeseries1, timeseries2 };
+
+                var result = Json(timeseriesArray);
+
+                return Ok(result);
+            }
+        }
+
+        [HttpGet("[action]/{id}")]
+        public async Task<IActionResult> TimeSeries(int id)
+        {
+            var measurement = await _context.Measurements
+                .Where(s => s.Id == id)
+                .AsNoTracking()
+                .SingleOrDefaultAsync(m => m.Id == id);
+
+            if (measurement == null)
+            {
+                return NotFound("Measurement Data not Found");
+            }
+            else
+            {
+                FileStream fileStream = new FileStream(measurement.FilePath, FileMode.Open);
+                StreamReader reader = new StreamReader(fileStream);
+
+                var csv = new CsvReader(reader);
+                var records = csv.GetRecords<Record>().ToList();
+
+                var timeseriesVoltage = new TimeSeries();
+                var timeseriesCurrent = new TimeSeries();
+
+                timeseriesVoltage.Name = "Spannung in Volt";
+                timeseriesCurrent.Name = "Strom in Ampere";
+
+                var voltage = new double[records.Count()][];
+                var current = new double[records.Count()][];
+
+                for (int i = 0; i < records.Count(); i++)
+                {
+                    voltage[i] = new double[2];
+                }
+
+                for (int i = 0; i < records.Count(); i++)
+                {
+                    current[i] = new double[2];
+                }
+
+                foreach (var record in records.Select((value, i) => new { i, value }))
+                {
+                    var timestamp = new DateTimeOffset(new DateTime(record.value.Jahr, record.value.Monat, record.value.Tag, record.value.Stunde, record.value.Minute, record.value.Sekunde, DateTimeKind.Utc)).ToUnixTimeSeconds() * 1000;
+                    voltage[record.i][0] = timestamp;
+                    voltage[record.i][1] = record.value.Spannung;
+
+                    current[record.i][0] = timestamp;
+                    current[record.i][1] = record.value.Strom;
+                }
+
+                timeseriesVoltage.Data = voltage;
+                timeseriesCurrent.Data = current;
+
+                var timeseriesArray = new TimeSeries[] { timeseriesVoltage, timeseriesCurrent };
 
                 var result = Json(timeseriesArray);
 
