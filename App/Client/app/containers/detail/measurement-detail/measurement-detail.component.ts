@@ -102,10 +102,6 @@ export class MeasurementDetailComponent implements OnInit {
             });
     }
 
-    onClick() {
-        this.plotMeasurementData('Messdaten vom Click', this.measurementData);
-    }
-
     editMeasurement(id: number) {
         this.router.navigate(['/measurement/edit/', id]);
     }
@@ -123,7 +119,7 @@ export class MeasurementDetailComponent implements OnInit {
                     }
                 );
 
-                this.router.navigate(['/database/']);
+                this.router.navigate(['/database/', 3]);
             }
         }, error => {
             console.log(`There was an issue. ${error._body}.`);

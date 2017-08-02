@@ -20,8 +20,8 @@
         </div>
 
         <div class="card-footer text-muted d-flex justify-content-between">
-            <span><small><i class="fa fa-table"></i>  Erstellt am {{battery.created | date:'mediumDate' }} um {{battery.created | date:'shortTime' }} Uhr</small></span>
-            <span><small><i class="fa fa-table"></i>  Geändert am {{battery.modified | date:'mediumDate' }} um {{battery.modified | date:'shortTime' }} Uhr</small></span>
+            <span><small><i class="fa fa-table"></i>  Erstellt: {{battery.created | date:'mediumDate' }}, {{battery.created | date:'shortTime' }}</small></span>
+            <span><small><i class="fa fa-table"></i>  Geändert: {{battery.modified | date:'mediumDate' }}, {{battery.modified | date:'shortTime' }}</small></span>
         </div>
     </div>
 </div>

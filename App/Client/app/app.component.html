@@ -3,3 +3,8 @@
 <nav-bar></nav-bar>
 
 <router-outlet></router-outlet>
+
+<go-top-button [html]="'<i class=\'fa fa-chevron-up\'></i>'" [animate]="true" [speed]="20" [acceleration]="1" [scrollDistance]="600"
+    [styles]="{'position': 'fixed', 'bottom': '20px', 'right': '20px', 'background': 'rgba(0, 0, 0, 0.6)', 'width': '40px', 'height': '40px', 'display': 'block', 'text-decoration': 'none', '-webkit-border-radius': '35px', '-moz-border-radius': '35px', 'border-radius': '35px', '-webkit-transition': 'all 0.3s linear', '-moz-transition': 'all 0.3s ease', '-ms-transition': 'all 0.3s ease', '-o-transition': 'all 0.3s ease',
+'transition': 'all 0.3s ease'}">
+</go-top-button>

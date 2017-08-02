@@ -1,4 +1,5 @@
-﻿
+﻿import { Battery } from './models/Battery';
+
 import { NgModule, Inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule, APP_BASE_HREF } from '@angular/common';
@@ -31,7 +32,10 @@ import { BatteryDetailComponent } from './containers/detail/battery-detail/batte
 import { StackDetailComponent } from './containers/detail/stack-detail/stack-detail.component';
 import { CellDetailComponent } from './containers/detail/cell-detail/cell-detail.component';
 import { MeasurementDetailComponent } from './containers/detail/measurement-detail/measurement-detail.component';
+import { BatteryEditComponent } from './containers/edit/battery-edit/battery-edit.component';
 import { StackEditComponent } from './containers/edit/stack-edit/stack-edit.component';
+import { CellEditComponent } from './containers/edit/cell-edit/cell-edit.component';
+import { MeasurementEditComponent } from './containers/edit/measurement-edit/measurement-edit.component';
 import { NotFoundComponent } from './containers/not-found/not-found.component';
 
 import { ListDirective } from './directives/list.directive';
@@ -43,6 +47,7 @@ import { MeasurementService } from './services/measurement.service';
 
 import { FileUploadModule } from 'ng2-file-upload';
 import { ToastyModule } from 'ng2-toasty';
+import { GoTopButtonModule } from 'ng2-go-top-button';
 
 import { NgxPaginationModule } from 'ngx-pagination';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
@@ -51,7 +56,7 @@ import { ChartModule } from 'angular-highcharts';
 
 export function createTranslateLoader(http: Http, baseHref) {
     // Temporary Azure hack
-    if (baseHref === null && typeof window !== 'undefined') {
+    if (baseHref === undefined && typeof window !== 'undefined') {
         baseHref = window.location.origin;
     }
     // i18n files are in `wwwroot/assets/`
@@ -74,7 +79,10 @@ export function createTranslateLoader(http: Http, baseHref) {
         StackDetailComponent,
         CellDetailComponent,
         MeasurementDetailComponent,
+        BatteryEditComponent,
         StackEditComponent,
+        CellEditComponent,
+        MeasurementEditComponent,
         HomeComponent,
         NotFoundComponent,
 
@@ -135,6 +143,11 @@ export function createTranslateLoader(http: Http, baseHref) {
                 data: { title: 'System Details' }
             },
             {
+                path: 'battery/edit/:id',
+                component: BatteryEditComponent,
+                data: { title: 'System Bearbeiten' }
+            },
+            {
                 path: 'stack/details/:id',
                 component: StackDetailComponent,
                 data: { title: 'Stack Details' }
@@ -150,9 +163,19 @@ export function createTranslateLoader(http: Http, baseHref) {
                 data: { title: 'Zellen Details' }
             },
             {
+                path: 'cell/edit/:id',
+                component: CellEditComponent,
+                data: { title: 'Zelle Bearbeiten' }
+            },
+            {
                 path: 'measurement/details/:id',
                 component: MeasurementDetailComponent,
                 data: { title: 'Messungs Details' }
+            },
+            {
+                path: 'measurement/edit/:id',
+                component: MeasurementEditComponent,
+                data: { title: 'Messung Bearbeiten' }
             },
             {
                 path: '**',
@@ -166,7 +189,8 @@ export function createTranslateLoader(http: Http, baseHref) {
         MarkdownToHtmlModule.forRoot(),
         FileUploadModule,
         ChartModule,
-        ToastyModule.forRoot()
+        ToastyModule.forRoot(),
+        GoTopButtonModule
     ],
     providers: [
         ConnectionResolver,

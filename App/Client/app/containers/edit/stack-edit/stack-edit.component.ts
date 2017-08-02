@@ -56,7 +56,7 @@ export class StackEditComponent implements OnInit {
             this.toastyService.success(
                 <ToastOptions>{
                     title: 'Speichern erfolgreich!',
-                    msg: stack.name + ' wurde erfolgreich gespeichert!',
+                    msg: stack.name + ' mit der ID ' + stack.id + ' wurde erfolgreich gespeichert!',
                     showClose: true,
                     timeout: 15000
                 }
@@ -67,7 +67,7 @@ export class StackEditComponent implements OnInit {
             this.toastyService.error(
                 <ToastOptions>{
                     title: 'Error!',
-                    msg: stack.name + ' konnte nicht gespeichert werden!',
+                    msg: stack.name + ' mit der ID ' + stack.id + ' konnte nicht gespeichert werden!',
                     showClose: true,
                     timeout: 15000
                 }
