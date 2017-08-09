@@ -24,6 +24,8 @@ export class MeasurementDetailComponent implements OnInit {
 
     measurementData: any;
 
+    chart: Chart;
+
     public MeasurementType = MeasurementType;
 
     @ViewChild(ChartComponent)
@@ -46,8 +48,8 @@ export class MeasurementDetailComponent implements OnInit {
                     this.route.params
                         .switchMap((params: Params) => this.measurementService.getTimeSeries(+params['id']))
                         .subscribe((measurementData: any) => {
-                            console.log('Get measurement data result: ', measurementData.value);
-                            this.measurementData = measurementData;
+                            console.log('Get measurement data result: ', measurementData);
+                            this.measurementData = measurementData.value;
                             this.plotMeasurementData('Messdaten vom Server', measurementData.value);
                         },
                         error => {
@@ -67,8 +69,8 @@ export class MeasurementDetailComponent implements OnInit {
                     this.route.params
                         .switchMap((params: Params) => this.measurementService.getLocus(+params['id']))
                         .subscribe((measurementData: any) => {
-                            console.log('Get measurement data result: ', measurementData.value);
-                            this.measurementData = measurementData;
+                            console.log('Get measurement data result: ', measurementData);
+                            this.measurementData = measurementData.value;
                             this.plotMeasurementData('Messdaten vom Server', measurementData.value);
                         },
                         error => {
@@ -98,7 +100,7 @@ export class MeasurementDetailComponent implements OnInit {
                     }
                 );
 
-                this.router.navigate(['/database/']);
+                this.router.navigate(['/database/', 3]);
             });
     }
 
@@ -135,8 +137,55 @@ export class MeasurementDetailComponent implements OnInit {
         });
     }
 
-    plotMeasurementData(title: string, data: any) {
-        this.chartComponent.addSerie(title, data);
+    plotMeasurementData(legendName: string, data: any) {
+        if (this.measurement.measurementType === MeasurementType.Zeitreihe) {
+            this.chart = new Chart({
+                chart: {
+                    type: 'line',
+                    zoomType: 'x'
+                },
+                title: {
+                    text: 'Zeitreihen'
+                },
+                xAxis: {
+                    type: 'datetime'
+                },
+                yAxis: {
+                    title: {
+                        text: 'Spannung / Strom'
+                    }
+                },
+                credits: {
+                    enabled: false
+                },
+                series: data
+            });
+        } else if (this.measurement.measurementType === MeasurementType.Ortskurve) {
+            this.chart = new Chart({
+                chart: {
+                    type: 'spline',
+                    zoomType: 'x'
+                },
+                title: {
+                    text: 'Ortskurve'
+                },
+                xAxis: {
+                    title: {
+                        text: 'Realteil'
+                    }
+                },
+                yAxis: {
+                    title: {
+                        text: 'Imaginärteil'
+                    }
+                },
+                credits: {
+                    enabled: false
+                },
+                series: data
+            });
+        }
+
     }
 
 }

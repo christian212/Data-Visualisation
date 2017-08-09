@@ -51,7 +51,7 @@ export class StackDetailComponent implements OnInit {
                     }
                 );
 
-                this.router.navigate(['/database/']);
+                this.router.navigate(['/database/', 1]);
             });
     }
 
