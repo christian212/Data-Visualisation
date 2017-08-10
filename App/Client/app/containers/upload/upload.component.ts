@@ -90,7 +90,7 @@ export class UploadComponent implements OnInit {
         <ToastOptions>{
           title: 'Error uploading file!',
           msg: `${response} -> ${fileItem.file.name}`,
-          theme: 'bootstrap',
+          theme: 'default',
           showClose: true,
           timeout: 15000
         }

@@ -5,6 +5,5 @@ import { ListComponent } from '../components/list/list.component';
 export class List {
   constructor(
     public component: Type<ListComponent>,
-    public data: any)
-  { }
+    public data: any) { }
 }

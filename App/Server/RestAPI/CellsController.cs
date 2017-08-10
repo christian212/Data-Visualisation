@@ -52,7 +52,13 @@ namespace AspCoreServer.Controllers
             var cell = await _context.Cells
                 .Where(s => s.Id == id)
                 .AsNoTracking()
+                .Include(s => s.Measurements)
                 .SingleOrDefaultAsync(m => m.Id == id);
+
+            foreach (Measurement measurement in cell.Measurements)
+            {
+                measurement.Cell = null;
+            }
 
             if (cell == null)
             {

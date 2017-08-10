@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using AspCoreServer.Models;
 using AspCoreServer.Data;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace AspCoreServer.Controllers
 {
@@ -48,6 +50,7 @@ namespace AspCoreServer.Controllers
                 measurement.FileName = file.FileName;
                 measurement.FileSize = file.Length;
 
+
                 if (file.FileName.ToLower().EndsWith(".csv"))
                 {
                     measurement.MeasurementType = MeasurementType.Zeitreihe;
@@ -58,6 +61,14 @@ namespace AspCoreServer.Controllers
                 }
                 else
                     measurement.MeasurementType = MeasurementType.Sonstige;
+
+                var id = 4;
+
+                var cell = await _context.Cells
+                    .Where(s => s.Id == id)
+                    .SingleOrDefaultAsync(m => m.Id == id);
+
+                measurement.Cell = cell;
 
                 _context.Add(measurement);
                 await _context.SaveChangesAsync();

@@ -1,3 +1,7 @@
+import { Battery } from './Battery';
+import { Stack } from './Stack';
+import { Cell } from './Cell';
+
 enum MeasurementType {
     Undefined,
     Zeitreihe,
@@ -13,6 +17,10 @@ export interface Measurement {
     fileName: string;
     fileSize: number;
     measurementType: MeasurementType;
+
+    battery: Battery;
+    stack: Stack;
+    cell: Cell;
 
     created: Date;
     modified: Date;
