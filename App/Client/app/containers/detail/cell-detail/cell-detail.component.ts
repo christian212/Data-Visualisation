@@ -30,10 +30,18 @@ enum MeasurementType {
 
 export class CellDetailComponent implements OnInit {
     cell: Cell;
+
+    timeseriesMeasurements: Measurement[];
+    locusMeasurements: Measurement[];
+    undefinedMeasurements: Measurement[];
+    otherMeasurements: Measurement[];
+
     selectedMeasurement: Measurement;
     measurementCount: number = 0;
     measurementData: any;
-    chart: Chart;
+
+    timeseriesChart: Chart;
+    locusChart: Chart;
 
     public CircuitType = CircuitType;
     public MeasurementType = MeasurementType;
@@ -52,6 +60,18 @@ export class CellDetailComponent implements OnInit {
             .subscribe((cell: Cell) => {
                 this.cell = cell;
                 this.measurementCount = cell.measurements.length;
+
+                this.undefinedMeasurements = this.cell.measurements.filter(
+                    measurement => measurement.measurementType === 0);
+
+                this.timeseriesMeasurements = this.cell.measurements.filter(
+                    measurement => measurement.measurementType === 1);
+
+                this.locusMeasurements = this.cell.measurements.filter(
+                    measurement => measurement.measurementType === 2);
+
+                this.otherMeasurements = this.cell.measurements.filter(
+                    measurement => measurement.measurementType === 3);
             },
             error => {
                 console.log(`There was an issue. ${error._body}.`);
@@ -155,91 +175,87 @@ export class CellDetailComponent implements OnInit {
         });
     }
 
-    plotMeasurement(measurement: Measurement) {
-
-        if (measurement.measurementType === MeasurementType.Zeitreihe) {
-            this.measurementService.getTimeSeries(measurement.id)
-                .subscribe((measurementData: any) => {
-                    console.log('Get measurement data result: ', measurementData);
-                    this.measurementData = measurementData.value;
-                    this.chart = new Chart({
-                        chart: {
-                            type: 'line',
-                            zoomType: 'x'
-                        },
+    plotTimeseries(measurement: Measurement) {
+        this.measurementService.getTimeSeries(measurement.id)
+            .subscribe((measurementData: any) => {
+                console.log('Get measurement data result: ', measurementData);
+                this.measurementData = measurementData.value;
+                this.timeseriesChart = new Chart({
+                    chart: {
+                        type: 'line',
+                        zoomType: 'x'
+                    },
+                    title: {
+                        text: 'Zeitreihen'
+                    },
+                    xAxis: {
+                        type: 'datetime'
+                    },
+                    yAxis: {
                         title: {
-                            text: 'Zeitreihen'
-                        },
-                        xAxis: {
-                            type: 'datetime'
-                        },
-                        yAxis: {
-                            title: {
-                                text: 'Spannung / Strom'
-                            }
-                        },
-                        credits: {
-                            enabled: false
-                        },
-                        series: measurementData.value
-                    });
-                },
-                error => {
-                    console.log(`There was an issue. ${error._body}.`);
-
-                    this.toastyService.error(
-                        <ToastOptions>{
-                            title: 'Error!',
-                            msg: 'Messdaten konnten nicht geladen werden!',
-                            showClose: true,
-                            timeout: 15000
+                            text: 'Spannung / Strom'
                         }
-                    );
-
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    series: measurementData.value
                 });
-        } else if (measurement.measurementType === MeasurementType.Ortskurve) {
-            this.measurementService.getLocus(measurement.id)
-                .subscribe((measurementData: any) => {
-                    console.log('Get measurement data result: ', measurementData);
-                    this.measurementData = measurementData.value;
-                    this.chart = new Chart({
-                        chart: {
-                            type: 'spline',
-                            zoomType: 'x'
-                        },
-                        title: {
-                            text: 'Ortskurve'
-                        },
-                        xAxis: {
-                            title: {
-                                text: 'Realteil'
-                            }
-                        },
-                        yAxis: {
-                            title: {
-                                text: 'Imaginärteil'
-                            }
-                        },
-                        credits: {
-                            enabled: false
-                        },
-                        series: measurementData.value
-                    });
-                },
-                error => {
-                    console.log(`There was an issue. ${error._body}.`);
+            },
+            error => {
+                console.log(`There was an issue. ${error._body}.`);
 
-                    this.toastyService.error(
-                        <ToastOptions>{
-                            title: 'Error!',
-                            msg: 'Messdaten konnten nicht geladen werden!',
-                            showClose: true,
-                            timeout: 15000
-                        }
-                    );
-
-                });
-        }
+                this.toastyService.error(
+                    <ToastOptions>{
+                        title: 'Error!',
+                        msg: 'Messdaten konnten nicht geladen werden!',
+                        showClose: true,
+                        timeout: 15000
+                    }
+                );
+            });
     }
 
+    plotLocus(measurement: Measurement) {
+        this.measurementService.getLocus(measurement.id)
+            .subscribe((measurementData: any) => {
+                console.log('Get measurement data result: ', measurementData);
+                this.measurementData = measurementData.value;
+                this.locusChart = new Chart({
+                    chart: {
+                        type: 'spline',
+                        zoomType: 'x'
+                    },
+                    title: {
+                        text: 'Ortskurve'
+                    },
+                    xAxis: {
+                        title: {
+                            text: 'Realteil'
+                        }
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Imaginärteil'
+                        }
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    series: measurementData.value
+                });
+            },
+            error => {
+                console.log(`There was an issue. ${error._body}.`);
+
+                this.toastyService.error(
+                    <ToastOptions>{
+                        title: 'Error!',
+                        msg: 'Messdaten konnten nicht geladen werden!',
+                        showClose: true,
+                        timeout: 15000
+                    }
+                );
+            });
+    }
 }
