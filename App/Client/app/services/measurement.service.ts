@@ -33,7 +33,7 @@ export class MeasurementService {
     }
 
     getTimeSeries(measurementId: number): Observable<any> {
-        return this.transferHttp.get(`${this.baseUrl}/api/measurements/timeseries/` + measurementId);
+        return this.transferHttp.get(`${this.baseUrl}/api/measurements/timeseries/` + measurementId + '/' + 1489245600 + '/' + 1489248000);
     }
 
     deleteMeasurement(measurement: Measurement): Observable<any> {

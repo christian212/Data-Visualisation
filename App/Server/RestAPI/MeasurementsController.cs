@@ -105,11 +105,9 @@ namespace AspCoreServer.Controllers
             }
         }
 
-        [HttpGet("[action]/{id}")]
-        public async Task<IActionResult> TimeSeries(int id)
+        [HttpGet("[action]/{id}/{min}/{max}")]
+        public async Task<IActionResult> TimeSeries(int id, long min, long max)
         {
-            var min = new DateTime(2017, 3, 12, 8, 30, 30, DateTimeKind.Utc);
-            var max = new DateTime(2017, 3, 12, 9, 0, 30, DateTimeKind.Utc); ;
 
             var measurement = await _context.Measurements
                 .Where(s => s.Id == id)
@@ -137,16 +135,14 @@ namespace AspCoreServer.Controllers
                 {
                     var row = new Row();
 
-                    row.Timestamp = new DateTime(record.Jahr, record.Monat, record.Tag, record.Stunde, record.Minute, record.Sekunde, DateTimeKind.Utc);
-                    row.UnixTimestamp = new DateTimeOffset(new DateTime(record.Jahr, record.Monat, record.Tag, record.Stunde, record.Minute, record.Sekunde, DateTimeKind.Utc)).ToUnixTimeSeconds() * 1000;
-
+                    row.UnixTimestamp = new DateTimeOffset(new DateTime(record.Jahr, record.Monat, record.Tag, record.Stunde, record.Minute, record.Sekunde, DateTimeKind.Utc)).ToUnixTimeSeconds();
                     row.Spannung = record.Spannung;
                     row.Strom = record.Strom;
 
                     rows.Add(row);
                 }
 
-                var filteredRows = rows.Where(row => row.Timestamp >= min & row.Timestamp <= max).ToList();
+                var filteredRows = rows.Where(row => row.UnixTimestamp >= min & row.UnixTimestamp <= max).ToList();
 
                 var timeseriesVoltage = new TimeSeries();
                 var timeseriesCurrent = new TimeSeries();
@@ -157,22 +153,14 @@ namespace AspCoreServer.Controllers
                 var voltage = new double[filteredRows.Count()][];
                 var current = new double[filteredRows.Count()][];
 
-                for (int i = 0; i < filteredRows.Count(); i++)
-                {
-                    voltage[i] = new double[2];
-                }
-
-                for (int i = 0; i < filteredRows.Count(); i++)
-                {
-                    current[i] = new double[2];
-                }
-
                 foreach (var row in filteredRows.Select((value, i) => new { i, value }))
                 {
-                    voltage[row.i][0] = row.value.UnixTimestamp;
+                    voltage[row.i] = new double[2];
+                    voltage[row.i][0] = row.value.UnixTimestamp * 1000;
                     voltage[row.i][1] = row.value.Spannung;
 
-                    current[row.i][0] = row.value.UnixTimestamp;
+                    current[row.i] = new double[2];
+                    current[row.i][0] = row.value.UnixTimestamp * 1000;
                     current[row.i][1] = row.value.Strom;
                 }
 
@@ -181,9 +169,7 @@ namespace AspCoreServer.Controllers
 
                 var timeseriesArray = new TimeSeries[] { timeseriesVoltage, timeseriesCurrent };
 
-                var result = Json(timeseriesArray);
-
-                return Ok(result);
+                return Ok(Json(timeseriesArray));
             }
         }
 
