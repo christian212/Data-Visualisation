@@ -14,7 +14,7 @@ export class ListService {
       new List(BatteryListComponent, { navName: 'Systeme', newName: 'Neues System' }),
       new List(StackListComponent, { navName: 'Stacks', newName: 'Neuer Stack' }),
       new List(CellListComponent, { navName: 'Zellen', newName: 'Neue Zelle' }),
-      new List(MeasurementListComponent, { navName: 'Messungen', newName: 'Neue Messung' }),
+      new List(MeasurementListComponent, { navName: 'Messungen', newName: 'Neue Messung' })
     ];
   }
 }

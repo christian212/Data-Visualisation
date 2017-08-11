@@ -108,6 +108,9 @@ namespace AspCoreServer.Controllers
         [HttpGet("[action]/{id}")]
         public async Task<IActionResult> TimeSeries(int id)
         {
+            var min = new DateTime(2017, 3, 12, 8, 30, 30, DateTimeKind.Utc);
+            var max = new DateTime(2017, 3, 12, 9, 0, 30, DateTimeKind.Utc); ;
+
             var measurement = await _context.Measurements
                 .Where(s => s.Id == id)
                 .AsNoTracking()
@@ -128,33 +131,49 @@ namespace AspCoreServer.Controllers
                 var csv = new CsvReader(reader);
                 var records = csv.GetRecords<Record>().ToList();
 
+                var rows = new List<Row>();
+
+                foreach (var record in records)
+                {
+                    var row = new Row();
+
+                    row.Timestamp = new DateTime(record.Jahr, record.Monat, record.Tag, record.Stunde, record.Minute, record.Sekunde, DateTimeKind.Utc);
+                    row.UnixTimestamp = new DateTimeOffset(new DateTime(record.Jahr, record.Monat, record.Tag, record.Stunde, record.Minute, record.Sekunde, DateTimeKind.Utc)).ToUnixTimeSeconds() * 1000;
+
+                    row.Spannung = record.Spannung;
+                    row.Strom = record.Strom;
+
+                    rows.Add(row);
+                }
+
+                var filteredRows = rows.Where(row => row.Timestamp >= min & row.Timestamp <= max).ToList();
+
                 var timeseriesVoltage = new TimeSeries();
                 var timeseriesCurrent = new TimeSeries();
 
                 timeseriesVoltage.Name = "Spannung in Volt";
                 timeseriesCurrent.Name = "Strom in Ampere";
 
-                var voltage = new double[records.Count()][];
-                var current = new double[records.Count()][];
+                var voltage = new double[filteredRows.Count()][];
+                var current = new double[filteredRows.Count()][];
 
-                for (int i = 0; i < records.Count(); i++)
+                for (int i = 0; i < filteredRows.Count(); i++)
                 {
                     voltage[i] = new double[2];
                 }
 
-                for (int i = 0; i < records.Count(); i++)
+                for (int i = 0; i < filteredRows.Count(); i++)
                 {
                     current[i] = new double[2];
                 }
 
-                foreach (var record in records.Select((value, i) => new { i, value }))
+                foreach (var row in filteredRows.Select((value, i) => new { i, value }))
                 {
-                    var timestamp = new DateTimeOffset(new DateTime(record.value.Jahr, record.value.Monat, record.value.Tag, record.value.Stunde, record.value.Minute, record.value.Sekunde, DateTimeKind.Utc)).ToUnixTimeSeconds() * 1000;
-                    voltage[record.i][0] = timestamp;
-                    voltage[record.i][1] = record.value.Spannung;
+                    voltage[row.i][0] = row.value.UnixTimestamp;
+                    voltage[row.i][1] = row.value.Spannung;
 
-                    current[record.i][0] = timestamp;
-                    current[record.i][1] = record.value.Strom;
+                    current[row.i][0] = row.value.UnixTimestamp;
+                    current[row.i][1] = row.value.Strom;
                 }
 
                 timeseriesVoltage.Data = voltage;
