@@ -26,7 +26,7 @@ namespace AspCoreServer.Models
 
         //Setting Default value
         public Cell()
-        {   
+        {
             Name = "Name";
             Description = "Beschreibung";
             Created = DateTime.Now.ToUniversalTime();

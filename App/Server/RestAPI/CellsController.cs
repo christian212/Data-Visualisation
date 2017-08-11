@@ -31,6 +31,7 @@ namespace AspCoreServer.Controllers
         public async Task<IActionResult> Get(int currentPageNo = 1, int pageSize = 1000)
         {
             var cells = await _context.Cells
+                .Include(s => s.Measurements)
                 .OrderByDescending(s => s.Created)
                 .Skip((currentPageNo - 1) * pageSize)
                 .Take(pageSize)
@@ -42,6 +43,13 @@ namespace AspCoreServer.Controllers
             }
             else
             {
+
+                foreach (Cell cell in cells)
+                {
+                    cell.MeasurementCount = cell.Measurements.Count;
+                    cell.Measurements = null;
+                }
+
                 return Ok(cells);
             }
         }
