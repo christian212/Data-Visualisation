@@ -201,7 +201,8 @@ export class CellDetailComponent implements OnInit {
                     },
                     tooltip: {
                         shared: true,
-                        crosshairs: true
+                        crosshairs: true,
+                        valueDecimals: 3
                     },
                     series: measurementData.value
                 });
@@ -272,6 +273,6 @@ export class CellDetailComponent implements OnInit {
     }
 
     loadRawData() {
-        
+
     }
 }

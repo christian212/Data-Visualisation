@@ -161,7 +161,9 @@ namespace AspCoreServer.Controllers
                 var timeseriesCurrent = new TimeSeries();
 
                 timeseriesVoltage.Name = "Spannung";
+                timeseriesVoltage.Tooltip = new Tooltip(" V");
                 timeseriesCurrent.Name = "Strom";
+                timeseriesCurrent.Tooltip = new Tooltip(" A");
 
                 var voltage = new double[filteredRows.Count()][];
                 var current = new double[filteredRows.Count()][];
