@@ -91,17 +91,22 @@ namespace AspCoreServer.Controllers
 
                 var json = System.IO.File.ReadAllText(filePath);
 
+                var locusFile = new LocusFile();
+                JsonConvert.PopulateObject(json, locusFile);
+
                 var locus = new Locus();
-                JsonConvert.PopulateObject(json, locus);
+                locus.Name = "Impedanz";
+                locus.Data = new List<ComplexPoint>();
 
-                var timeseriesImpedance = new TimeSeries();
-                timeseriesImpedance.Name = "Impedanz";
+                foreach (var rawPoint in locusFile.Spectrum.Impedance.ArrayData.Select((value, i) => new { i, value }))
+                {
+                    var point = new ComplexPoint(rawPoint.value[0], rawPoint.value[1]);
+                    point.Frequency = locusFile.Spectrum.Frequency[rawPoint.i];
 
-                timeseriesImpedance.Data = locus.Spectrum.Impedance.ArrayData;
+                    locus.Data.Add(point);
+                }
 
-                var result = new TimeSeries[] { timeseriesImpedance };
-
-                return Ok(Json(result));
+                return Ok(Json(new Locus[] { locus }));
             }
         }
 

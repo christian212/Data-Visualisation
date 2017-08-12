@@ -199,6 +199,10 @@ export class CellDetailComponent implements OnInit {
                     credits: {
                         enabled: false
                     },
+                    tooltip: {
+                        shared: true,
+                        crosshairs: true
+                    },
                     series: measurementData.value
                 });
             },
@@ -241,6 +245,11 @@ export class CellDetailComponent implements OnInit {
                     },
                     credits: {
                         enabled: false
+                    },
+                    tooltip: {
+                        formatter: function () {
+                            return 'Frequenz: <b>' + this.point.frequency + 'Hz</b>';
+                        }
                     },
                     series: measurementData.value
                 });
