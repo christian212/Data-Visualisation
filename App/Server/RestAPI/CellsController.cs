@@ -2,6 +2,7 @@ using AspCoreServer.Data;
 using AspCoreServer.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Hosting;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,10 +14,12 @@ namespace AspCoreServer.Controllers
     public class CellsController : Controller
     {
         private readonly SpaDbContext _context;
+        private readonly IHostingEnvironment _environment;
 
-        public CellsController(SpaDbContext context)
+        public CellsController(IHostingEnvironment environment, SpaDbContext context)
         {
             _context = context;
+            _environment = environment;
         }
 
         [HttpGet("[action]")]
@@ -98,7 +101,7 @@ namespace AspCoreServer.Controllers
         {
             try
             {
-                cellUpdateValue.Modified = DateTime.Now;
+                cellUpdateValue.Modified = DateTime.Now.ToUniversalTime();
 
                 var cellToEdit = await _context.Cells
                   .AsNoTracking()
@@ -130,15 +133,31 @@ namespace AspCoreServer.Controllers
         {
             var cellToRemove = await _context.Cells
                 .AsNoTracking()
-            .SingleOrDefaultAsync(m => m.Id == id);
+                .SingleOrDefaultAsync(m => m.Id == id);
             if (cellToRemove == null)
             {
                 return NotFound("Could not delete cell as it was not Found");
             }
             else
             {
+                var measurementsToRemove = _context.Measurements
+                .Where(m => m.Cell.Id == id);
+
+                foreach (Measurement measurementToRemove in measurementsToRemove)
+                {
+                    var filePath = System.IO.Path.Combine(_environment.WebRootPath,
+                    "uploads", "Measurements", measurementToRemove.Id.ToString());
+
+                    if (System.IO.Directory.Exists(filePath))
+                    {
+                        System.IO.Directory.Delete(filePath, true);
+                    }
+                }
+
+                _context.Measurements.RemoveRange(measurementsToRemove);
                 _context.Cells.Remove(cellToRemove);
                 await _context.SaveChangesAsync();
+                
                 return Ok("Deleted cell - " + cellToRemove.Name);
             }
         }

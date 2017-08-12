@@ -84,7 +84,7 @@ namespace AspCoreServer.Controllers
         {
             try
             {
-                batteryUpdateValue.Modified = DateTime.Now;
+                batteryUpdateValue.Modified = DateTime.Now.ToUniversalTime();
 
                 var batteryToEdit = await _context.Batteries
                   .AsNoTracking()

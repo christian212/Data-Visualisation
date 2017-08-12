@@ -20,7 +20,7 @@
 
       <div *ngIf="cell.measurements.length" class="measurements table-responsive mb-3">
 
-        <div *ngIf="timeseriesMeasurements.length" class="measurements table-responsive mb-3">
+        <div *ngIf="timeseriesMeasurements.length" class="measurements table-responsive my-3">
           <h5>Zeitreihen <span class="badge badge-info badge-pill align-middle">{{timeseriesMeasurements.length}}</span></h5>
 
           <table class="table table-hover">
@@ -56,7 +56,7 @@
 
         <div [chart]="timeseriesChart"></div>
 
-        <div *ngIf="locusMeasurements.length" class="measurements table-responsive mb-3">
+        <div *ngIf="locusMeasurements.length" class="measurements table-responsive my-3">
           <h5>Ortskurven <span class="badge badge-info badge-pill align-middle">{{locusMeasurements.length}}</span></h5>
 
           <table class="table table-hover">
@@ -92,7 +92,7 @@
 
         <div [chart]="locusChart"></div>
 
-        <div *ngIf="otherMeasurements.length" class="measurements table-responsive mb-3">
+        <div *ngIf="otherMeasurements.length" class="measurements table-responsive my-3">
           <h5>Sonstige <span class="badge badge-info badge-pill align-middle">{{otherMeasurements.length}}</span></h5>
 
           <table class="table table-hover">
@@ -125,7 +125,7 @@
           </table>
         </div>
 
-        <div *ngIf="undefinedMeasurements.length" class="measurements table-responsive mb-3">
+        <div *ngIf="undefinedMeasurements.length" class="measurements table-responsive my-3">
           <h5>Undefiniert <span class="badge badge-info badge-pill align-middle">{{undefinedMeasurements.length}}</span></h5>
 
           <table class="table table-hover">
@@ -167,10 +167,6 @@
         <div class="mt-3 mb-3">
           <button class="btn btn-primary btn-simple" (click)="addMeasurement(cell.id); $event.stopPropagation()"><i class="fa fa-plus"></i> Messung hinzufügen</button>
         </div>
-      </div>
-
-      <div class="mt-3 mb-3">
-        <button class="btn btn-primary btn-simple" (click)="loadRawData()"><i class="fa fa-tasks"></i> Rohdaten laden</button>
       </div>
 
     </div>

@@ -84,7 +84,7 @@ namespace AspCoreServer.Controllers
         {
             try
             {
-                stackUpdateValue.Modified = DateTime.Now;
+                stackUpdateValue.Modified = DateTime.Now.ToUniversalTime();
 
                 var stackToEdit = await _context.Stacks
                   .AsNoTracking()

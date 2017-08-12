@@ -95,7 +95,7 @@ namespace AspCoreServer.Controllers
                 JsonConvert.PopulateObject(json, locusFile);
 
                 var locus = new Locus();
-                locus.Name = "Impedanz";
+                locus.Name = "ID " + measurement.Id + ": Impedanz";
                 locus.Data = new List<ComplexPoint>();
 
                 foreach (var rawPoint in locusFile.Spectrum.Impedance.ArrayData.Select((value, i) => new { i, value }))
@@ -160,9 +160,9 @@ namespace AspCoreServer.Controllers
                 var timeseriesVoltage = new TimeSeries();
                 var timeseriesCurrent = new TimeSeries();
 
-                timeseriesVoltage.Name = "Spannung";
+                timeseriesVoltage.Name = "ID " + measurement.Id + ": Spannung";
                 timeseriesVoltage.Tooltip = new Tooltip(" V");
-                timeseriesCurrent.Name = "Strom";
+                timeseriesCurrent.Name = "ID " + measurement.Id + ": Strom";
                 timeseriesCurrent.Tooltip = new Tooltip(" A");
 
                 var voltage = new double[filteredRows.Count()][];
@@ -232,7 +232,7 @@ namespace AspCoreServer.Controllers
         {
             try
             {
-                measurementUpdateValue.Modified = DateTime.Now;
+                measurementUpdateValue.Modified = DateTime.Now.ToUniversalTime();
 
                 var measurementToEdit = await _context.Measurements
                   .AsNoTracking()

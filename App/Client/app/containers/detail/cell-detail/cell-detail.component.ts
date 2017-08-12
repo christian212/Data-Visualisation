@@ -180,32 +180,38 @@ export class CellDetailComponent implements OnInit {
             .subscribe((measurementData: any) => {
                 console.log('Get measurement data result: ', measurementData);
                 this.measurementData = measurementData.value;
-                this.timeseriesChart = new Chart({
-                    chart: {
-                        type: 'line',
-                        zoomType: 'x'
-                    },
-                    title: {
-                        text: 'Zeitreihen'
-                    },
-                    xAxis: {
-                        type: 'datetime'
-                    },
-                    yAxis: {
+
+                if (this.timeseriesChart === undefined) {
+                    this.timeseriesChart = new Chart({
+                        chart: {
+                            type: 'line',
+                            zoomType: 'x'
+                        },
                         title: {
-                            text: 'Spannung in V / Strom in A'
-                        }
-                    },
-                    credits: {
-                        enabled: false
-                    },
-                    tooltip: {
-                        shared: true,
-                        crosshairs: true,
-                        valueDecimals: 3
-                    },
-                    series: measurementData.value
-                });
+                            text: 'Zeitreihen'
+                        },
+                        xAxis: {
+                            type: 'datetime'
+                        },
+                        yAxis: {
+                            title: {
+                                text: 'Spannung in V / Strom in A'
+                            }
+                        },
+                        credits: {
+                            enabled: false
+                        },
+                        tooltip: {
+                            shared: true,
+                            crosshairs: true,
+                            valueDecimals: 3
+                        },
+                        series: measurementData.value
+                    });
+                } else {
+                    this.timeseriesChart.addSerie(measurementData.value[0]);
+                    this.timeseriesChart.addSerie(measurementData.value[1]);
+                }
             },
             error => {
                 console.log(`There was an issue. ${error._body}.`);
@@ -226,37 +232,42 @@ export class CellDetailComponent implements OnInit {
             .subscribe((measurementData: any) => {
                 console.log('Get measurement data result: ', measurementData);
                 this.measurementData = measurementData.value;
-                this.locusChart = new Chart({
-                    chart: {
-                        type: 'spline',
-                        zoomType: 'x'
-                    },
-                    title: {
-                        text: measurement.name
-                    },
-                    xAxis: {
+
+                if (this.locusChart === undefined) {
+                    this.locusChart = new Chart({
+                        chart: {
+                            type: 'spline',
+                            zoomType: 'x'
+                        },
                         title: {
-                            text: 'Realteil in m\u03A9'
-                        }
-                    },
-                    yAxis: {
-                        title: {
-                            text: 'Imaginärteil in m\u03A9'
-                        }
-                    },
-                    credits: {
-                        enabled: false
-                    },
-                    tooltip: {
-                        formatter: function () {
-                            return 'Frequenz: <b>' + this.point.frequency + ' Hz</b>'
-                                + '<br />Realteil: <b>' + this.point.x.toFixed(3) + ' m\u03A9</b>'
-                                + '<br />Imaginärteil: <b>' + this.point.y.toFixed(3) + ' m\u03A9</b>'
-                                + '<br />Impedanz: <b>' + Math.sqrt(Math.pow(this.point.y, 2) + Math.pow(this.point.y, 2)).toFixed(3) + ' m\u03A9</b>';
-                        }
-                    },
-                    series: measurementData.value
-                });
+                            text: measurement.name
+                        },
+                        xAxis: {
+                            title: {
+                                text: 'Realteil in m\u03A9'
+                            }
+                        },
+                        yAxis: {
+                            title: {
+                                text: 'Imaginärteil in m\u03A9'
+                            }
+                        },
+                        credits: {
+                            enabled: false
+                        },
+                        tooltip: {
+                            formatter: function () {
+                                return 'Frequenz: <b>' + this.point.frequency + ' Hz</b>'
+                                    + '<br />Realteil: <b>' + this.point.x.toFixed(3) + ' m\u03A9</b>'
+                                    + '<br />Imaginärteil: <b>' + this.point.y.toFixed(3) + ' m\u03A9</b>'
+                                    + '<br />Impedanz: <b>' + Math.sqrt(Math.pow(this.point.y, 2) + Math.pow(this.point.y, 2)).toFixed(3) + ' m\u03A9</b>';
+                            }
+                        },
+                        series: measurementData.value
+                    });
+                } else {
+                    this.locusChart.addSerie(measurementData.value[0]);
+                }
             },
             error => {
                 console.log(`There was an issue. ${error._body}.`);
