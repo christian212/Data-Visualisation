@@ -1,7 +1,7 @@
 ﻿<div class="card mb-5">
   <div class="card-header d-flex justify-content-between">
     Stack ID: {{stack.id}}
-    <span class="badge badge-info badge-pill">{{CircuitType[stack.circuitType]}} | {{stack.cellCount}} Zellen</span>
+    <span class="badge badge-info badge-pill">{{CircuitType[stack.circuitType]}} | {{cells.length}} Zellen</span>
   </div>
 
   <div class="card-block">
@@ -22,7 +22,7 @@
 
       <!-- Nav tabs -->
       <tabset>
-        <tab *ngFor="let cell of cells; let idx = index" [heading]="idx + 1" [active]="cell.active" (select)="cell.active = true">
+        <tab *ngFor="let cell of cells" [heading]="cell.id" [active]="cell.active" (select)="cell.active = true">
           <div class="media mt-2 mb-4">
             <div class="media-body">
               <h5 class="mt-2 mb-3">{{cell?.name}}</h5>

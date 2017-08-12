@@ -31,6 +31,7 @@ namespace AspCoreServer.Controllers
         public async Task<IActionResult> Get(int currentPageNo = 1, int pageSize = 1000)
         {
             var stacks = await _context.Stacks
+                .Include(s => s.StackCells)
                 .OrderByDescending(s => s.Created)
                 .Skip((currentPageNo - 1) * pageSize)
                 .Take(pageSize)
@@ -42,6 +43,12 @@ namespace AspCoreServer.Controllers
             }
             else
             {
+                foreach (Stack stack in stacks)
+                {
+                    stack.CellCount = stack.StackCells.Count;
+                    stack.StackCells = null;
+                }
+
                 return Ok(stacks);
             }
         }
@@ -51,7 +58,8 @@ namespace AspCoreServer.Controllers
         {
             var stack = await _context.Stacks
                 .Where(s => s.Id == id)
-                .AsNoTracking()
+                .Include(s => s.StackCells)
+                .ThenInclude(x => x.Cell)
                 .SingleOrDefaultAsync(m => m.Id == id);
 
             if (stack == null)
@@ -60,6 +68,15 @@ namespace AspCoreServer.Controllers
             }
             else
             {
+                foreach (StackCell stackCell in stack.StackCells)
+                {
+                    stackCell.Stack = null;
+                    stackCell.StackId = 0;
+
+                    stackCell.Cell.StackCells = null;
+                    stackCell.Cell.Measurements = null;
+                }
+
                 return Ok(stack);
             }
         }

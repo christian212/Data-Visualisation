@@ -2,6 +2,7 @@
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { ToastyService, ToastOptions } from 'ng2-toasty';
 
+import { Cell } from './../../../models/Cell';
 import { Stack } from '../../../models/Stack';
 import { StackService } from '../../../services/stack.service';
 
@@ -19,12 +20,7 @@ enum CircuitType {
 
 export class StackDetailComponent implements OnInit {
     stack: Stack;
-
-    public cells: any[] = [
-        { name: 'Zelle 1', description: 'Beschreibung 1', active: true },
-        { name: 'Zelle 2', description: 'Beschreibung 2' },
-        { name: 'Zelle 3', description: 'Beschreibung 3' }
-    ];
+    cells: Cell[];
 
     public CircuitType = CircuitType;
 
@@ -38,7 +34,17 @@ export class StackDetailComponent implements OnInit {
     ngOnInit() {
         this.route.params
             .switchMap((params: Params) => this.stackService.getStack(+params['id']))
-            .subscribe((stack: Stack) => this.stack = stack,
+            .subscribe((stack: Stack) => {
+                this.stack = stack;
+
+                let cells: Cell[] = [];
+                stack.stackCells.forEach(stackCell => {
+                    cells.push(stackCell.cell);
+                });
+
+                cells[0].active = true;
+                this.cells = cells;
+            },
             error => {
                 console.log(`There was an issue. ${error._body}.`);
 

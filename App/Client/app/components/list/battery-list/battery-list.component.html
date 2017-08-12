@@ -2,7 +2,7 @@
     <div class="card mb-5" *ngFor="let battery of batteries | filter:searchTerm | paginate: config" (click)="details(battery.id)">
         <div class="card-header d-flex justify-content-between">
             System ID: {{battery.id}}
-            <span class="badge badge-info badge-pill">{{CircuitType[battery.circuitType]}} | {{battery.cellCount}} Zellen</span>
+            <span class="badge badge-info badge-pill">{{CircuitType[battery.circuitType]}} | {{battery.stackCount}} Stacks</span>
         </div>
 
         <div class="card-block">

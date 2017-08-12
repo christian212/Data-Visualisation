@@ -12,4 +12,6 @@ export interface Cell {
 
     created: Date;
     modified: Date;
+
+    active: Boolean;
 }

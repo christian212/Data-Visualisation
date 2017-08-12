@@ -66,17 +66,17 @@ namespace AspCoreServer.Controllers
                 .Include(s => s.Measurements)
                 .SingleOrDefaultAsync(m => m.Id == id);
 
-            foreach (Measurement measurement in cell.Measurements)
-            {
-                measurement.Cell = null;
-            }
-
             if (cell == null)
             {
                 return NotFound("Cell not Found");
             }
             else
             {
+                foreach (Measurement measurement in cell.Measurements)
+                {
+                    measurement.Cell = null;
+                }
+
                 return Ok(cell);
             }
         }
@@ -157,7 +157,7 @@ namespace AspCoreServer.Controllers
                 _context.Measurements.RemoveRange(measurementsToRemove);
                 _context.Cells.Remove(cellToRemove);
                 await _context.SaveChangesAsync();
-                
+
                 return Ok("Deleted cell - " + cellToRemove.Name);
             }
         }
