@@ -100,7 +100,7 @@ namespace AspCoreServer.Controllers
 
                 foreach (var rawPoint in locusFile.Spectrum.Impedance.ArrayData.Select((value, i) => new { i, value }))
                 {
-                    var point = new ComplexPoint(rawPoint.value[0], rawPoint.value[1]);
+                    var point = new ComplexPoint(rawPoint.value[0] * 1000, rawPoint.value[1] * 1000);
                     point.Frequency = locusFile.Spectrum.Frequency[rawPoint.i];
 
                     locus.Data.Add(point);
@@ -113,6 +113,7 @@ namespace AspCoreServer.Controllers
         [HttpGet("[action]/{id}/{min}/{max}")]
         public async Task<IActionResult> TimeSeries(int id, long min, long max)
         {
+            var maxDatapoints = 500;
 
             var measurement = await _context.Measurements
                 .Where(s => s.Id == id)
@@ -147,13 +148,20 @@ namespace AspCoreServer.Controllers
                     rows.Add(row);
                 }
 
+                if (min == 0){
+                    min = rows.Min(row => row.UnixTimestamp);
+                }
+                if (max == 0){
+                    max = rows.Max(row => row.UnixTimestamp);
+                }
+
                 var filteredRows = rows.Where(row => row.UnixTimestamp >= min & row.UnixTimestamp <= max).ToList();
 
                 var timeseriesVoltage = new TimeSeries();
                 var timeseriesCurrent = new TimeSeries();
 
-                timeseriesVoltage.Name = "Spannung in Volt";
-                timeseriesCurrent.Name = "Strom in Ampere";
+                timeseriesVoltage.Name = "Spannung";
+                timeseriesCurrent.Name = "Strom";
 
                 var voltage = new double[filteredRows.Count()][];
                 var current = new double[filteredRows.Count()][];
@@ -169,13 +177,37 @@ namespace AspCoreServer.Controllers
                     current[row.i][1] = row.value.Strom;
                 }
 
-                timeseriesVoltage.Data = voltage;
-                timeseriesCurrent.Data = current;
+                timeseriesVoltage.Data = ReduceDataPoints(maxDatapoints, voltage);
+                timeseriesCurrent.Data = ReduceDataPoints(maxDatapoints, current);
 
                 var timeseriesArray = new TimeSeries[] { timeseriesVoltage, timeseriesCurrent };
 
                 return Ok(Json(timeseriesArray));
             }
+        }
+
+        double[][] ReduceDataPoints(int Datapoints, double[][] array)
+        {
+            if (Datapoints > array.Count())
+            {
+                Datapoints = array.Count();
+            }
+
+            // Set step size
+            float step = (float)(array.Count() - 1) / (Datapoints - 1);
+
+            var arrayReduced = new double[Datapoints][];
+
+            for (int i = 0; i < Datapoints; i++)
+            {
+                arrayReduced[i] = new double[2];
+
+                // Add each element of a position which is a multiple of step to arrayReduced
+                arrayReduced[i][0] = array[(int)Math.Round(step * i)][0];
+                arrayReduced[i][1] = array[(int)Math.Round(step * i)][1];
+            }
+
+            return arrayReduced;
         }
 
         [HttpPost]

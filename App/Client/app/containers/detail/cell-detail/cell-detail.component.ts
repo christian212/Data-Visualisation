@@ -193,7 +193,7 @@ export class CellDetailComponent implements OnInit {
                     },
                     yAxis: {
                         title: {
-                            text: 'Spannung / Strom'
+                            text: 'Spannung in V / Strom in A'
                         }
                     },
                     credits: {
@@ -231,16 +231,16 @@ export class CellDetailComponent implements OnInit {
                         zoomType: 'x'
                     },
                     title: {
-                        text: 'Ortskurve'
+                        text: measurement.name
                     },
                     xAxis: {
                         title: {
-                            text: 'Realteil'
+                            text: 'Realteil in m\u03A9'
                         }
                     },
                     yAxis: {
                         title: {
-                            text: 'Imaginärteil'
+                            text: 'Imaginärteil in m\u03A9'
                         }
                     },
                     credits: {
@@ -248,7 +248,10 @@ export class CellDetailComponent implements OnInit {
                     },
                     tooltip: {
                         formatter: function () {
-                            return 'Frequenz: <b>' + this.point.frequency + 'Hz</b>';
+                            return 'Frequenz: <b>' + this.point.frequency + ' Hz</b>'
+                                + '<br />Realteil: <b>' + this.point.x.toFixed(3) + ' m\u03A9</b>'
+                                + '<br />Imaginärteil: <b>' + this.point.y.toFixed(3) + ' m\u03A9</b>'
+                                + '<br />Impedanz: <b>' + Math.sqrt(Math.pow(this.point.y, 2) + Math.pow(this.point.y, 2)).toFixed(3) + ' m\u03A9</b>';
                         }
                     },
                     series: measurementData.value
@@ -266,5 +269,9 @@ export class CellDetailComponent implements OnInit {
                     }
                 );
             });
+    }
+
+    loadRawData() {
+        
     }
 }
