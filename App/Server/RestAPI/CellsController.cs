@@ -74,6 +74,8 @@ namespace AspCoreServer.Controllers
             {
                 foreach (Measurement measurement in cell.Measurements)
                 {
+                    measurement.Battery = null;
+                    measurement.Stack = null;
                     measurement.Cell = null;
                 }
 

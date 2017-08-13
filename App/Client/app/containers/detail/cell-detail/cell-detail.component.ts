@@ -1,10 +1,10 @@
-﻿import { Measurement } from './../../../models/Measurement';
-import { Component, OnInit, Input } from '@angular/core';
+﻿import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { ToastyService, ToastOptions } from 'ng2-toasty';
 import { Chart } from 'angular-highcharts';
 
 import { Cell } from '../../../models/Cell';
+import { Measurement } from './../../../models/Measurement';
 import { CellService } from '../../../services/cell.service';
 import { MeasurementService } from '../../../services/measurement.service';
 
@@ -31,10 +31,10 @@ enum MeasurementType {
 export class CellDetailComponent implements OnInit {
     cell: Cell;
 
-    timeseriesMeasurements: Measurement[];
-    locusMeasurements: Measurement[];
-    undefinedMeasurements: Measurement[];
-    otherMeasurements: Measurement[];
+    timeseriesMeasurements: Measurement[] = [];
+    locusMeasurements: Measurement[] = [];
+    undefinedMeasurements: Measurement[] = [];
+    otherMeasurements: Measurement[] = [];
 
     selectedMeasurement: Measurement;
     measurementCount: number = 0;

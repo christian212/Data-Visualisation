@@ -1,5 +1,6 @@
 using System.IO;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using AspCoreServer.Models;
@@ -62,13 +63,21 @@ namespace AspCoreServer.Controllers
                 else
                     measurement.MeasurementType = MeasurementType.Sonstige;
 
-                var id = 5;
+                // var cellId = 27;
 
-                var cell = await _context.Cells
-                    .Where(s => s.Id == id)
-                    .SingleOrDefaultAsync(m => m.Id == id);
+                // var cell = await _context.Cells
+                //     .Where(s => s.Id == cellId)
+                //     .SingleOrDefaultAsync(m => m.Id == cellId);
 
-                measurement.Cell = cell;
+                // measurement.Cell = cell;
+
+                var stackId = 10;
+
+                var stack = await _context.Stacks
+                    .Where(s => s.Id == stackId)
+                    .SingleOrDefaultAsync(m => m.Id == stackId);
+
+                measurement.Stack = stack;
 
                 _context.Add(measurement);
                 await _context.SaveChangesAsync();

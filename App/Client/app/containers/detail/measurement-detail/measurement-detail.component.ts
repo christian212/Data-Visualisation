@@ -145,18 +145,23 @@ export class MeasurementDetailComponent implements OnInit {
                     zoomType: 'x'
                 },
                 title: {
-                    text: 'Zeitreihen'
+                    text: this.measurement.name
                 },
                 xAxis: {
                     type: 'datetime'
                 },
                 yAxis: {
                     title: {
-                        text: 'Spannung / Strom'
+                        text: 'Spannung in V / Strom in A'
                     }
                 },
                 credits: {
                     enabled: false
+                },
+                tooltip: {
+                    shared: true,
+                    crosshairs: true,
+                    valueDecimals: 3
                 },
                 series: data
             });
@@ -167,20 +172,28 @@ export class MeasurementDetailComponent implements OnInit {
                     zoomType: 'x'
                 },
                 title: {
-                    text: 'Ortskurve'
+                    text: this.measurement.name
                 },
                 xAxis: {
                     title: {
-                        text: 'Realteil'
+                        text: 'Realteil in m\u03A9'
                     }
                 },
                 yAxis: {
                     title: {
-                        text: 'Imaginärteil'
+                        text: 'Imaginärteil in m\u03A9'
                     }
                 },
                 credits: {
                     enabled: false
+                },
+                tooltip: {
+                    formatter: function () {
+                        return 'Frequenz: <b>' + this.point.frequency + ' Hz</b>'
+                            + '<br />Realteil: <b>' + this.point.x.toFixed(3) + ' m\u03A9</b>'
+                            + '<br />Imaginärteil: <b>' + this.point.y.toFixed(3) + ' m\u03A9</b>'
+                            + '<br />Impedanz: <b>' + Math.sqrt(Math.pow(this.point.y, 2) + Math.pow(this.point.y, 2)).toFixed(3) + ' m\u03A9</b>';
+                    }
                 },
                 series: data
             });

@@ -2,9 +2,11 @@ using AspCoreServer.Data;
 using AspCoreServer.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Hosting;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace AspCoreServer.Controllers
 {
@@ -13,10 +15,12 @@ namespace AspCoreServer.Controllers
     public class StacksController : Controller
     {
         private readonly SpaDbContext _context;
+        private readonly IHostingEnvironment _environment;
 
-        public StacksController(SpaDbContext context)
+        public StacksController(IHostingEnvironment environment, SpaDbContext context)
         {
             _context = context;
+            _environment = environment;
         }
 
         [HttpGet("[action]")]
@@ -58,6 +62,7 @@ namespace AspCoreServer.Controllers
         {
             var stack = await _context.Stacks
                 .Where(s => s.Id == id)
+                .Include(s => s.Measurements)
                 .Include(s => s.StackCells)
                 .ThenInclude(x => x.Cell)
                 .SingleOrDefaultAsync(m => m.Id == id);
@@ -75,6 +80,17 @@ namespace AspCoreServer.Controllers
 
                     stackCell.Cell.StackCells = null;
                     stackCell.Cell.Measurements = null;
+                }
+
+                foreach (Measurement measurement in stack.Measurements)
+                {
+                    measurement.Battery = null;
+                    measurement.Stack = null;
+                    measurement.Cell = null;
+                }
+
+                if (stack.StackCells.Count() == 0){
+                    stack.StackCells = null;
                 }
 
                 return Ok(stack);
@@ -140,6 +156,21 @@ namespace AspCoreServer.Controllers
             }
             else
             {
+                var measurementsToRemove = _context.Measurements
+                .Where(m => m.Stack.Id == id);
+
+                foreach (Measurement measurementToRemove in measurementsToRemove)
+                {
+                    var filePath = System.IO.Path.Combine(_environment.WebRootPath,
+                    "uploads", "Measurements", measurementToRemove.Id.ToString());
+
+                    if (System.IO.Directory.Exists(filePath))
+                    {
+                        System.IO.Directory.Delete(filePath, true);
+                    }
+                }
+
+                _context.Measurements.RemoveRange(measurementsToRemove);
                 _context.Stacks.Remove(stackToRemove);
                 await _context.SaveChangesAsync();
                 return Ok("Deleted stack - " + stackToRemove.Name);
