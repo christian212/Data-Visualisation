@@ -240,7 +240,7 @@ export class CellDetailComponent implements OnInit {
                             zoomType: 'x'
                         },
                         title: {
-                            text: measurement.name
+                            text: 'Ortskurven'
                         },
                         xAxis: {
                             title: {

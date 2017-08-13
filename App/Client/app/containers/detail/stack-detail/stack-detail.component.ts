@@ -25,7 +25,8 @@ enum MeasurementType {
 
 @Component({
     selector: 'stack-detail',
-    templateUrl: './stack-detail.component.html'
+    templateUrl: './stack-detail.component.html',
+    styleUrls: ['./stack-detail.component.css']
 })
 
 export class StackDetailComponent implements OnInit {
@@ -37,7 +38,9 @@ export class StackDetailComponent implements OnInit {
     undefinedMeasurements: Measurement[] = [];
     otherMeasurements: Measurement[] = [];
 
+    selectedCell: Cell;
     selectedMeasurement: Measurement;
+
     measurementCount: number = 0;
     measurementData: any;
 
@@ -136,23 +139,23 @@ export class StackDetailComponent implements OnInit {
         });
     }
 
-    plotStack() {
-
-    }
-
     addCell() {
 
     }
 
-    editCell(id: number) {
+    detailsCell(id: number) {
+        this.router.navigate(['/cell/details/', id]);
+    }
 
+    editCell(id: number) {
+        this.router.navigate(['/cell/edit/', id]);
+    }
+
+    selectCell(cell: Cell) {
+        this.selectedCell = cell;
     }
 
     deleteCell() {
-
-    }
-
-    plotCell() {
 
     }
 
