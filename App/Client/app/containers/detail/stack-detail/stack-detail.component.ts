@@ -315,8 +315,4 @@ export class StackDetailComponent implements OnInit {
                 );
             });
     }
-
-    loadRawData() {
-
-    }
 }

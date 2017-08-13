@@ -71,13 +71,21 @@ namespace AspCoreServer.Controllers
 
                 // measurement.Cell = cell;
 
-                var stackId = 11;
+                // var stackId = 11;
 
-                var stack = await _context.Stacks
-                    .Where(s => s.Id == stackId)
-                    .SingleOrDefaultAsync(m => m.Id == stackId);
+                // var stack = await _context.Stacks
+                //     .Where(s => s.Id == stackId)
+                //     .SingleOrDefaultAsync(m => m.Id == stackId);
 
-                measurement.Stack = stack;
+                // measurement.Stack = stack;
+
+                var batteryId = 4;
+
+                var battery = await _context.Batteries
+                    .Where(s => s.Id == batteryId)
+                    .SingleOrDefaultAsync(m => m.Id == batteryId);
+
+                measurement.Battery = battery;
 
                 _context.Add(measurement);
                 await _context.SaveChangesAsync();

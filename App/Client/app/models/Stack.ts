@@ -22,4 +22,6 @@ export interface Stack {
 
     created: Date;
     modified: Date;
+
+    active: Boolean;
 }

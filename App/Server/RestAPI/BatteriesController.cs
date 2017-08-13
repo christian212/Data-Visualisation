@@ -2,6 +2,7 @@ using AspCoreServer.Data;
 using AspCoreServer.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Hosting;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,10 +14,12 @@ namespace AspCoreServer.Controllers
     public class BatteriesController : Controller
     {
         private readonly SpaDbContext _context;
+        private readonly IHostingEnvironment _environment;
 
-        public BatteriesController(SpaDbContext context)
+        public BatteriesController(IHostingEnvironment environment, SpaDbContext context)
         {
             _context = context;
+            _environment = environment;
         }
 
         [HttpGet("[action]")]
@@ -51,6 +54,9 @@ namespace AspCoreServer.Controllers
         {
             var battery = await _context.Batteries
                 .Where(s => s.Id == id)
+                .Include(s => s.Measurements)
+                .Include(s => s.BatteryStacks)
+                .ThenInclude(x => x.Stack)
                 .AsNoTracking()
                 .SingleOrDefaultAsync(m => m.Id == id);
 
@@ -60,6 +66,26 @@ namespace AspCoreServer.Controllers
             }
             else
             {
+                foreach (BatteryStack batteryStack in battery.BatteryStacks)
+                {
+                    batteryStack.Battery = null;
+                    batteryStack.BatteryId = 0;
+
+                    batteryStack.Stack.BatteryStacks = null;
+                    batteryStack.Stack.Measurements = null;
+                }
+
+                foreach (Measurement measurement in battery.Measurements)
+                {
+                    measurement.Battery = null;
+                    measurement.Stack = null;
+                    measurement.Cell = null;
+                }
+
+                if (battery.BatteryStacks.Count() == 0){
+                    battery.BatteryStacks = null;
+                }
+
                 return Ok(battery);
             }
         }
@@ -123,6 +149,21 @@ namespace AspCoreServer.Controllers
             }
             else
             {
+                var measurementsToRemove = _context.Measurements
+                .Where(m => m.Battery.Id == id);
+
+                foreach (Measurement measurementToRemove in measurementsToRemove)
+                {
+                    var filePath = System.IO.Path.Combine(_environment.WebRootPath,
+                    "uploads", "Measurements", measurementToRemove.Id.ToString());
+
+                    if (System.IO.Directory.Exists(filePath))
+                    {
+                        System.IO.Directory.Delete(filePath, true);
+                    }
+                }
+
+                _context.Measurements.RemoveRange(measurementsToRemove);
                 _context.Batteries.Remove(batteryToRemove);
                 await _context.SaveChangesAsync();
                 return Ok("Deleted battery - " + batteryToRemove.Name);
