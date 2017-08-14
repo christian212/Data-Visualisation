@@ -19,7 +19,7 @@ namespace AspCoreServer.Models
     {
         public double X { set; get; }
         public double Y { set; get; }
-        public int Frequency { set; get; }
+        public double Frequency { set; get; }
 
         public ComplexPoint(double x, double y)
         {

@@ -98,7 +98,7 @@ namespace AspCoreServer.Controllers
                 locus.Name = "ID " + measurement.Id + ": Impedanz";
                 locus.Data = new List<ComplexPoint>();
 
-                foreach (var rawPoint in locusFile.Spectrum.Impedance.ArrayData.Select((value, i) => new { i, value }))
+                foreach (var rawPoint in locusFile.Spectrum.Impedance._ArrayData_.Select((value, i) => new { i, value }))
                 {
                     var point = new ComplexPoint(rawPoint.value[0] * 1000, rawPoint.value[1] * 1000);
                     point.Frequency = locusFile.Spectrum.Frequency[rawPoint.i];
@@ -135,11 +135,11 @@ namespace AspCoreServer.Controllers
                 var csv = new CsvReader(reader);
                 var records = csv.GetRecords<Record>().ToList();
 
-                var rows = new List<Row>();
+                var rows = new List<CsvRow>();
 
                 foreach (var record in records)
                 {
-                    var row = new Row();
+                    var row = new CsvRow();
 
                     row.UnixTimestamp = new DateTimeOffset(new DateTime(record.Jahr, record.Monat, record.Tag, record.Stunde, record.Minute, record.Sekunde, DateTimeKind.Utc)).ToUnixTimeSeconds();
                     row.Spannung = record.Spannung;

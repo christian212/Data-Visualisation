@@ -5,12 +5,12 @@ namespace AspCoreServer.Models
 
     public class LocusFile
     {
+        public MeasurementType MeasurementType { get; set; }
         public LocusDate Date { set; get; }
         public string Mode { set; get; }
         public double Current { set; get; }
         public double Charge { set; get; }
         public Spectrum Spectrum { set; get; }
-        //public object RawData { set; get; }
     }
 
     public class LocusDate
@@ -25,13 +25,12 @@ namespace AspCoreServer.Models
 
     public class Spectrum
     {
-        public int[] Frequency { set; get; }
+        public double[] Frequency { set; get; }
         public Impedance Impedance { set; get; }
     }
 
     public class Impedance
     {
-        public double[][] ArrayData { set; get; }
+        public double[][] _ArrayData_ { set; get; }
     }
-
 }
