@@ -3,6 +3,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { ToastyService, ToastOptions } from 'ng2-toasty';
 import { Chart } from 'angular-highcharts';
 
+import { TimeSeriesChartComponent } from './../../../components/chart/timeseries-chart/timeseries-chart.component';
 import { Measurement, MeasurementType } from '../../../models/Measurement';
 import { MeasurementService } from '../../../services/measurement.service';
 
@@ -20,6 +21,9 @@ export class MeasurementDetailComponent implements OnInit {
 
     public MeasurementType = MeasurementType;
 
+    @ViewChild(TimeSeriesChartComponent)
+    private timeSeriesChartComponent: TimeSeriesChartComponent;
+
     constructor(
         private measurementService: MeasurementService,
         private toastyService: ToastyService,
@@ -34,26 +38,7 @@ export class MeasurementDetailComponent implements OnInit {
                 this.measurement = measurement;
 
                 if (this.measurement.measurementType === MeasurementType.Zeitreihe) {
-                    this.route.params
-                        .switchMap((params: Params) => this.measurementService.getTimeSeries(+params['id']))
-                        .subscribe((measurementData: any) => {
-                            console.log('Get measurement data result: ', measurementData);
-                            this.measurementData = measurementData.value;
-                            this.plotMeasurementData('Messdaten vom Server', measurementData.value);
-                        },
-                        error => {
-                            console.log(`There was an issue. ${error._body}.`);
-
-                            this.toastyService.error(
-                                <ToastOptions>{
-                                    title: 'Error!',
-                                    msg: 'Messdaten konnten nicht geladen werden!',
-                                    showClose: true,
-                                    timeout: 15000
-                                }
-                            );
-
-                        });
+                    this.timeSeriesChartComponent.createChart(this.measurement);
                 } else if (this.measurement.measurementType === MeasurementType.Ortskurve) {
                     this.route.params
                         .switchMap((params: Params) => this.measurementService.getLocus(+params['id']))

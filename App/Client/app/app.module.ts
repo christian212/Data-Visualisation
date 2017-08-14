@@ -21,7 +21,7 @@ import { HomeComponent } from './containers/home/home.component';
 import { DatabaseComponent } from './containers/database/database.component';
 import { UploadComponent } from './containers/upload/upload.component';
 import { PlotComponent } from './containers/plot/plot.component';
-import { TimeseriesChartComponent } from './components/chart/timeseries-chart/timeseries-chart.component';
+import { TimeSeriesChartComponent } from './components/chart/timeseries-chart/timeseries-chart.component';
 import { BatteryListComponent } from './components/list/battery-list/battery-list.component';
 import { StackListComponent } from './components/list/stack-list/stack-list.component';
 import { CellListComponent } from './components/list/cell-list/cell-list.component';
@@ -69,7 +69,7 @@ export function createTranslateLoader(http: Http, baseHref) {
         DatabaseComponent,
         UploadComponent,
         PlotComponent,
-        TimeseriesChartComponent,
+        TimeSeriesChartComponent,
         BatteryListComponent,
         StackListComponent,
         CellListComponent,

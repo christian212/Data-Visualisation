@@ -1,18 +1,12 @@
-﻿import { Component, Input } from '@angular/core';
+﻿import { Component, Input, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { ToastyService, ToastOptions } from 'ng2-toasty';
 import { PaginationInstance } from '../../../../../node_modules/ngx-pagination/dist/ngx-pagination.module';
 import { Chart } from 'angular-highcharts';
 
-import { Measurement } from './../../../models/Measurement';
+import { TimeSeriesChartComponent } from './../../../components/chart/timeseries-chart/timeseries-chart.component';
+import { Measurement, MeasurementType } from './../../../models/Measurement';
 import { MeasurementService } from '../../../services/measurement.service';
-
-enum MeasurementType {
-    Undefined,
-    Zeitreihe,
-    Ortskurve,
-    Sonstige
-}
 
 @Component({
     selector: 'measurement-grouped-list',
@@ -20,7 +14,6 @@ enum MeasurementType {
     styleUrls: ['./measurement-grouped-list.component.css']
 })
 export class MeasurementGroupedListComponent {
-
     @Input() measurements: Measurement[] = [];
 
     selectedMeasurement: Measurement;
@@ -42,7 +35,6 @@ export class MeasurementGroupedListComponent {
             measurement => measurement.measurementType === 3);
     }
 
-    timeseriesChart: Chart;
     locusChart: Chart;
 
     public MeasurementType = MeasurementType;
@@ -60,6 +52,9 @@ export class MeasurementGroupedListComponent {
         itemsPerPage: this.itemsPerPage,
         currentPage: 1
     };
+
+    @ViewChild(TimeSeriesChartComponent)
+    private timeSeriesChartComponent: TimeSeriesChartComponent;
 
     constructor(
         private measurementService: MeasurementService,
@@ -116,49 +111,7 @@ export class MeasurementGroupedListComponent {
     }
 
     plotTimeseries(measurement: Measurement) {
-        this.measurementService.getTimeSeries(measurement.id)
-            .subscribe((measurementData: any) => {
-                console.log('Get measurement data result: ', measurementData);
-
-                this.timeseriesChart = new Chart({
-                    chart: {
-                        type: 'line',
-                        zoomType: 'x'
-                    },
-                    title: {
-                        text: 'Zeitreihen'
-                    },
-                    xAxis: {
-                        type: 'datetime'
-                    },
-                    yAxis: {
-                        title: {
-                            text: 'Spannung in V / Strom in A'
-                        }
-                    },
-                    credits: {
-                        enabled: false
-                    },
-                    tooltip: {
-                        shared: true,
-                        crosshairs: true,
-                        valueDecimals: 3
-                    },
-                    series: measurementData.value
-                });
-            },
-            error => {
-                console.log(`There was an issue. ${error._body}.`);
-
-                this.toastyService.error(
-                    <ToastOptions>{
-                        title: 'Error!',
-                        msg: 'Messdaten konnten nicht geladen werden!',
-                        showClose: true,
-                        timeout: 15000
-                    }
-                );
-            });
+        this.timeSeriesChartComponent.createChart(measurement);
     }
 
     plotLocus(measurement: Measurement) {

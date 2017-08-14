@@ -19,7 +19,7 @@
       <button type="button" class="btn btn-danger btn-simple btn-round btn-icon btn-icon-mini mr-1" (click)="measurementModal.show(); $event.stopPropagation()"><i class="fa fa-trash-o"></i></button>
     </div>
 
-    <div [chart]="chart"></div>
+    <timeseries-chart></timeseries-chart>
 
     <div class="mt-3 mb-3">
       <button class="btn btn-primary btn-simple" (click)="loadRawData()"><i class="fa fa-tasks"></i> Rohdaten laden</button>
