@@ -1,13 +1,7 @@
 ﻿import { BatteryStack } from './BatteryStack';
 import { StackCell } from './StackCell';
+import { CircuitType } from './Battery';
 import { Measurement } from './Measurement';
-
-enum CircuitType {
-    Undefined,
-    Reihenschaltung,
-    Parallelschaltung,
-    Sonstige
-}
 
 export interface Stack {
     id: number;

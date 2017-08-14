@@ -2,7 +2,7 @@ import { Battery } from './Battery';
 import { Stack } from './Stack';
 import { Cell } from './Cell';
 
-enum MeasurementType {
+export enum MeasurementType {
     Undefined,
     Zeitreihe,
     Ortskurve,

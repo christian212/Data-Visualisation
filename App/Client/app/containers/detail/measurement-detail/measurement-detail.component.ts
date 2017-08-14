@@ -3,16 +3,8 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { ToastyService, ToastOptions } from 'ng2-toasty';
 import { Chart } from 'angular-highcharts';
 
-import { Measurement } from '../../../models/Measurement';
+import { Measurement, MeasurementType } from '../../../models/Measurement';
 import { MeasurementService } from '../../../services/measurement.service';
-import { ChartComponent } from './../../../components/chart/chart.component';
-
-enum MeasurementType {
-    Undefined,
-    Zeitreihe,
-    Ortskurve,
-    Sonstige
-}
 
 @Component({
     selector: 'measurement-detail',
@@ -27,9 +19,6 @@ export class MeasurementDetailComponent implements OnInit {
     chart: Chart;
 
     public MeasurementType = MeasurementType;
-
-    @ViewChild(ChartComponent)
-    private chartComponent: ChartComponent;
 
     constructor(
         private measurementService: MeasurementService,

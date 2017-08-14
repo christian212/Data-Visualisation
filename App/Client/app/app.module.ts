@@ -1,6 +1,4 @@
-﻿import { Battery } from './models/Battery';
-
-import { NgModule, Inject } from '@angular/core';
+﻿import { NgModule, Inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule, APP_BASE_HREF } from '@angular/common';
 import { HttpModule, Http } from '@angular/http';
@@ -23,11 +21,12 @@ import { HomeComponent } from './containers/home/home.component';
 import { DatabaseComponent } from './containers/database/database.component';
 import { UploadComponent } from './containers/upload/upload.component';
 import { PlotComponent } from './containers/plot/plot.component';
-import { ChartComponent } from './components/chart/chart.component';
+import { TimeseriesChartComponent } from './components/chart/timeseries-chart/timeseries-chart.component';
 import { BatteryListComponent } from './components/list/battery-list/battery-list.component';
 import { StackListComponent } from './components/list/stack-list/stack-list.component';
 import { CellListComponent } from './components/list/cell-list/cell-list.component';
 import { MeasurementListComponent } from './components/list/measurement-list/measurement-list.component';
+import { MeasurementGroupedListComponent } from './components/list/measurement-grouped-list/measurement-grouped-list.component';
 import { BatteryDetailComponent } from './containers/detail/battery-detail/battery-detail.component';
 import { StackDetailComponent } from './containers/detail/stack-detail/stack-detail.component';
 import { CellDetailComponent } from './containers/detail/cell-detail/cell-detail.component';
@@ -70,11 +69,12 @@ export function createTranslateLoader(http: Http, baseHref) {
         DatabaseComponent,
         UploadComponent,
         PlotComponent,
-        ChartComponent,
+        TimeseriesChartComponent,
         BatteryListComponent,
         StackListComponent,
         CellListComponent,
         MeasurementListComponent,
+        MeasurementGroupedListComponent,
         BatteryDetailComponent,
         StackDetailComponent,
         CellDetailComponent,

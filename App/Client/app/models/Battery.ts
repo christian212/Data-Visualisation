@@ -1,7 +1,7 @@
 import { BatteryStack } from './BatteryStack';
 import { Measurement } from './Measurement';
 
-enum CircuitType {
+export enum CircuitType {
     Undefined,
     Reihenschaltung,
     Parallelschaltung,

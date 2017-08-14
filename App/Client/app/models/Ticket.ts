@@ -1,3 +1,3 @@
 export class Ticket {
-    constructor(public description: string = "") { }
+    constructor(public description: string = '') { }
 }
