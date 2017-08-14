@@ -33,16 +33,25 @@ export class BatteryDetailComponent implements OnInit {
     battery: Battery;
     stacks: Stack[] = [];
 
-    timeseriesMeasurements: Measurement[] = [];
-    locusMeasurements: Measurement[] = [];
-    undefinedMeasurements: Measurement[] = [];
-    otherMeasurements: Measurement[] = [];
+    get undefinedMeasurements(): Measurement[] {
+        return this.battery.measurements.filter(
+            measurement => measurement.measurementType === 0);
+    }
+    get timeseriesMeasurements(): Measurement[] {
+        return this.battery.measurements.filter(
+            measurement => measurement.measurementType === 1);
+    }
+    get locusMeasurements(): Measurement[] {
+        return this.battery.measurements.filter(
+            measurement => measurement.measurementType === 2);
+    }
+    get otherMeasurements(): Measurement[] {
+        return this.battery.measurements.filter(
+            measurement => measurement.measurementType === 3);
+    }
 
     selectedStack: Stack;
     selectedMeasurement: Measurement;
-
-    measurementCount: number = 0;
-    measurementData: any;
 
     timeseriesChart: Chart;
     locusChart: Chart;
@@ -75,20 +84,6 @@ export class BatteryDetailComponent implements OnInit {
                     stacks[0].active = true;
                     this.stacks = stacks;
                 }
-
-                this.measurementCount = battery.measurements.length;
-
-                this.undefinedMeasurements = this.battery.measurements.filter(
-                    measurement => measurement.measurementType === 0);
-
-                this.timeseriesMeasurements = this.battery.measurements.filter(
-                    measurement => measurement.measurementType === 1);
-
-                this.locusMeasurements = this.battery.measurements.filter(
-                    measurement => measurement.measurementType === 2);
-
-                this.otherMeasurements = this.battery.measurements.filter(
-                    measurement => measurement.measurementType === 3);
             },
             error => {
                 console.log(`There was an issue. ${error._body}.`);
@@ -183,7 +178,6 @@ export class BatteryDetailComponent implements OnInit {
             if (result.ok) {
                 let position = this.battery.measurements.indexOf(measurement);
                 this.battery.measurements.splice(position, 1);
-                this.measurementCount = this.measurementCount - 1;
 
                 this.toastyService.success(
                     <ToastOptions>{
@@ -212,39 +206,33 @@ export class BatteryDetailComponent implements OnInit {
         this.measurementService.getTimeSeries(measurement.id)
             .subscribe((measurementData: any) => {
                 console.log('Get measurement data result: ', measurementData);
-                this.measurementData = measurementData.value;
 
-                if (this.timeseriesChart === undefined) {
-                    this.timeseriesChart = new Chart({
-                        chart: {
-                            type: 'line',
-                            zoomType: 'x'
-                        },
+                this.timeseriesChart = new Chart({
+                    chart: {
+                        type: 'line',
+                        zoomType: 'x'
+                    },
+                    title: {
+                        text: 'Zeitreihen'
+                    },
+                    xAxis: {
+                        type: 'datetime'
+                    },
+                    yAxis: {
                         title: {
-                            text: 'Zeitreihen'
-                        },
-                        xAxis: {
-                            type: 'datetime'
-                        },
-                        yAxis: {
-                            title: {
-                                text: 'Spannung in V / Strom in A'
-                            }
-                        },
-                        credits: {
-                            enabled: false
-                        },
-                        tooltip: {
-                            shared: true,
-                            crosshairs: true,
-                            valueDecimals: 3
-                        },
-                        series: measurementData.value
-                    });
-                } else {
-                    this.timeseriesChart.addSerie(measurementData.value[0]);
-                    this.timeseriesChart.addSerie(measurementData.value[1]);
-                }
+                            text: 'Spannung in V / Strom in A'
+                        }
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    tooltip: {
+                        shared: true,
+                        crosshairs: true,
+                        valueDecimals: 3
+                    },
+                    series: measurementData.value
+                });
             },
             error => {
                 console.log(`There was an issue. ${error._body}.`);
@@ -264,43 +252,38 @@ export class BatteryDetailComponent implements OnInit {
         this.measurementService.getLocus(measurement.id)
             .subscribe((measurementData: any) => {
                 console.log('Get measurement data result: ', measurementData);
-                this.measurementData = measurementData.value;
 
-                if (this.locusChart === undefined) {
-                    this.locusChart = new Chart({
-                        chart: {
-                            type: 'spline',
-                            zoomType: 'x'
-                        },
+                this.locusChart = new Chart({
+                    chart: {
+                        type: 'spline',
+                        zoomType: 'x'
+                    },
+                    title: {
+                        text: measurement.name
+                    },
+                    xAxis: {
                         title: {
-                            text: measurement.name
-                        },
-                        xAxis: {
-                            title: {
-                                text: 'Realteil in m\u03A9'
-                            }
-                        },
-                        yAxis: {
-                            title: {
-                                text: 'Imaginärteil in m\u03A9'
-                            }
-                        },
-                        credits: {
-                            enabled: false
-                        },
-                        tooltip: {
-                            formatter: function () {
-                                return 'Frequenz: <b>' + this.point.frequency + ' Hz</b>'
-                                    + '<br />Realteil: <b>' + this.point.x.toFixed(3) + ' m\u03A9</b>'
-                                    + '<br />Imaginärteil: <b>' + this.point.y.toFixed(3) + ' m\u03A9</b>'
-                                    + '<br />Impedanz: <b>' + Math.sqrt(Math.pow(this.point.y, 2) + Math.pow(this.point.y, 2)).toFixed(3) + ' m\u03A9</b>';
-                            }
-                        },
-                        series: measurementData.value
-                    });
-                } else {
-                    this.locusChart.addSerie(measurementData.value[0]);
-                }
+                            text: 'Realteil in m\u03A9'
+                        }
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Imaginärteil in m\u03A9'
+                        }
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    tooltip: {
+                        formatter: function () {
+                            return 'Frequenz: <b>' + this.point.frequency + ' Hz</b>'
+                                + '<br />Realteil: <b>' + this.point.x.toFixed(3) + ' m\u03A9</b>'
+                                + '<br />Imaginärteil: <b>' + this.point.y.toFixed(3) + ' m\u03A9</b>'
+                                + '<br />Impedanz: <b>' + Math.sqrt(Math.pow(this.point.y, 2) + Math.pow(this.point.y, 2)).toFixed(3) + ' m\u03A9</b>';
+                        }
+                    },
+                    series: measurementData.value
+                });
             },
             error => {
                 console.log(`There was an issue. ${error._body}.`);
