@@ -2,9 +2,9 @@
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { ToastyService, ToastOptions } from 'ng2-toasty';
 import { PaginationInstance } from '../../../../../node_modules/ngx-pagination/dist/ngx-pagination.module';
-import { Chart } from 'angular-highcharts';
 
 import { TimeSeriesChartComponent } from './../../../components/chart/timeseries-chart/timeseries-chart.component';
+import { LocusChartComponent } from './../../../components/chart/locus-chart/locus-chart.component';
 import { Measurement, MeasurementType } from './../../../models/Measurement';
 import { MeasurementService } from '../../../services/measurement.service';
 
@@ -35,8 +35,6 @@ export class MeasurementGroupedListComponent {
             measurement => measurement.measurementType === 3);
     }
 
-    locusChart: Chart;
-
     public MeasurementType = MeasurementType;
 
     itemsPerPage: number = 10;
@@ -55,6 +53,8 @@ export class MeasurementGroupedListComponent {
 
     @ViewChild(TimeSeriesChartComponent)
     private timeSeriesChartComponent: TimeSeriesChartComponent;
+    @ViewChild(LocusChartComponent)
+    private locusChartComponent: LocusChartComponent;
 
     constructor(
         private measurementService: MeasurementService,
@@ -115,57 +115,6 @@ export class MeasurementGroupedListComponent {
     }
 
     plotLocus(measurement: Measurement) {
-        this.measurementService.getLocus(measurement.id)
-            .subscribe((measurementData: any) => {
-                console.log('Get measurement data result: ', measurementData);
-
-                if (this.locusChart === undefined) {
-                    this.locusChart = new Chart({
-                        chart: {
-                            type: 'spline',
-                            zoomType: 'x'
-                        },
-                        title: {
-                            text: measurement.name
-                        },
-                        xAxis: {
-                            title: {
-                                text: 'Realteil in m\u03A9'
-                            }
-                        },
-                        yAxis: {
-                            title: {
-                                text: 'Imaginärteil in m\u03A9'
-                            }
-                        },
-                        credits: {
-                            enabled: false
-                        },
-                        tooltip: {
-                            formatter: function () {
-                                return 'Frequenz: <b>' + this.point.frequency + ' Hz</b>'
-                                    + '<br />Realteil: <b>' + this.point.x.toFixed(3) + ' m\u03A9</b>'
-                                    + '<br />Imaginärteil: <b>' + this.point.y.toFixed(3) + ' m\u03A9</b>'
-                                    + '<br />Impedanz: <b>' + Math.sqrt(Math.pow(this.point.y, 2) + Math.pow(this.point.y, 2)).toFixed(3) + ' m\u03A9</b>';
-                            }
-                        },
-                        series: measurementData.value
-                    });
-                } else {
-                    this.locusChart.addSerie(measurementData.value[0]);
-                }
-            },
-            error => {
-                console.log(`There was an issue. ${error._body}.`);
-
-                this.toastyService.error(
-                    <ToastOptions>{
-                        title: 'Error!',
-                        msg: 'Messdaten konnten nicht geladen werden!',
-                        showClose: true,
-                        timeout: 15000
-                    }
-                );
-            });
+        this.locusChartComponent.createChart(measurement);
     }
 }

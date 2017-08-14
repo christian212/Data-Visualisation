@@ -4,6 +4,7 @@ import { ToastyService, ToastOptions } from 'ng2-toasty';
 import { Chart } from 'angular-highcharts';
 
 import { TimeSeriesChartComponent } from './../../../components/chart/timeseries-chart/timeseries-chart.component';
+import { LocusChartComponent } from './../../../components/chart/locus-chart/locus-chart.component';
 import { Measurement, MeasurementType } from '../../../models/Measurement';
 import { MeasurementService } from '../../../services/measurement.service';
 
@@ -15,14 +16,12 @@ import { MeasurementService } from '../../../services/measurement.service';
 export class MeasurementDetailComponent implements OnInit {
     measurement: Measurement;
 
-    measurementData: any;
-
-    chart: Chart;
-
     public MeasurementType = MeasurementType;
 
     @ViewChild(TimeSeriesChartComponent)
     private timeSeriesChartComponent: TimeSeriesChartComponent;
+    @ViewChild(LocusChartComponent)
+    private locusChartComponent: LocusChartComponent;
 
     constructor(
         private measurementService: MeasurementService,
@@ -40,26 +39,7 @@ export class MeasurementDetailComponent implements OnInit {
                 if (this.measurement.measurementType === MeasurementType.Zeitreihe) {
                     this.timeSeriesChartComponent.createChart(this.measurement);
                 } else if (this.measurement.measurementType === MeasurementType.Ortskurve) {
-                    this.route.params
-                        .switchMap((params: Params) => this.measurementService.getLocus(+params['id']))
-                        .subscribe((measurementData: any) => {
-                            console.log('Get measurement data result: ', measurementData);
-                            this.measurementData = measurementData.value;
-                            this.plotMeasurementData('Messdaten vom Server', measurementData.value);
-                        },
-                        error => {
-                            console.log(`There was an issue. ${error._body}.`);
-
-                            this.toastyService.error(
-                                <ToastOptions>{
-                                    title: 'Error!',
-                                    msg: 'Messdaten konnten nicht geladen werden!',
-                                    showClose: true,
-                                    timeout: 15000
-                                }
-                            );
-
-                        });
+                    this.locusChartComponent.createChart(this.measurement);
                 }
             },
             error => {
@@ -110,69 +90,4 @@ export class MeasurementDetailComponent implements OnInit {
             );
         });
     }
-
-    plotMeasurementData(legendName: string, data: any) {
-        if (this.measurement.measurementType === MeasurementType.Zeitreihe) {
-            this.chart = new Chart({
-                chart: {
-                    type: 'line',
-                    zoomType: 'x'
-                },
-                title: {
-                    text: this.measurement.name
-                },
-                xAxis: {
-                    type: 'datetime'
-                },
-                yAxis: {
-                    title: {
-                        text: 'Spannung in V / Strom in A'
-                    }
-                },
-                credits: {
-                    enabled: false
-                },
-                tooltip: {
-                    shared: true,
-                    crosshairs: true,
-                    valueDecimals: 3
-                },
-                series: data
-            });
-        } else if (this.measurement.measurementType === MeasurementType.Ortskurve) {
-            this.chart = new Chart({
-                chart: {
-                    type: 'spline',
-                    zoomType: 'x'
-                },
-                title: {
-                    text: this.measurement.name
-                },
-                xAxis: {
-                    title: {
-                        text: 'Realteil in m\u03A9'
-                    }
-                },
-                yAxis: {
-                    title: {
-                        text: 'Imaginärteil in m\u03A9'
-                    }
-                },
-                credits: {
-                    enabled: false
-                },
-                tooltip: {
-                    formatter: function () {
-                        return 'Frequenz: <b>' + this.point.frequency + ' Hz</b>'
-                            + '<br />Realteil: <b>' + this.point.x.toFixed(3) + ' m\u03A9</b>'
-                            + '<br />Imaginärteil: <b>' + this.point.y.toFixed(3) + ' m\u03A9</b>'
-                            + '<br />Impedanz: <b>' + Math.sqrt(Math.pow(this.point.y, 2) + Math.pow(this.point.y, 2)).toFixed(3) + ' m\u03A9</b>';
-                    }
-                },
-                series: data
-            });
-        }
-
-    }
-
 }
