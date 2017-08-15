@@ -110,10 +110,10 @@ namespace AspCoreServer.Controllers
             }
         }
 
-        [HttpGet("[action]/{id}/{min}/{max}")]
-        public async Task<IActionResult> TimeSeries(int id, long min, long max)
+        [HttpGet("[action]/{id}/{lowerBound}/{upperBound}")]
+        public async Task<IActionResult> TimeSeries(int id, long lowerBound, long upperBound)
         {
-            var maxDatapoints = 500;
+            const uint maxDatapoints = 500;
 
             var measurement = await _context.Measurements
                 .Where(s => s.Id == id)
@@ -148,14 +148,14 @@ namespace AspCoreServer.Controllers
                     rows.Add(row);
                 }
 
-                if (min == 0){
-                    min = rows.Min(row => row.UnixTimestamp);
+                if (lowerBound == 0){
+                    lowerBound = rows.Min(row => row.UnixTimestamp);
                 }
-                if (max == 0){
-                    max = rows.Max(row => row.UnixTimestamp);
+                if (upperBound == 0){
+                    upperBound = rows.Max(row => row.UnixTimestamp);
                 }
 
-                var filteredRows = rows.Where(row => row.UnixTimestamp >= min & row.UnixTimestamp <= max).ToList();
+                var filteredRows = rows.Where(row => row.UnixTimestamp >= lowerBound & row.UnixTimestamp <= upperBound).ToList();
 
                 var timeseriesVoltage = new TimeSeries();
                 var timeseriesCurrent = new TimeSeries();
@@ -254,7 +254,7 @@ namespace AspCoreServer.Controllers
                 //Log the error (uncomment ex variable name and write a log.)
                 ModelState.AddModelError("", "Unable to save changes. " +
                     "Try again, and if the problem persists, " +
-                    "see your system administrator.");
+                    "see your system adlowerBoundistrator.");
                 return NotFound("Measurement not Found");
             }
         }

@@ -32,8 +32,8 @@ export class MeasurementService {
         return this.transferHttp.get(`${this.baseUrl}/api/measurements/locus/` + measurementId);
     }
 
-    getTimeSeries(measurementId: number): Observable<any> {
-        return this.transferHttp.get(`${this.baseUrl}/api/measurements/timeseries/` + measurementId + '/' + 0 + '/' + 0); // 1489245600 + '/' + 1489248000);
+    getTimeSeries(measurementId: number, lowerBound: number = 0, upperBound: number = 0): Observable<any> {
+        return this.transferHttp.get(`${this.baseUrl}/api/measurements/timeseries/` + measurementId + '/' + lowerBound + '/' + upperBound);
     }
 
     deleteMeasurement(measurement: Measurement): Observable<any> {
