@@ -35,6 +35,8 @@ export class BatteryDetailComponent implements OnInit {
         this.route.params
             .switchMap((params: Params) => this.batteryService.getBattery(+params['id']))
             .subscribe((battery: Battery) => {
+                console.log('Get battery result: ', battery);
+
                 this.battery = battery;
                 this.measurements = battery.measurements;
 

@@ -60,6 +60,7 @@ namespace AspCoreServer.Controllers
             var measurement = await _context.Measurements
                 .Where(s => s.Id == id)
                 .AsNoTracking()
+                .Include(s => s.RawMeasurements)
                 .SingleOrDefaultAsync(m => m.Id == id);
 
             if (measurement == null)
@@ -68,6 +69,13 @@ namespace AspCoreServer.Controllers
             }
             else
             {
+                foreach (RawMeasurement rawMeasurement in measurement.RawMeasurements)
+                {
+                    rawMeasurement.Measurement = null;
+                }
+
+                measurement.RawMeasurements = measurement.RawMeasurements.OrderBy(m => m.Frequency).ToList();
+
                 return Ok(measurement);
             }
         }
@@ -86,10 +94,7 @@ namespace AspCoreServer.Controllers
             }
             else
             {
-                var filePath = Path.Combine(_environment.WebRootPath,
-                "uploads", "Measurements", measurement.Id.ToString(), measurement.FileName);
-
-                var json = System.IO.File.ReadAllText(filePath);
+                var json = System.IO.File.ReadAllText(measurement.FilePath);
 
                 var locusFile = new LocusFile();
                 JsonConvert.PopulateObject(json, locusFile);
@@ -113,7 +118,7 @@ namespace AspCoreServer.Controllers
         [HttpGet("[action]/{id}/{lowerBound}/{upperBound}")]
         public async Task<IActionResult> TimeSeries(int id, long lowerBound, long upperBound)
         {
-            const uint maxDatapoints = 500;
+            const int maxDatapoints = 500;
 
             var measurement = await _context.Measurements
                 .Where(s => s.Id == id)
@@ -126,10 +131,7 @@ namespace AspCoreServer.Controllers
             }
             else
             {
-                var filePath = Path.Combine(_environment.WebRootPath,
-                "uploads", "Measurements", measurement.Id.ToString(), measurement.FileName);
-
-                FileStream fileStream = new FileStream(filePath, FileMode.Open);
+                FileStream fileStream = new FileStream(measurement.FilePath, FileMode.Open);
                 StreamReader reader = new StreamReader(fileStream);
 
                 var csv = new CsvReader(reader);
@@ -148,10 +150,12 @@ namespace AspCoreServer.Controllers
                     rows.Add(row);
                 }
 
-                if (lowerBound == 0){
+                if (lowerBound == 0)
+                {
                     lowerBound = rows.Min(row => row.UnixTimestamp);
                 }
-                if (upperBound == 0){
+                if (upperBound == 0)
+                {
                     upperBound = rows.Max(row => row.UnixTimestamp);
                 }
 
@@ -181,6 +185,41 @@ namespace AspCoreServer.Controllers
 
                 timeseriesVoltage.Data = ReduceDataPoints(maxDatapoints, voltage);
                 timeseriesCurrent.Data = ReduceDataPoints(maxDatapoints, current);
+
+                var timeseriesArray = new TimeSeries[] { timeseriesVoltage, timeseriesCurrent };
+
+                return Ok(Json(timeseriesArray));
+            }
+        }
+
+        [HttpGet("[action]/{id}/{index}/{lowerBound}/{upperBound}")]
+        public async Task<IActionResult> RawTimeseries(int id, int index, long lowerBound, long upperBound)
+        {
+            var measurement = await _context.Measurements
+                .Where(s => s.Id == id)
+                .AsNoTracking()
+                .SingleOrDefaultAsync(m => m.Id == id);
+
+            if (measurement == null)
+            {
+                return NotFound("Measurement Data not Found");
+            }
+            else
+            {
+                var json = System.IO.File.ReadAllText(measurement.FilePath);
+
+                var locusFile = new LocusFile();
+                JsonConvert.PopulateObject(json, locusFile);
+
+                var rawData = locusFile.RawData[index];
+
+                var timeseriesVoltage = new TimeSeries();
+                var timeseriesCurrent = new TimeSeries();
+
+                timeseriesVoltage.Name = "ID " + measurement.Id + ": Spannung bei " + rawData.Frequency + " Hz";
+                timeseriesVoltage.Tooltip = new Tooltip(" V");
+                timeseriesCurrent.Name = "ID " + measurement.Id + ": Strom bei " + rawData.Frequency + " Hz";
+                timeseriesCurrent.Tooltip = new Tooltip(" A");
 
                 var timeseriesArray = new TimeSeries[] { timeseriesVoltage, timeseriesCurrent };
 

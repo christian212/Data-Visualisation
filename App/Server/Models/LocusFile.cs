@@ -11,6 +11,7 @@ namespace AspCoreServer.Models
         public double Current { set; get; }
         public double Charge { set; get; }
         public Spectrum Spectrum { set; get; }
+        public RawData[] RawData { set; get; }
     }
 
     public class LocusDate
@@ -32,5 +33,13 @@ namespace AspCoreServer.Models
     public class Impedance
     {
         public double[][] _ArrayData_ { set; get; }
+    }
+
+    public class RawData
+    {
+        public double Frequency { get; set; }
+        //public double[] Timepoint { get; set; }
+        //public double[] Voltage { get; set; }
+        //public double[] Current { get; set; }
     }
 }

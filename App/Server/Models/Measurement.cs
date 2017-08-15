@@ -23,6 +23,7 @@ namespace AspCoreServer.Models
         public string FilePath { get; set; }
         public long FileSize { get; set; }
         public MeasurementType MeasurementType { get; set; }
+        public ICollection<RawMeasurement> RawMeasurements { get; set; }
 
         public Battery Battery { get; set; }
         public Stack Stack { get; set; }

@@ -1,40 +1,4 @@
-﻿<div class="card mb-5">
-  <div class="card-header d-flex justify-content-between">
-    Messungs ID: {{measurement.id}}
-    <span class="badge badge-warning">{{MeasurementType[measurement.measurementType]}}</span>
-  </div>
-
-  <div class="card-block">
-    <h5 class="card-title">{{measurement.name}}</h5>
-
-    <div markdown-to-html [data]="measurement.description"></div>
-
-    <span class="category">Größe: </span>{{measurement.fileSize/1024/1024 | number:'.2' }} MB
-    <br />
-    <span class="category">Dateiname: </span><code>{{measurement.fileName}}</code>
-
-    <div class="my-4">
-      <button type="button" class="btn btn-primary btn-simple btn-round btn-icon btn-icon-mini mr-1" (click)="plotMeasurement(measurement.id); $event.stopPropagation()"><i class="fa fa-line-chart"></i></button>
-      <button type="button" class="btn btn-primary btn-simple btn-round btn-icon btn-icon-mini mr-1" (click)="editMeasurement(measurement.id); $event.stopPropagation()"><i class="fa fa-pencil"></i></button>
-      <button type="button" class="btn btn-danger btn-simple btn-round btn-icon btn-icon-mini mr-1" (click)="measurementModal.show(); $event.stopPropagation()"><i class="fa fa-trash-o"></i></button>
-    </div>
-
-    <timeseries-chart></timeseries-chart>
-    <locus-chart></locus-chart>
-
-    <div class="mt-3 mb-3">
-      <button class="btn btn-primary btn-simple" (click)="loadRawData()"><i class="fa fa-tasks"></i> Rohdaten laden</button>
-    </div>
-
-  </div>
-
-  <div class="card-footer text-muted d-flex justify-content-between">
-    <span><small><i class="fa fa-table"></i>  Erstellt: {{measurement.created | date:'mediumDate' }}, {{measurement.created | date:'shortTime' }}</small></span>
-    <span><small><i class="fa fa-table"></i>  Geändert: {{measurement.modified | date:'mediumDate' }}, {{measurement.modified | date:'shortTime' }}</small></span>
-  </div>
-</div>
-
-<!-- Modal Core -->
+﻿<!-- Modal Core -->
 <div class="modal fade show" bsModal #measurementModal="bs-modal" [config]="{backdrop: 'true', animated: 'true'}" tabindex="-1"
   role="dialog">
   <div class="modal-dialog">
@@ -51,5 +15,71 @@
         <button type="button" class="btn btn-danger btn-simple" (click)="measurementModal.hide(); deleteMeasurement()"><i class="fa fa-trash-o"></i> Löschen</button>
       </div>
     </div>
+  </div>
+</div>
+
+
+
+<div class="card mb-5">
+  <div class="card-header d-flex justify-content-between">
+    Messungs ID: {{measurement.id}}
+    <span class="badge badge-warning">{{MeasurementType[measurement.measurementType]}}</span>
+  </div>
+
+  <div class="card-block">
+    <h5 class="card-title">{{measurement.name}}</h5>
+
+    <div markdown-to-html [data]="measurement.description"></div>
+
+    <span class="category">Größe: </span>{{measurement.fileSize/1024/1024 | number:'.2' }} MB
+    <br />
+    <span class="category">Dateiname: </span><code>{{measurement.fileName}}</code>
+
+    <div class="my-4">
+      <button type="button" class="btn btn-primary btn-simple btn-round btn-icon btn-icon-mini mr-1" (click)="editMeasurement(measurement.id); $event.stopPropagation()"><i class="fa fa-pencil"></i></button>
+      <button type="button" class="btn btn-danger btn-simple btn-round btn-icon btn-icon-mini mr-1" (click)="measurementModal.show(); $event.stopPropagation()"><i class="fa fa-trash-o"></i></button>
+    </div>
+
+    <timeseries-chart></timeseries-chart>
+    <locus-chart></locus-chart>
+
+    <div *ngIf="MeasurementType[measurement.measurementType] === 'Ortskurve'" class="mt-3 mb-3">
+
+      <h4>Rohdaten <span class="badge badge-info badge-pill align-middle">{{measurement.rawMeasurements.length}}</span></h4>
+
+      <hr/>
+
+      <div class="card-block">
+        <div id="rawChart"></div>
+
+        <table class="table table-responsive">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Frequenz</th>
+              <th>Aktion</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let rawMeasurement of measurement.rawMeasurements; let idx = index">
+              <th scope="row">{{ rawMeasurement.index + 1}}</th>
+              <td>{{ rawMeasurement.frequency }} Hz</td>
+              <td><button type="button" class="btn btn-primary btn-simple btn-round btn-icon btn-icon-mini mr-1" (click)="plotRawMeasurement(rawMeasurement.index); $event.stopPropagation()"><i class="fa fa-line-chart"></i></button></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div *ngIf="!measurement.rawMeasurements.length">
+          <div class="mb-4">
+            <i class="fa fa-info"></i> Es sind keine Rohdaten für diese Messung vorhanden.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-footer text-muted d-flex justify-content-between">
+    <span><small><i class="fa fa-table"></i>  Erstellt: {{measurement.created | date:'mediumDate' }}, {{measurement.created | date:'shortTime' }}</small></span>
+    <span><small><i class="fa fa-table"></i>  Geändert: {{measurement.modified | date:'mediumDate' }}, {{measurement.modified | date:'shortTime' }}</small></span>
   </div>
 </div>

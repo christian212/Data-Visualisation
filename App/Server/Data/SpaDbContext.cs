@@ -14,6 +14,7 @@ namespace AspCoreServer.Data
         public DbSet<Stack> Stacks { get; set; }
         public DbSet<Cell> Cells { get; set; }
         public DbSet<Measurement> Measurements { get; set; }
+        public DbSet<RawMeasurement> RawMeasurements { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

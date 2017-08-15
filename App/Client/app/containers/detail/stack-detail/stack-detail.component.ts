@@ -36,6 +36,8 @@ export class StackDetailComponent implements OnInit {
         this.route.params
             .switchMap((params: Params) => this.stackService.getStack(+params['id']))
             .subscribe((stack: Stack) => {
+                console.log('Get stack result: ', stack);
+
                 this.stack = stack;
                 this.measurements = stack.measurements;
 

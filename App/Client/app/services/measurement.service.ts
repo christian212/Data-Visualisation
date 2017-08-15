@@ -36,6 +36,10 @@ export class MeasurementService {
         return this.transferHttp.get(`${this.baseUrl}/api/measurements/timeseries/` + measurementId + '/' + lowerBound + '/' + upperBound);
     }
 
+    getRawTimeSeries(measurementId: number, index: number, lowerBound: number = 0, upperBound: number = 0): Observable<any> {
+        return this.transferHttp.get(`${this.baseUrl}/api/measurements/rawtimeseries/` + measurementId + '/' + index + '/' + lowerBound + '/' + upperBound);
+    }
+
     deleteMeasurement(measurement: Measurement): Observable<any> {
         return this.http.delete(`${this.baseUrl}/api/measurements/` + measurement.id);
     }

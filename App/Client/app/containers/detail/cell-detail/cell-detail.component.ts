@@ -31,6 +31,8 @@ export class CellDetailComponent implements OnInit {
         this.route.params
             .switchMap((params: Params) => this.cellService.getCell(+params['id']))
             .subscribe((cell: Cell) => {
+                console.log('Get cell result: ', cell);
+
                 this.cell = cell;
                 this.measurements = cell.measurements;
             },

@@ -1,12 +1,15 @@
 using System.IO;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using AspCoreServer.Models;
 using AspCoreServer.Data;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+
 
 namespace AspCoreServer.Controllers
 {
@@ -37,20 +40,53 @@ namespace AspCoreServer.Controllers
             var files = Request.Form.Files;
             foreach (var file in files)
             {
-                //TODO: do security checks ...!
-
                 var measurement = new Measurement();
 
-                if (file == null || file.Length == 0)
+                // Save measurement to get ID from database
+                _context.Add(measurement);
+                await _context.SaveChangesAsync();
+
+                // Save file to disk
+                var directoryPath = Path.Combine(uploadsRootFolder, "Measurements", measurement.Id.ToString());
+
+                if (!Directory.Exists(directoryPath))
                 {
-                    continue;
+                    Directory.CreateDirectory(directoryPath);
+                }
+
+                var filePath = Path.Combine(directoryPath, file.FileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(fileStream).ConfigureAwait(false);
                 }
 
                 measurement.Name = file.FileName;
                 measurement.Description = "Diese Messung wurde automatisch durch einen Upload hinzugefügt. Klicken Sie auf Bearbeiten um die Beschreibung und andere Eigenschaften zu ändern.";
                 measurement.FileName = file.FileName;
+                measurement.FilePath = filePath;
                 measurement.FileSize = file.Length;
 
+                // preliminary
+                if (file.FileName.ToLower().EndsWith(".json"))
+                {
+                    var json = System.IO.File.ReadAllText(filePath);
+
+                    var locusFile = new LocusFile();
+                    JsonConvert.PopulateObject(json, locusFile);
+
+                    var rawMeasurements = new List<RawMeasurement>();
+                    var index = 0;
+                    foreach (var rawData in locusFile.RawData)
+                    {
+                        var rawMeasurement = new RawMeasurement();
+                        rawMeasurement.Frequency = rawData.Frequency;
+                        rawMeasurement.Index = index;
+                        rawMeasurements.Add(rawMeasurement);
+
+                        index++;
+                    }
+                }
 
                 if (file.FileName.ToLower().EndsWith(".csv"))
                 {
@@ -87,24 +123,11 @@ namespace AspCoreServer.Controllers
 
                 measurement.Battery = battery;
 
-                _context.Add(measurement);
+
+
+                // Update measurement in database
+                _context.Update(measurement);
                 await _context.SaveChangesAsync();
-
-                var ide = measurement.Id;
-
-                var directoryPath = Path.Combine(uploadsRootFolder, "Measurements", ide.ToString());
-
-                if (!Directory.Exists(directoryPath))
-                {
-                    Directory.CreateDirectory(directoryPath);
-                }
-
-                var filePath = Path.Combine(directoryPath, file.FileName);
-
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    await file.CopyToAsync(fileStream).ConfigureAwait(false);
-                }
             }
 
             return Created("", ticket);

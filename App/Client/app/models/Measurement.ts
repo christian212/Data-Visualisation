@@ -1,6 +1,7 @@
 import { Battery } from './Battery';
 import { Stack } from './Stack';
 import { Cell } from './Cell';
+import { RawMeasurement } from './RawMeasurement';
 
 export enum MeasurementType {
     Undefined,
@@ -17,6 +18,7 @@ export interface Measurement {
     fileName: string;
     fileSize: number;
     measurementType: MeasurementType;
+    rawMeasurements: RawMeasurement[];
 
     battery: Battery;
     stack: Stack;
