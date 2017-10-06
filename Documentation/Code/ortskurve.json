@@ -1,0 +1,45 @@
+{
+	// 0 = Undefined, 1 = Zeitreihe,
+	// 2 = Ortskurve, 3 = Sonstige
+	"type": 2, 
+	"battery": null, // System ID 
+	"stack": 3, // Stack ID
+	"cell": null, // Zellen ID
+	"time": 1502702593000, // UNIX Timestamp
+	"mode": "Discharge", // State of Charge: Laden oder Entladen
+	"current": -1000, // Ladestrom
+	"charge": -308843203.7, // Ladung
+	"spectrum": {
+		"frequency": [ // Frequenzen
+			10,
+			20,
+			30,
+			40,
+			50
+		],
+		"impedance": {
+			"_ArrayType_": "double",
+			"_ArraySize_": [37, 1],
+			"_ArrayIsComplex_": 1,
+			"_ArrayData_": [	// Koplexe Impedanzen
+				[0.09263688244, 0.01274971625],
+				[0.09890474907, -0.00793708269],
+				[0.08428400943, -0.009960039118],
+				[0.08048473845, -0.01711342423],
+				[0.08200628526, -0.0163586119]
+			]
+		}
+	},
+	"rawdata": [{
+		"frequency": 0.1,
+		"timepoints": [  // Zeitstempel
+			0,
+			5.243e-06,
+			1.0486e-05,
+			1.5729e-05,
+			2.0972e-05,
+			2.6214e-05,
+			3.1457e-05
+		]
+	}]
+}

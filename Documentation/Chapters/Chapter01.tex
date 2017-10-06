@@ -3,21 +3,26 @@
 %************************************************
 
 
-Durch den steigenden Bedarf zur Speicherung elektrischer Energie, entsteht eine steigende Nachfrage an Neu- und Weiterentwicklungen von Batterietechnologien. Die Zink-Luft-Technik verspricht eine theoretisch dreifach größere Energiedichte als Lithium-Ion-Batterien. Die elektrochemische Reaktion von Zink mit Luftsauerstoff bietet daher ein beträchtliches Potenzial auch wiederaufladbare Speicher mit hoher Energiedichte für große Energiemengen zu bauen. Der besondere Vorteil von Zink-Luft-Batterien liegt in der hohen spezifischen Energiedichte, den niedrigen Kosten und hohen Sicherheit und bieten damit einer der vielversprechendsten Kandidaten für die Energiespeicherung. Im Rahmen eines Forschungsprojektes wird an der Fachhochschule Münster ein neuartiger Zink-Luft-Akkumulator entwickelt. Für die Entwicklung des primären Energiespeichers werden unter anderem Impedanzspektroskopien und Strömungssimulationen durchgeführt, um ein neuartiges Batterie-Management-System zu entwickeln. Für das Forschungsprojekt ist es unabdingbar, die bei der Impedanzspektroskopie anfallenden Messdaten für zukünftige Auswertungen zu speichern. Im Rahmen dieses Masterprojektes soll eine Möglichkeit geschaffen werden, um die anfallenden Messdaten aus den verschieden Versuchsreihen an den Zink-Luft-Akkumulatoren in eine Datenbank zu überführen und die gespeicherten Messdaten über ein Webinterface zu visualisieren.
-
-\newpage
-
+Der steigenden Bedarf der Speicherung elektrischer Energie erfordert die stetige Weiterentwicklung von Batteriespeichersystemen. Die elektrochemische Reaktion von Zink mit Luftsauerstoff bietet ein beträchtliches Potenzial für wiederaufladbare Speicher für große Energiemengen, bei gleichzeitig hohen Energiedichten. Der besondere Vorteil von Zink-Luft-Akkumulatoren liegt neben der theoretisch dreifach größeren Energiedichte als die von Lithium-Ionen-Akkumulatoren, in den niedrigen Kosten und der hohen Sicherheit. Im Rahmen eines Verbundforschungsprojektes der Technischen Universität Dortmund und der Fachhochschule Münster wurde ein neuartiger Zink-Luft-Akku mit dem dazugehörigen Batterie-Management-System entwickelt. Um die bei der Entwicklung anfallenden Messdaten für zukünftige Auswertungen zentral zu speichern und sie anderen Projektpartnern zur Verfügung zu stellen, wurde im Rahmen eines Masterprojektes eine Web-App entwickelt, die die aus den unterschiedlichen Versuchsreihen anfallenden Messdaten visualisiert und zur weiteren Verarbeitung zum Download zur Verfügung stellt.
 
 \section{Anforderungen}
 
-Im Rahmen des Masterprojektes soll eine Möglichkeit geschaffen werden, um Messdaten aus unterschiedlichen Versuchsreihen an den oben beschriebenen Zink-Luft-Batterien über ein Webinterface zu visualisieren. Nachfolgend werden die Anforderungen im Detail beschrieben:
+Im Rahmen eines Masterprojektes sollte eine Möglichkeit geschaffen werden, Messdaten aus unterschiedlichen Versuchsreihen an Zink-Luft-Akkus über ein Webinterface zu visualisieren. Nachfolgend werden die Anforderungen im Detail beschrieben:
 
 \begin{itemize}
 
-\item Die Messdaten sollen in einem einheitlichen Format in einer Datenbank gespeichert werden, sodass sie für spätere Auswertungen zur Verfügung stehen. Die bislang als \code{.mat}- und \code{.csv}-Files vorliegenden Messdaten sollen automatisch in die Datenbank überführt. Zukünftig sollen Messdaten nach einem festen Messprotokoll gespeichert und kontinuierlich in die Datenbank geschrieben werden. Eine redundante Speicherung der Daten ist zu berücksichtigen.
+\item Messdaten sollten in einem einheitlichen Format hochladbar sein und automatisch in die Datenbank übernommen werden. Metadaten und Zusatzinformationen zu den jeweiligen Messaufbauten und -abläufen sollten in den jeweiligen Files gespeichert und automatisch ausgelesen werden können.
 
-\item Die Messdaten sollen über das Webinterface im zeitlichen Verlauf grafisch visualisiert werden. Das Interface soll eine Auswahl unterschiedlicher Messreihen sowie eine Veränderung des dargestellten zeitlichen Intervalls ermöglichen.
+\item Die als Zeitreihen und Ortskurven vorliegenden Messdaten sollten visualisiert werden. Dabei sollten Ortskurven und Zeitreihen eines Lade- bzw. Entladevorgangs gemeinsam dargestellt werden können. Das zeitliche Intervall zur Darstellung einer Messreihe sollte veränderbar sein und die Daten sollten nach Bedarf ``lazy'' nachgeladen werden.
 
-\item Da regelmäßig zu den Messungen aufgenommen \code{.jpg}-Bilder sollen abhängig von ihrem Zeitstempel als Thumbnail zeitlichen Verlauf der Daten mit angezeigt werden können. Klickt man auf ein Bild soll es vergrößert dargestellt werden.
+\item Zusätzlich zu den Metadaten in den Messdaten-Files sollten JPEG-Bilder für die unterschiedlichen Zellen und Messaufbauten speicherbar sein.
+
+\item Um Zukunftssicherheit und Skalierbarkeit zu gewährleisten, sollten zusätzlich zu einzelnen Zellen auch Stacks, das sind Verschaltungen von einzelnen Zellen, und Systeme, das sind Verschaltungen von einzelnen Stacks, angelegt werden können.
+
+\item Um zu verhindern, dass Dritte die gespeicherten Daten einsehen und manipulieren können, sollte der Zugriff auf die Web-App über einen Login mit gemeinsamen Passwort geschützt werden.
+
+\item Die App sollte responsive und so auch auf mobilen Geräten nutzbar sein.
+
+\item Die App sollte eine Filterfunktion nach unterschiedlichen Kategorien haben und eine Suchfunktion in der jeweiligen Kategorie
 
 \end{itemize}
