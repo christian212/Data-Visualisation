@@ -1,5 +1,6 @@
 ﻿using AspCoreServer.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace AspCoreServer.Data
 {
@@ -18,6 +19,21 @@ namespace AspCoreServer.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Measurement>()
+            .HasOne(p => p.Battery)
+            .WithMany(b => b.Measurements)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Measurement>()
+            .HasOne(p => p.Stack)
+            .WithMany(b => b.Measurements)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Measurement>()
+            .HasOne(p => p.Cell)
+            .WithMany(b => b.Measurements)
+            .OnDelete(DeleteBehavior.Cascade);
+            
             modelBuilder.Entity<StackCell>()
                 .HasKey(sc => new { sc.StackId, sc.CellId });
 

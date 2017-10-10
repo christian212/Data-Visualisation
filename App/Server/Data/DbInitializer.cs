@@ -73,6 +73,7 @@ namespace AspCoreServer.Data
 
             foreach (Measurement m in measurements)
             {
+                m.Stack = stacks[3];
                 context.Measurements.Add(m);
             }
 

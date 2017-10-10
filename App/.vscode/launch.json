@@ -7,7 +7,6 @@
   "configurations": [{
 
       "name": "[Development] Debug TypeScript",
-      "type": "chrome",
       "request": "launch",
       "url": "http://localhost:5000",
       "webRoot": "${workspaceRoot}/wwwroot",

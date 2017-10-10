@@ -27,7 +27,6 @@ namespace AspCoreServer.Models
 
         public Battery Battery { get; set; }
         public Stack Stack { get; set; }
-        //[Required]
         public Cell Cell { get; set; }
 
         public DateTime Created { get; set; }
