@@ -30,13 +30,9 @@ namespace AspCoreServer.Models
         //[Required]
         public Cell Cell { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        [DataType(DataType.Date)]
         public DateTime Created { get; set; }
-
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        [DataType(DataType.Date)]
         public DateTime Modified { get; set; }
+        public DateTime Measured { get; set; }
 
         //Setting Default value
         public Measurement()

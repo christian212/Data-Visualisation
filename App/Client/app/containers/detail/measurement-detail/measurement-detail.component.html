@@ -34,6 +34,8 @@
     <span class="category">Größe: </span>{{measurement.fileSize/1024/1024 | number:'.2' }} MB
     <br />
     <span class="category">Dateiname: </span><code>{{measurement.fileName}}</code>
+    <br />
+    <span class="category">Gemessen am: </span>{{measurement.measured | date:'mediumDate' }}, {{measurement.measured | date:'shortTime' }}
 
     <div class="my-4">
       <button type="button" class="btn btn-primary btn-simple btn-round btn-icon btn-icon-mini mr-1" (click)="editMeasurement(measurement.id); $event.stopPropagation()"><i class="fa fa-pencil"></i></button>

@@ -3,9 +3,8 @@ using System.Numerics;
 namespace AspCoreServer.Models
 {
 
-    public class LocusFile
+    public class LocusFile : JsonFile
     {
-        public MeasurementType MeasurementType { get; set; }
         public LocusDate Date { set; get; }
         public string Mode { set; get; }
         public double Current { set; get; }

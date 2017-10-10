@@ -42,7 +42,7 @@ namespace AspCoreServer.Controllers
             {
                 var measurement = new Measurement();
 
-                // Save measurement to get ID from database
+                // Add measurement to get ID from database
                 _context.Add(measurement);
                 await _context.SaveChangesAsync();
 
@@ -61,69 +61,84 @@ namespace AspCoreServer.Controllers
                     await file.CopyToAsync(fileStream).ConfigureAwait(false);
                 }
 
+                // Set additional information
                 measurement.Name = file.FileName;
                 measurement.Description = "Diese Messung wurde automatisch durch einen Upload hinzugefügt. Klicken Sie auf Bearbeiten um die Beschreibung und andere Eigenschaften zu ändern.";
                 measurement.FileName = file.FileName;
                 measurement.FilePath = filePath;
                 measurement.FileSize = file.Length;
 
-                // preliminary
-                if (file.FileName.ToLower().EndsWith(".json"))
-                {
-                    var json = System.IO.File.ReadAllText(filePath);
-
-                    var locusFile = new LocusFile();
-                    JsonConvert.PopulateObject(json, locusFile);
-
-                    var rawMeasurements = new List<RawMeasurement>();
-                    var index = 0;
-                    foreach (var rawData in locusFile.RawData)
-                    {
-                        var rawMeasurement = new RawMeasurement();
-                        rawMeasurement.Frequency = rawData.Frequency;
-                        rawMeasurement.Index = index;
-                        rawMeasurements.Add(rawMeasurement);
-
-                        index++;
-                    }
-                }
-
+                // Depricated CSV files
                 if (file.FileName.ToLower().EndsWith(".csv"))
                 {
                     measurement.MeasurementType = MeasurementType.Zeitreihe;
                 }
                 else if (file.FileName.ToLower().EndsWith(".json"))
                 {
-                    measurement.MeasurementType = MeasurementType.Ortskurve;
+                    var json = System.IO.File.ReadAllText(measurement.FilePath);
+
+                    var jsonFile = new JsonFile();
+                    JsonConvert.PopulateObject(json, jsonFile);
+
+                    measurement.MeasurementType = jsonFile.MeasurementType;
+
+                    // Format our new DateTime object to start at the UNIX Epoch
+                    System.DateTime dateTime = new System.DateTime(1970, 1, 1, 0, 0, 0, 0).ToUniversalTime();
+
+                    // Add the timestamp (number of seconds since the Epoch) to be converted
+                    dateTime = dateTime.AddMilliseconds(jsonFile.Time);
+                    
+                    measurement.Measured = dateTime;
+
+                    if (jsonFile.BatteryId != 0)
+                    {
+                        var battery = await _context.Batteries
+                            .Where(s => s.Id == jsonFile.BatteryId)
+                            .SingleOrDefaultAsync(m => m.Id == jsonFile.BatteryId);
+
+                        measurement.Battery = battery;
+                    }
+                    else if (jsonFile.StackId != 0)
+                    {
+                        var stack = await _context.Stacks
+                            .Where(s => s.Id == jsonFile.StackId)
+                            .SingleOrDefaultAsync(m => m.Id == jsonFile.StackId);
+
+                        measurement.Stack = stack;
+                    }
+                    else if (jsonFile.CellId != 0)
+                    {
+                        var cell = await _context.Cells
+                            .Where(s => s.Id == jsonFile.CellId)
+                            .SingleOrDefaultAsync(m => m.Id == jsonFile.CellId);
+
+                        measurement.Cell = cell;
+                    }
+
+                    if (measurement.MeasurementType == MeasurementType.Ortskurve)
+                    {
+                        var locusFile = new LocusFile();
+                        JsonConvert.PopulateObject(json, locusFile);
+
+                        var rawMeasurements = new List<RawMeasurement>();
+                        var index = 0;
+                        foreach (var rawData in locusFile.RawData)
+                        {
+                            var rawMeasurement = new RawMeasurement();
+                            rawMeasurement.Frequency = rawData.Frequency;
+                            rawMeasurement.Index = index;
+                            rawMeasurements.Add(rawMeasurement);
+
+                            index++;
+                        }
+
+                        measurement.RawMeasurements = rawMeasurements;
+                    }
                 }
                 else
+                {
                     measurement.MeasurementType = MeasurementType.Sonstige;
-
-                // var cellId = 27;
-
-                // var cell = await _context.Cells
-                //     .Where(s => s.Id == cellId)
-                //     .SingleOrDefaultAsync(m => m.Id == cellId);
-
-                // measurement.Cell = cell;
-
-                // var stackId = 11;
-
-                // var stack = await _context.Stacks
-                //     .Where(s => s.Id == stackId)
-                //     .SingleOrDefaultAsync(m => m.Id == stackId);
-
-                // measurement.Stack = stack;
-
-                var batteryId = 4;
-
-                var battery = await _context.Batteries
-                    .Where(s => s.Id == batteryId)
-                    .SingleOrDefaultAsync(m => m.Id == batteryId);
-
-                measurement.Battery = battery;
-
-
+                }
 
                 // Update measurement in database
                 _context.Update(measurement);
