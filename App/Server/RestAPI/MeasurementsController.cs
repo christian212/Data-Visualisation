@@ -60,6 +60,9 @@ namespace AspCoreServer.Controllers
             var measurement = await _context.Measurements
                 .Where(s => s.Id == id)
                 .AsNoTracking()
+                .Include(s => s.Cell)
+                .Include(s => s.Stack)
+                .Include(s => s.Battery)
                 .Include(s => s.RawMeasurements)
                 .SingleOrDefaultAsync(m => m.Id == id);
 
@@ -72,6 +75,25 @@ namespace AspCoreServer.Controllers
                 foreach (RawMeasurement rawMeasurement in measurement.RawMeasurements)
                 {
                     rawMeasurement.Measurement = null;
+                }
+
+                if (measurement.Cell != null)
+                {
+                    var cell = new Cell();
+                    cell.Id = measurement.Cell.Id;
+                    measurement.Cell = cell;
+                }
+                else if (measurement.Stack != null)
+                {
+                    var stack = new Stack();
+                    stack.Id = measurement.Stack.Id;
+                    measurement.Stack = stack;
+                }
+                else if (measurement.Battery != null)
+                {
+                    var battery = new Battery();
+                    battery.Id = measurement.Battery.Id;
+                    measurement.Battery = battery;
                 }
 
                 measurement.RawMeasurements = measurement.RawMeasurements.OrderBy(m => m.Frequency).ToList();
