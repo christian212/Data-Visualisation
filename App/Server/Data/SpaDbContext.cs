@@ -33,6 +33,11 @@ namespace AspCoreServer.Data
             .HasOne(p => p.Cell)
             .WithMany(b => b.Measurements)
             .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<RawMeasurement>()
+            .HasOne(p => p.Measurement)
+            .WithMany(b => b.RawMeasurements)
+            .OnDelete(DeleteBehavior.Cascade);
             
             modelBuilder.Entity<StackCell>()
                 .HasKey(sc => new { sc.StackId, sc.CellId });

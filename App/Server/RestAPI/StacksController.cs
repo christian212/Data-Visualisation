@@ -161,16 +161,12 @@ namespace AspCoreServer.Controllers
 
                 foreach (Measurement measurementToRemove in measurementsToRemove)
                 {
-                    var filePath = System.IO.Path.Combine(_environment.WebRootPath,
-                    "uploads", "Measurements", measurementToRemove.Id.ToString());
-
-                    if (System.IO.Directory.Exists(filePath))
+                    if (System.IO.Directory.Exists(measurementToRemove.FilePath))
                     {
-                        System.IO.Directory.Delete(filePath, true);
+                        System.IO.Directory.Delete(measurementToRemove.FilePath, true);
                     }
                 }
 
-                _context.Measurements.RemoveRange(measurementsToRemove);
                 _context.Stacks.Remove(stackToRemove);
                 await _context.SaveChangesAsync();
                 return Ok("Deleted stack - " + stackToRemove.Name);

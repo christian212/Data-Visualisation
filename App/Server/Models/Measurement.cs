@@ -40,6 +40,7 @@ namespace AspCoreServer.Models
             Description = "Beschreibung";
             Created = DateTime.Now.ToUniversalTime();
             Modified = DateTime.Now.ToUniversalTime();
+            Measured = DateTime.Now.ToUniversalTime();
         }
     }
 
