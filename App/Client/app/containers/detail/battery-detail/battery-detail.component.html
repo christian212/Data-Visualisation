@@ -5,9 +5,7 @@
   </div>
 
   <div class="card-block">
-    <h3 class="card-title">{{battery.name}}</h3>
-
-    <hr/>
+    <h5 class="card-title">{{battery.name}}</h5>
 
     <div markdown-to-html [data]="battery.description"></div>
 
@@ -53,7 +51,7 @@
         </div>
 
         <div class="mt-3 mb-3">
-          <button class="btn btn-primary btn-simple" (click)="addStack(); $event.stopPropagation()"><i class="fa fa-plus"></i> Zelle hinzufügen</button>
+          <button class="btn btn-primary btn-simple" (click)="addStack(); $event.stopPropagation()"><i class="fa fa-plus"></i> Stacks hinzufügen</button>
         </div>
       </div>
 

@@ -32,13 +32,21 @@
 
     <div markdown-to-html [data]="measurement.description"></div>
 
+    <div class="my-4">
+      <button type="button" class="btn btn-primary btn-simple btn-round btn-icon btn-icon-mini mr-1" (click)="editMeasurement(measurement.id); $event.stopPropagation()">
+        <i class="fa fa-pencil"></i>
+      </button>
+      <button type="button" class="btn btn-danger btn-simple btn-round btn-icon btn-icon-mini mr-1" (click)="measurementModal.show(); $event.stopPropagation()">
+        <i class="fa fa-trash-o"></i>
+      </button>
+    </div>
+
     <hr />
 
-    <div class="d-flex justify-content-between">
+    <div class="d-flex justify-content-between mb-5">
       <div class="p-2">
         <span class="category">Größe: </span>
-        <br />
-        {{measurement.fileSize/1024/1024 | number:'.2' }} MB
+        <br /> {{measurement.fileSize/1024/1024 | number:'.2' }} MB
       </div>
       <div class="p-2">
         <span class="category">Dateiname: </span>
@@ -47,8 +55,7 @@
       </div>
       <div class="p-2">
         <span class="category">Gemessen am: </span>
-        <br />
-        {{ measurement.measured | date:'mediumDate' }}, {{ measurement.measured | date:'shortTime' }}
+        <br /> {{ measurement.measured | date:'mediumDate' }}, {{ measurement.measured | date:'shortTime' }}
       </div>
       <div class="p-2">
         <span class="category">Gehört zu: </span>
@@ -56,15 +63,6 @@
         <div *ngIf="measurement.stack">Stack {{ measurement.stack?.id }}</div>
         <div *ngIf="measurement.cell">Zelle {{ measurement.cell?.id }}</div>
       </div>
-    </div>
-
-    <div class="my-4">
-      <button type="button" class="btn btn-primary btn-simple btn-round btn-icon btn-icon-mini mr-1" (click)="editMeasurement(measurement.id); $event.stopPropagation()">
-        <i class="fa fa-pencil"></i>
-      </button>
-      <button type="button" class="btn btn-danger btn-simple btn-round btn-icon btn-icon-mini mr-1" (click)="measurementModal.show(); $event.stopPropagation()">
-        <i class="fa fa-trash-o"></i>
-      </button>
     </div>
 
     <timeseries-chart></timeseries-chart>
