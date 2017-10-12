@@ -87,7 +87,7 @@ namespace AspCoreServer.Controllers
 
                     // Add the timestamp (number of seconds since the Epoch) to be converted
                     dateTime = dateTime.AddMilliseconds(jsonFile.Time);
-                    
+
                     measurement.Measured = dateTime;
 
                     if (jsonFile.BatteryId != 0)
@@ -95,6 +95,18 @@ namespace AspCoreServer.Controllers
                         var battery = await _context.Batteries
                             .Where(s => s.Id == jsonFile.BatteryId)
                             .SingleOrDefaultAsync(m => m.Id == jsonFile.BatteryId);
+
+                        if (battery == null)
+                        {
+                            var newBattery = new Battery();
+                            newBattery.Id = jsonFile.BatteryId;
+                            _context.Add(newBattery);
+                            await _context.SaveChangesAsync();
+
+                            battery = await _context.Batteries
+                            .Where(s => s.Id == jsonFile.BatteryId)
+                            .SingleOrDefaultAsync(m => m.Id == jsonFile.BatteryId);
+                        }
 
                         measurement.Battery = battery;
                     }
@@ -104,6 +116,18 @@ namespace AspCoreServer.Controllers
                             .Where(s => s.Id == jsonFile.StackId)
                             .SingleOrDefaultAsync(m => m.Id == jsonFile.StackId);
 
+                        if (stack == null)
+                        {
+                            var newStack = new Stack();
+                            newStack.Id = jsonFile.StackId;
+                            _context.Add(newStack);
+                            await _context.SaveChangesAsync();
+
+                            stack = await _context.Stacks
+                            .Where(s => s.Id == jsonFile.StackId)
+                            .SingleOrDefaultAsync(m => m.Id == jsonFile.StackId);
+                        }
+
                         measurement.Stack = stack;
                     }
                     else if (jsonFile.CellId != 0)
@@ -111,6 +135,18 @@ namespace AspCoreServer.Controllers
                         var cell = await _context.Cells
                             .Where(s => s.Id == jsonFile.CellId)
                             .SingleOrDefaultAsync(m => m.Id == jsonFile.CellId);
+
+                        if (cell == null)
+                        {
+                            var newCell = new Cell();
+                            newCell.Id = jsonFile.CellId;
+                            _context.Add(newCell);
+                            await _context.SaveChangesAsync();
+
+                            cell = await _context.Cells
+                            .Where(s => s.Id == jsonFile.CellId)
+                            .SingleOrDefaultAsync(m => m.Id == jsonFile.CellId);
+                        }
 
                         measurement.Cell = cell;
                     }
