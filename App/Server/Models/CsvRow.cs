@@ -10,6 +10,7 @@ namespace AspCoreServer.Models
         public long RelativeTimeMilliSeconds { get; set; }
         public float Spannung { get; set; }
         public float Strom { get; set; }
+        public float Ladung { get; set; }
     }
 
 }

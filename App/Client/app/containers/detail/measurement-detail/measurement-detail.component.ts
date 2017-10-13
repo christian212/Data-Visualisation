@@ -162,23 +162,17 @@ export class MeasurementDetailComponent implements OnInit {
     afterSetExtremes(extremes) {
         console.log(`Loading data async`);
         this.chart.showLoading('Loading data from server...');
+        
+        console.log(`Lower bound: ` + extremes.min + ', upper bound: ' + extremes.max);
 
-        function removeDigits(x, n) {
-            return (x - (x % Math.pow(10, n))) / Math.pow(10, n);
-        }
+        this.measurementService.getRawTimeSeries(this.measurement.id, this.rawDataIndex, extremes.min, extremes.max)
+            .subscribe((rawMeasurementData: any) => {
+                console.log('Get raw measurement data result: ', rawMeasurementData);
+                this.rawMeasurementData = rawMeasurementData.value;
 
-        let lowerBound = removeDigits(Math.ceil(extremes.min), 3) as number;
-        let upperBound = removeDigits(Math.floor(extremes.max), 3) as number;
-
-        console.log(`Lower bound: ` + lowerBound + ', upper bound: ' + upperBound);
-
-        this.measurementService.getRawTimeSeries(this.measurement.id, this.rawDataIndex, lowerBound, upperBound)
-        .subscribe((rawMeasurementData: any) => {
-            console.log('Get raw measurement data result: ', rawMeasurementData);
-            this.rawMeasurementData = rawMeasurementData.value;
-
-                this.chart.series[0].setData(this.rawMeasurementData[0].data);
-                this.chart.series[1].setData(this.rawMeasurementData[1].data);
+                for (var index = 0; index < this.rawMeasurementData.length; index++) {
+                    this.chart.series[index].setData(this.rawMeasurementData[index].data);
+                }
 
                 this.chart.hideLoading();
             },

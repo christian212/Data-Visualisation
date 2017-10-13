@@ -2,17 +2,16 @@ using System.Numerics;
 
 namespace AspCoreServer.Models
 {
-
-    public class TimeSeriesFile
+    public class TimeSeriesFile: JsonFile
     {
-        public MeasurementType MeasurementType { get; set; }
         public Row[] Data { set; get; }
     }
 
     public class Row
     {
-        public long time { set; get; }
-        public float voltage { set; get; }
-        public float current { set; get; }
+        public long Time { set; get; }
+        public float Voltage { set; get; }
+        public float Current { set; get; }
+        public float Capacity { set; get; }
     }
 }

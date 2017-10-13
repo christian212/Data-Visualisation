@@ -148,21 +148,21 @@ namespace AspCoreServer.Controllers
             }
             else
             {
-                FileStream fileStream = new FileStream(measurement.FilePath, FileMode.Open);
-                StreamReader reader = new StreamReader(fileStream);
+                var json = System.IO.File.ReadAllText(measurement.FilePath);
 
-                var csv = new CsvReader(reader);
-                var records = csv.GetRecords<Record>().ToList();
+                var timeSeriesFile = new TimeSeriesFile();
+                JsonConvert.PopulateObject(json, timeSeriesFile);
 
                 var rows = new List<CsvRow>();
 
-                foreach (var record in records)
+                for (int i = 0; i < timeSeriesFile.Data.Length - 1; i++)
                 {
                     var row = new CsvRow();
 
-                    row.UnixTimestamp = new DateTimeOffset(new DateTime(record.Jahr, record.Monat, record.Tag, record.Stunde, record.Minute, record.Sekunde, DateTimeKind.Utc)).ToUnixTimeSeconds();
-                    row.Spannung = record.Spannung;
-                    row.Strom = record.Strom;
+                    row.UnixTimestamp = timeSeriesFile.Data[i].Time;
+                    row.Spannung = timeSeriesFile.Data[i].Voltage;
+                    row.Strom = timeSeriesFile.Data[i].Current;
+                    row.Ladung = timeSeriesFile.Data[i].Capacity;
 
                     rows.Add(row);
                 }
@@ -180,30 +180,39 @@ namespace AspCoreServer.Controllers
 
                 var timeseriesVoltage = new TimeSeries();
                 var timeseriesCurrent = new TimeSeries();
+                var timeseriesCharge = new TimeSeries();
 
                 timeseriesVoltage.Name = "ID " + measurement.Id + ": Spannung";
                 timeseriesVoltage.Tooltip = new Tooltip(" V");
                 timeseriesCurrent.Name = "ID " + measurement.Id + ": Strom";
                 timeseriesCurrent.Tooltip = new Tooltip(" A");
+                timeseriesCharge.Name = "ID " + measurement.Id + ": Ladung";
+                timeseriesCharge.Tooltip = new Tooltip(" As");
 
                 var voltage = new double[filteredRows.Count()][];
                 var current = new double[filteredRows.Count()][];
+                var charge = new double[filteredRows.Count()][];
 
                 foreach (var row in filteredRows.Select((value, i) => new { i, value }))
                 {
                     voltage[row.i] = new double[2];
-                    voltage[row.i][0] = row.value.UnixTimestamp * 1000;
+                    voltage[row.i][0] = row.value.UnixTimestamp;
                     voltage[row.i][1] = row.value.Spannung;
 
                     current[row.i] = new double[2];
-                    current[row.i][0] = row.value.UnixTimestamp * 1000;
+                    current[row.i][0] = row.value.UnixTimestamp;
                     current[row.i][1] = row.value.Strom;
+
+                    charge[row.i] = new double[2];
+                    charge[row.i][0] = row.value.UnixTimestamp;
+                    charge[row.i][1] = row.value.Ladung;
                 }
 
                 timeseriesVoltage.Data = ReduceDataPoints(maxDatapoints, voltage);
                 timeseriesCurrent.Data = ReduceDataPoints(maxDatapoints, current);
+                timeseriesCharge.Data = ReduceDataPoints(maxDatapoints, charge);
 
-                var timeseriesArray = new TimeSeries[] { timeseriesVoltage, timeseriesCurrent };
+                var timeseriesArray = new TimeSeries[] { timeseriesVoltage, timeseriesCurrent, timeseriesCharge };
 
                 return Ok(Json(timeseriesArray));
             }
@@ -248,17 +257,9 @@ namespace AspCoreServer.Controllers
                 {
                     lowerBound = rows.Min(row => row.UnixTimestamp);
                 }
-                else
-                {
-                    lowerBound = lowerBound * 1000;
-                }
                 if (upperBound == 0)
                 {
                     upperBound = rows.Max(row => row.UnixTimestamp);
-                }
-                else
-                {
-                    upperBound = upperBound * 1000;
                 }
 
                 var filteredRows = rows.Where(row => row.UnixTimestamp >= lowerBound & row.UnixTimestamp <= upperBound).ToList();
@@ -301,6 +302,13 @@ namespace AspCoreServer.Controllers
                 Datapoints = array.Count();
             }
 
+            int nSeries = 2;
+
+            if (array.Length > 0)
+            {
+                nSeries = array[0].Length;
+            }
+
             // Set step size
             float step = (float)(array.Count() - 1) / (Datapoints - 1);
 
@@ -308,11 +316,13 @@ namespace AspCoreServer.Controllers
 
             for (int i = 0; i < Datapoints; i++)
             {
-                arrayReduced[i] = new double[2];
+                arrayReduced[i] = new double[nSeries];
 
                 // Add each element of a position which is a multiple of step to arrayReduced
-                arrayReduced[i][0] = array[(int)Math.Round(step * i)][0];
-                arrayReduced[i][1] = array[(int)Math.Round(step * i)][1];
+                for (int j = 0; j < nSeries; j++)
+                {
+                    arrayReduced[i][j] = array[(int)Math.Round(step * i)][j];
+                }
             }
 
             return arrayReduced;
