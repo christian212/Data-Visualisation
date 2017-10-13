@@ -36,9 +36,9 @@ namespace AspCoreServer.Models
 
     public class RawData
     {
-        public double Frequency { get; set; }
-        //public double[] Timepoint { get; set; }
-        //public double[] Voltage { get; set; }
-        //public double[] Current { get; set; }
+        public float Frequency { get; set; }
+        public float[] Timepoints { get; set; }
+        public float[] Voltage { get; set; }
+        public float[] Current { get; set; }
     }
 }

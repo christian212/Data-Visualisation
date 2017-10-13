@@ -21,6 +21,8 @@ namespace AspCoreServer.Controllers
         private readonly IHostingEnvironment _environment;
         private readonly SpaDbContext _context;
 
+        const int maxDatapoints = 500;
+
         public MeasurementsController(IHostingEnvironment environment, SpaDbContext context)
         {
             _context = context;
@@ -72,11 +74,6 @@ namespace AspCoreServer.Controllers
             }
             else
             {
-                foreach (RawMeasurement rawMeasurement in measurement.RawMeasurements)
-                {
-                    rawMeasurement.Measurement = null;
-                }
-
                 if (measurement.Cell != null)
                 {
                     var cell = new Cell();
@@ -140,12 +137,10 @@ namespace AspCoreServer.Controllers
         [HttpGet("[action]/{id}/{lowerBound}/{upperBound}")]
         public async Task<IActionResult> TimeSeries(int id, long lowerBound, long upperBound)
         {
-            const int maxDatapoints = 500;
-
             var measurement = await _context.Measurements
-                .Where(s => s.Id == id)
-                .AsNoTracking()
-                .SingleOrDefaultAsync(m => m.Id == id);
+               .Where(s => s.Id == id)
+               .AsNoTracking()
+               .SingleOrDefaultAsync(m => m.Id == id);
 
             if (measurement == null)
             {
@@ -235,6 +230,39 @@ namespace AspCoreServer.Controllers
 
                 var rawData = locusFile.RawData[index];
 
+                var rows = new List<CsvRow>();
+
+                for (int i = 0; i < rawData.Timepoints.Length - 1; i++)
+                {
+                    var row = new CsvRow();
+
+                    row.RelativeTimeMilliSeconds = (long)(rawData.Timepoints[i] * 1000);
+                    row.UnixTimestamp = (long)measurement.Measured.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds + row.RelativeTimeMilliSeconds;
+                    row.Spannung = rawData.Voltage[i];
+                    row.Strom = rawData.Current[i];
+
+                    rows.Add(row);
+                }
+
+                if (lowerBound == 0)
+                {
+                    lowerBound = rows.Min(row => row.UnixTimestamp);
+                }
+                else
+                {
+                    lowerBound = lowerBound * 1000;
+                }
+                if (upperBound == 0)
+                {
+                    upperBound = rows.Max(row => row.UnixTimestamp);
+                }
+                else
+                {
+                    upperBound = upperBound * 1000;
+                }
+
+                var filteredRows = rows.Where(row => row.UnixTimestamp >= lowerBound & row.UnixTimestamp <= upperBound).ToList();
+
                 var timeseriesVoltage = new TimeSeries();
                 var timeseriesCurrent = new TimeSeries();
 
@@ -242,6 +270,23 @@ namespace AspCoreServer.Controllers
                 timeseriesVoltage.Tooltip = new Tooltip(" V");
                 timeseriesCurrent.Name = "ID " + measurement.Id + ": Strom bei " + rawData.Frequency + " Hz";
                 timeseriesCurrent.Tooltip = new Tooltip(" A");
+
+                var voltage = new double[filteredRows.Count()][];
+                var current = new double[filteredRows.Count()][];
+
+                foreach (var row in filteredRows.Select((value, i) => new { i, value }))
+                {
+                    voltage[row.i] = new double[2];
+                    voltage[row.i][0] = row.value.UnixTimestamp;
+                    voltage[row.i][1] = row.value.Spannung;
+
+                    current[row.i] = new double[2];
+                    current[row.i][0] = row.value.UnixTimestamp;
+                    current[row.i][1] = row.value.Strom;
+                }
+
+                timeseriesVoltage.Data = ReduceDataPoints(maxDatapoints, voltage);
+                timeseriesCurrent.Data = ReduceDataPoints(maxDatapoints, current);
 
                 var timeseriesArray = new TimeSeries[] { timeseriesVoltage, timeseriesCurrent };
 
