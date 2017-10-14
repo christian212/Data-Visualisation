@@ -32,7 +32,7 @@ export class TimeSeriesChartComponent {
 
                 this.chart = new Highcharts.Chart('chart', {
                     chart: {
-                        type: 'line',
+                        type: 'spline',
                         zoomType: 'x'
                     },
                     title: {

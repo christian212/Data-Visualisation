@@ -160,9 +160,9 @@ namespace AspCoreServer.Controllers
                     var row = new CsvRow();
 
                     row.UnixTimestamp = timeSeriesFile.Data[i].Time;
-                    row.Spannung = timeSeriesFile.Data[i].Voltage;
-                    row.Strom = timeSeriesFile.Data[i].Current;
-                    row.Ladung = timeSeriesFile.Data[i].Capacity;
+                    row.Voltage = timeSeriesFile.Data[i].Voltage;
+                    row.Current = timeSeriesFile.Data[i].Current;
+                    row.Charge = timeSeriesFile.Data[i].Capacity;
 
                     rows.Add(row);
                 }
@@ -197,15 +197,15 @@ namespace AspCoreServer.Controllers
                 {
                     voltage[row.i] = new double[2];
                     voltage[row.i][0] = row.value.UnixTimestamp;
-                    voltage[row.i][1] = row.value.Spannung;
+                    voltage[row.i][1] = row.value.Voltage;
 
                     current[row.i] = new double[2];
                     current[row.i][0] = row.value.UnixTimestamp;
-                    current[row.i][1] = row.value.Strom;
+                    current[row.i][1] = row.value.Current;
 
                     charge[row.i] = new double[2];
                     charge[row.i][0] = row.value.UnixTimestamp;
-                    charge[row.i][1] = row.value.Ladung;
+                    charge[row.i][1] = row.value.Charge;
                 }
 
                 timeseriesVoltage.Data = ReduceDataPoints(maxDatapoints, voltage);
@@ -219,7 +219,7 @@ namespace AspCoreServer.Controllers
         }
 
         [HttpGet("[action]/{id}/{index}/{lowerBound}/{upperBound}")]
-        public async Task<IActionResult> RawTimeseries(int id, int index, long lowerBound, long upperBound)
+        public async Task<IActionResult> RawTimeseries(int id, int index, double lowerBound, double upperBound)
         {
             var measurement = await _context.Measurements
                 .Where(s => s.Id == id)
@@ -245,24 +245,23 @@ namespace AspCoreServer.Controllers
                 {
                     var row = new CsvRow();
 
-                    row.RelativeTimeMilliSeconds = (long)(rawData.Timepoints[i] * 1000);
-                    row.UnixTimestamp = (long)measurement.Measured.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds + row.RelativeTimeMilliSeconds;
-                    row.Spannung = rawData.Voltage[i];
-                    row.Strom = rawData.Current[i];
+                    row.RelativeTime = rawData.Timepoints[i];
+                    row.Voltage = rawData.Voltage[i];
+                    row.Current = rawData.Current[i];
 
                     rows.Add(row);
                 }
 
                 if (lowerBound == 0)
                 {
-                    lowerBound = rows.Min(row => row.UnixTimestamp);
+                    lowerBound = rows.Min(row => row.RelativeTime);
                 }
                 if (upperBound == 0)
                 {
-                    upperBound = rows.Max(row => row.UnixTimestamp);
+                    upperBound = rows.Max(row => row.RelativeTime);
                 }
 
-                var filteredRows = rows.Where(row => row.UnixTimestamp >= lowerBound & row.UnixTimestamp <= upperBound).ToList();
+                var filteredRows = rows.Where(row => row.RelativeTime >= lowerBound & row.RelativeTime <= upperBound).ToList();
 
                 var timeseriesVoltage = new TimeSeries();
                 var timeseriesCurrent = new TimeSeries();
@@ -278,12 +277,12 @@ namespace AspCoreServer.Controllers
                 foreach (var row in filteredRows.Select((value, i) => new { i, value }))
                 {
                     voltage[row.i] = new double[2];
-                    voltage[row.i][0] = row.value.UnixTimestamp;
-                    voltage[row.i][1] = row.value.Spannung;
+                    voltage[row.i][0] = row.value.RelativeTime;
+                    voltage[row.i][1] = row.value.Voltage;
 
                     current[row.i] = new double[2];
-                    current[row.i][0] = row.value.UnixTimestamp;
-                    current[row.i][1] = row.value.Strom;
+                    current[row.i][0] = row.value.RelativeTime;
+                    current[row.i][1] = row.value.Current;
                 }
 
                 timeseriesVoltage.Data = ReduceDataPoints(maxDatapoints, voltage);

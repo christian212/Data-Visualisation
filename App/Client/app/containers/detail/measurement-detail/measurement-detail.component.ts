@@ -74,14 +74,17 @@ export class MeasurementDetailComponent implements OnInit {
 
                 this.chart = new Highcharts.Chart('rawChart', {
                     chart: {
-                        type: 'line',
+                        type: 'spline',
                         zoomType: 'x'
                     },
                     title: {
                         text: 'Rohdaten'
                     },
                     xAxis: {
-                        type: 'datetime',
+                        type: 'linear',
+                        title: {
+                            text: 'Zeit in Sekunden'
+                        },
                         events: {
                             afterSetExtremes: this.afterSetExtremes.bind(this)
                         }

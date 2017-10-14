@@ -10,5 +10,7 @@ namespace AspCoreServer.Models
         public int StackId { get; set; }
         public int CellId { get; set; }
         public long Time { set; get; }
+        public string Name { set; get; }
+        public string Description { set; get; }
     }
 }

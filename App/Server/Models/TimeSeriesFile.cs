@@ -10,8 +10,8 @@ namespace AspCoreServer.Models
     public class Row
     {
         public long Time { set; get; }
-        public float Voltage { set; get; }
-        public float Current { set; get; }
-        public float Capacity { set; get; }
+        public double Voltage { set; get; }
+        public double Current { set; get; }
+        public double Capacity { set; get; }
     }
 }

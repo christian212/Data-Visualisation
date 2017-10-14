@@ -82,13 +82,18 @@ namespace AspCoreServer.Controllers
 
                     measurement.MeasurementType = jsonFile.MeasurementType;
 
+                    if (jsonFile.Name != null){
+                        measurement.Name = jsonFile.Name;
+                    }
+                    if (jsonFile.Description != null){
+                        measurement.Description = jsonFile.Description;
+                    }
+
                     // Format our new DateTime object to start at the UNIX Epoch
                     System.DateTime dateTime = new System.DateTime(1970, 1, 1, 0, 0, 0, 0).ToUniversalTime();
 
                     // Add the timestamp (number of seconds since the Epoch) to be converted
-                    dateTime = dateTime.AddMilliseconds(jsonFile.Time);
-
-                    measurement.Measured = dateTime;
+                    measurement.Measured = dateTime.AddMilliseconds(jsonFile.Time);
 
                     if (jsonFile.BatteryId != 0)
                     {
@@ -161,7 +166,7 @@ namespace AspCoreServer.Controllers
                         foreach (var rawData in locusFile.RawData)
                         {
                             var rawMeasurement = new RawMeasurement();
-                            rawMeasurement.Frequency = rawData.Frequency;
+                            rawMeasurement.Frequency = System.Math.Round(rawData.Frequency, 2);
                             rawMeasurement.Index = index;
                             rawMeasurements.Add(rawMeasurement);
 
