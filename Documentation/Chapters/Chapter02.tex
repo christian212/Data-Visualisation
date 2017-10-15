@@ -1,12 +1,12 @@
 %*****************************************
-\chapter{Implementation}\label{ch:implementation}
+\chapter{Implementierung}\label{ch:implementation}
 %*****************************************
 
-Um die entwickelte Anwendung plattformübergreifend einsetzen zu können wurde eine Angular-Single-Page-App mit ASP.NET-Back-End entwickelt.
+Um die entwickelte Anwendung plattformübergreifend einsetzen zu können, wurde eine Angular-Single-Page-App mit ASP.NET-Back-End entwickelt. Dieses Kapitel beschreibt die Implementierung und die dabei genutzten Komponenten im Detail.
 
 \section{Domain Model}
 
-Das Domain Model besteht aus den in Abbildung \ref{app:bibliography} Klassen. Die Messung repräsentiert die 
+Das Domain Model besteht aus den in Abbildung \ref{app:bibliography} dargestellten Klassen. Dabei wird eine Messung durch Messdaten sowie zugehörige Metadaten wie Name und Beschreibung repräsentiert. Eine Messung kann entweder zu einer Zelle, einem Stack oder einem System gehören. Ein Stack ist eine Verschaltung von mehreren Zellen, ein System eine Verschaltung von mehreren Stacks. Die Enumeration \code{MeasurementType} beschreibt den Typ der Messung: Undefiniert, Zeitreihe, Ortskurve, oder Sonstige. \code{CircuitType} gibt die Schaltungsart an: Reihen- oder Parallelschaltung. Neue Instanzen des jeweiligen Typs können zur Datenbank hinzugefügt, gelöscht, und bearbeitet werden. Es stehen jeweils List- und Detail-Views zur Verfügung. Die Messung hat eine Upload- und eine Download-Methode. Systeme werden intern als Batteries bezeichnet, um Konflikte mit C\# Bibliotheken zu vermeiden.
 
 \begin{figure}
 \centering
@@ -16,8 +16,9 @@ Das Domain Model besteht aus den in Abbildung \ref{app:bibliography} Klassen. Di
 \end{figure}
 
 
-\section{Verwendete Frameworks und Technologien}
+\section{Frameworks und Technologien}
 
+Im Folgenden werden die verwendeten Frameworks und Technologien näher beschrieben.
 
 \subsection{Angular}
 
@@ -36,7 +37,7 @@ Entity Framework Core ist eine abgespeckte, erweiterbare, platformübergreifende
 
 \subsection{SQLite}
 
-SQLite implementiert eine eigenständige, serverlose SQL Database-Engine und ist dabei die weltweit meistverwendete Ihrer Art \cite{sqlite}. Anders als die meisten anderen SQL Datenbanken schreibt und liest SQLite direkt in und aus herkömmlichen Files auf einem Datenträger. Dabei ist das Fileformat platformübergreifend und frei kopierbar zwischen 32-bit und 64-bit Systemen sowie zwischen Big-Endian and Little-Endian Architekturen.
+SQLite implementiert eine eigenständige, serverlose SQL-Database-Engine und ist dabei die weltweit meistverwendete ihrer Art \cite{sqlite}. Anders als die meisten anderen SQL Datenbanken schreibt und liest SQLite direkt in und aus herkömmlichen Files auf einem Datenträger. Dabei ist das Fileformat platformübergreifend und frei kopierbar zwischen 32-bit und 64-bit Systemen sowie zwischen Big-Endian and Little-Endian Architekturen.
 
 
 \subsection{Bootstrap und Now UI Kit}
@@ -49,7 +50,7 @@ Highcharts \cite{highCharts} ist eine in pure JavaScript geschriebene Visualisie
 
 \section{JSON-Fileformat}
 
-Das JSON format wurde gewählt, weil es in C\# vorgefertigte JSON-to-Object Parser gibt und es flexibel und beliebig erweiterbar ist. Anders als beim ursprünglichen zum Logging genutzten Format CSV, ist es einfach Metadaten und Zusatzinformationen zu speichern, ohne diese fest in gewissen Zeilen und Spalten zu kodieren. Weiterhin ist es menschenlesbar und portabel, anders als .mat-Files, die ursprünglich zur Speicherung der Ortskurven dienten. Listing \ref{lis:ortskurve} und \ref{lis:zeitreihe} zeigen jeweils die typische Struktur eines JSON-Files mit Ortskurven- und Zeitreihendaten mit beschreibenden Kommentaren.
+Das JSON-Format wurde gewählt, weil es in C\# vorgefertigte JSON-to-Object Parser gibt und es flexibel und beliebig erweiterbar ist. Anders als beim ursprünglichen zum Logging genutzten CSV-Format, ist es einfach Metadaten und Zusatzinformationen zu speichern, ohne diese fest in gewissen Zeilen und Spalten zu kodieren. Weiterhin ist es menschenlesbar und portabel, anders als .mat-Files, die ursprünglich zur Speicherung der Ortskurven dienten. Listing \ref{lis:ortskurve} und \ref{lis:zeitreihe} zeigen jeweils die typische Struktur eines JSON-Files für eine Ortskurve und eine Zeitreihe mit beschreibenden Kommentaren.
 
 
 \lstset{
@@ -73,7 +74,7 @@ Das JSON format wurde gewählt, weil es in C\# vorgefertigte JSON-to-Object Pars
 
 \section{REST API}
 
-Representational State Transfer (REST) bezeichnet ein Programmierparadigma für verteilte Systeme, insbesondere Webservices. In einer Client-Server-Architektur stellt der Server einen Dienst bereit, der bei Bedarf vom Client angefragt werden kann. So stellt die REST API in unserer Single-Page-App Mess- und Metadaten aus der Datenbank bereit, die bei Bedarf dynamisch nachgeladen werden.
+Representational State Transfer (REST) bezeichnet ein Programmierparadigma für verteilte Systeme, insbesondere Webservices. In einer Client-Server-Architektur stellt der Server einen Dienst bereit, der bei Bedarf vom Client angefragt werden kann. So stellt die REST API in unserer Single-Page-App Mess- und Metadaten aus der Datenbank bereit, die bei Bedarf dynamisch geladen bzw. nachgeladen werden.
 
 
 \section{Zugriffsrechte}
@@ -85,16 +86,16 @@ Der Zugriff wurde durch eine .htaccess-Datei Konfigurationsdatei beschränkt, so
 
 Nachfolgend ist ein möglicher Workflow beschrieben um die Funktionalitäten der App zu erläutern.
 
-Klickt man über die Navigationsleiste am obigen Bildschirmrand auf Upload, gelangt man zu einem Upload-Dialog, wie in Abbildung \ref{fig:upload} dargestellt, mit Hilfe dessen man per Drag-and-drop oder per Filebrowser Messdatenfiles zum Hochladen auswählen kann. Die Files werden in einer Warteschlange mit der jeweiligen Filegröße angezeigt und können einzeln oder alle nacheinander hochgeladen werden. Eine Progress-Bar zeigt jeweils einzel und Gesamtfortschritt des Upload an.
+Klickt man über die Navigationsleiste am obigen Bildschirmrand auf Upload, gelangt man zum Upload-View, wie in Abbildung \ref{fig:upload} dargestellt, mit Hilfe dessen man per Drag-and-drop oder per Filebrowser Messdatenfiles zum Hochladen auswählen kann. Die Files werden in einer Warteschlange mit der jeweiligen Filegröße angezeigt und können einzeln oder alle nacheinander hochgeladen werden. Eine Progress-Bar zeigt jeweils Einzel- und Gesamtfortschritt des Uploads an.
 
 \begin{figure}
 \centering
 \includegraphics[width=\textwidth]{Figures/upload}
-\caption{Upload-Ansicht}
+\caption{Upload-View}
 \label{fig:upload}
 \end{figure}
 
-War der Upload erfolgreich wird man in die Datenbank weitergeleitet, in der, wie in Abbildung \ref{fig:messungen} zu sehen ist, die Ansicht nach Systemen, Stacks, Zellen und Messungen ausgewählt werden kann. Die Ansicht mit den Messungen wird nach dem Upload automatisch ausgewählt. Hier finden sich alle Messungen in der Datenbank. Zusätzlich zum Namen der Messung, der mit dem Dateinamen initialisiert wird, sind der Typ der Messung, also Zeitreihe oder Ortskurve, die Größe und das Datum der letzten Änderung in einer Tabelle dargestellt. Über drei Aktionsbuttons kann man die Details der Messung einsehen, sie bearbeiten oder löschen. Es werden jeweils 10 Messungen pro Seite dargestellt.
+War der Upload erfolgreich wird man zur Datenbank weitergeleitet, in der, wie in Abbildung \ref{fig:messungen} zu sehen ist, durch Klicken auf die Seitenleiste eine Ansicht nach Systemen, Stacks, Zellen und Messungen ausgewählt werden kann. Die Ansicht mit den Messungen wird nach dem Upload automatisch ausgewählt. Hier finden sich alle Messungen in der Datenbank, sortiert in absteigender Reihenfolge, also mit den letzten Uploads ganz oben. Zusätzlich zum Namen der Messung, der mit dem Dateinamen initialisiert wird wenn es nicht anders im JSON-File spezifiziert ist, sind der Typ der Messung, also Zeitreihe oder Ortskurve, die Größe und das Datum der letzten Änderung in einer Tabelle dargestellt. Über drei Aktionsbuttons kann man die Details der Messung einsehen, sie bearbeiten oder löschen. Es werden jeweils 10 Messungen pro Seite dargestellt.
 
 \begin{figure}
 \centering
@@ -103,7 +104,7 @@ War der Upload erfolgreich wird man in die Datenbank weitergeleitet, in der, wie
 \label{fig:messungen}
 \end{figure}
 
-Wählt man beispielsweise die Ansichts Stacks, wie in Abbildung \ref{fig:stacks} dargestellt, so werden die Stacks Kachelweise mit Zusatzinformationen wie Der Art der Verschaltung, zum Beispiel Reihenschaltung und der Anzahl der zugehörigen Zellen angezeigt. Außerdem wird der Beschreibungstext und das Erstellungs- sowie letzte Änderungsdatum angezeigt. Über die oben beschriebenen Aktionsbuttons kann der Stack geändert oder gelöscht werden. Klickt man auf Details, gelangt man in die Detailansicht.
+Wählt man beispielsweise die Ansicht Stacks, wie in Abbildung \ref{fig:stacks} dargestellt, so werden die Stacks kachelweise mit Zusatzinformationen wie der Art der Verschaltung -- zum Beispiel Reihenschaltung -- und der Anzahl der zugehörigen Zellen angezeigt. Außerdem wird der Beschreibungstext und das Erstellungs- sowie letzte Änderungsdatum angezeigt. Über die oben beschriebenen Aktionsbuttons kann der Stack geändert oder gelöscht werden. Klickt man auf Details, gelangt man in die Detailansicht.
 
 \begin{figure}
 \centering
@@ -130,7 +131,7 @@ Klickt man nun auf eine Messung wird sie unter der entsprechenden Tabelle geplot
 \label{fig:stackmessung}
 \end{figure}
 
-Der Klick auf eine der Messungen führt in die Detailansicht der jeweiligen Messung. Dort werden neben Details zur Messung auch jedes Mal die Messung als Plot dargestellt. Zeitreihen sind wie bei allen anderen Plots zoombar, wie in Abbildung \ref{fig:zoomvorher} (vorher) und Abbildung \ref{fig:zoomnachher}(nachher) dargestellt. Die Messdaten werden automatisch vom Server nachgeladen um den Plot mit einer höheren Auflösung darzustellen.
+Der Klick auf eine der Messungen führt in die Detailansicht der jeweiligen Messung. Dort werden neben Details zur Messung auch jedes Mal die Messung als Plot dargestellt. Zeitreihen sind wie bei allen anderen Plots zoombar, wie in Abbildung \ref{fig:zoomvorher} (vorher) und Abbildung \ref{fig:zoomnachher} (nachher) dargestellt. Die Messdaten werden automatisch vom Server nachgeladen um den Plot mit einer höheren Auflösung darzustellen.
 
 \begin{figure}
 \centering
@@ -146,8 +147,24 @@ Der Klick auf eine der Messungen führt in die Detailansicht der jeweiligen Mess
 \label{fig:zoomnachher}
 \end{figure} 
 
+Bei Zeitreihen mit unterschiedlichen Größen können einzelne Zeitreihen durch Klick auf die Legende ein- und ausgeblendet werden um sie so vergrößert darzustellen, wie in Abbildung \ref{fig:legendeaktiviert} (Ladung aktiviert) \ref{fig:legendedeaktiviert} (Ladung deaktiviert) dargestellt. Die Skalierung erfolgt automatisch.
 
-Ein Plot einer Impedanzmessung ist in Abbildung \ref{fig:ortskurve} dargestellt. Diese besteht aus unterschiedlichen Ortskurven in unterschiedlichen Farben, jeweils bei einer unterschiedlichen Frequenz aufgenommen. Die Koordinaten in der komplexen Ebene, wie auch die Frequenz sind am Cursor abzulesen. 
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{Figures/legendeaktiviert}
+\caption{Ladungsplot aktiviert nachher}
+\label{fig:legendeaktiviert}
+\end{figure} 
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{Figures/legendedeaktiviert}
+\caption{Ladungsplot deaktiviert}
+\label{fig:legendedeaktiviert}
+\end{figure} 
+
+
+Ein Plot einer Impedanzmessung ist in Abbildung \ref{fig:ortskurve} dargestellt. Die Koordinaten in der komplexen Ebene, wie auch die Frequenz sind am Cursor ablesbar.
 
 \begin{figure}
 \centering
@@ -156,7 +173,9 @@ Ein Plot einer Impedanzmessung ist in Abbildung \ref{fig:ortskurve} dargestellt.
 \label{fig:ortskurve}
 \end{figure}
 
-Bearbeitet oder löscht man Datensätze, oder fügt man neue durch Hochladen hinzu, wird das Ergebnis in Form von Notifications bzw. Fehlermeldungen im oberen rechten Bildschirmrand angezeigt. Dies ist in Abbildung \ref{fig:notifications} einmal für beide Fälle gezeigt.
+
+
+Bearbeitet oder löscht man Datensätze, oder fügt man neue durch Hochladen hinzu, wird das Ergebnis in Form von Notifications bzw. Fehlermeldungen im oberen rechten Bildschirmrand angezeigt. Dies ist in Abbildung \ref{fig:notifications} einmal für beide Fälle dargestellt.
 
 \begin{figure}
 \centering

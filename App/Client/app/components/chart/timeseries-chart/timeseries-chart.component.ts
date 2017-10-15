@@ -46,7 +46,7 @@ export class TimeSeriesChartComponent {
                     },
                     yAxis: {
                         title: {
-                            text: 'Spannung in V / Strom in A'
+                            text: 'Spannung in V / Strom in A / Ladung in As'
                         }
                     },
                     scrollbar: {
