@@ -33,6 +33,9 @@
     <div markdown-to-html [data]="measurement.description"></div>
 
     <div class="my-4">
+      <button type="button" class="btn btn-primary btn-simple btn-round btn-icon btn-icon-mini mr-1" (click)="export()">
+        <i class="fa fa-cloud-download"></i>
+      </button>
       <button type="button" class="btn btn-primary btn-simple btn-round btn-icon btn-icon-mini mr-1" (click)="editMeasurement(measurement.id); $event.stopPropagation()">
         <i class="fa fa-pencil"></i>
       </button>

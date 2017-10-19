@@ -82,10 +82,12 @@ namespace AspCoreServer.Controllers
 
                     measurement.MeasurementType = jsonFile.MeasurementType;
 
-                    if (jsonFile.Name != null){
+                    if (jsonFile.Name != null)
+                    {
                         measurement.Name = jsonFile.Name;
                     }
-                    if (jsonFile.Description != null){
+                    if (jsonFile.Description != null)
+                    {
                         measurement.Description = jsonFile.Description;
                     }
 
@@ -187,6 +189,30 @@ namespace AspCoreServer.Controllers
             }
 
             return Created("", ticket);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var measurement = await _context.Measurements
+                .Where(s => s.Id == id)
+                .AsNoTracking()
+                .SingleOrDefaultAsync(m => m.Id == id);
+
+            if (measurement == null)
+            {
+                return NotFound("Measurement File not Found");
+            }
+            else
+            {
+                using (FileStream file = new FileStream(measurement.FilePath, FileMode.Open, FileAccess.Read))
+                {
+                    byte[] bytes = new byte[file.Length];
+                    file.Read(bytes, 0, (int)file.Length);
+                    var response = File(bytes, "application/octet-stream");
+                    return response;
+                }
+            }
         }
     }
 }

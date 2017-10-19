@@ -44,6 +44,7 @@ import { BatteryService } from './services/battery.service';
 import { StackService } from './services/stack.service';
 import { CellService } from './services/cell.service';
 import { MeasurementService } from './services/measurement.service';
+import { FileService } from './services/file.service';
 
 import { FileUploadModule } from 'ng2-file-upload';
 import { ToastyModule } from 'ng2-toasty';
@@ -203,6 +204,7 @@ export function createTranslateLoader(http: Http, baseHref) {
         StackService,
         CellService,
         MeasurementService,
+        FileService,
         ListService
     ],
     entryComponents: [

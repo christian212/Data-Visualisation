@@ -7,6 +7,7 @@ import { TimeSeriesChartComponent } from './../../../components/chart/timeseries
 import { LocusChartComponent } from './../../../components/chart/locus-chart/locus-chart.component';
 import { Measurement, MeasurementType } from '../../../models/Measurement';
 import { MeasurementService } from '../../../services/measurement.service';
+import { FileService } from '../../../services/file.service';
 
 @Component({
     selector: 'measurement-detail',
@@ -28,6 +29,7 @@ export class MeasurementDetailComponent implements OnInit {
 
     constructor(
         private measurementService: MeasurementService,
+        private fileService: FileService,
         private toastyService: ToastyService,
         private route: ActivatedRoute,
         private router: Router
@@ -161,11 +163,24 @@ export class MeasurementDetailComponent implements OnInit {
         });
     }
 
+    export() {
+        this.fileService.export(this.measurement.id)
+            .subscribe(blob => {
+                console.log(blob);
+                var link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = this.measurement.fileName;
+                link.click();
+            },
+            error => console.log("Error downloading the file."),
+            () => console.log('Completed file download.'));
+    }
+
     // Load new data depending on the selected min and max
     afterSetExtremes(extremes) {
         console.log(`Loading data async`);
         this.chart.showLoading('Loading data from server...');
-        
+
         console.log(`Lower bound: ` + extremes.min + ', upper bound: ' + extremes.max);
 
         this.measurementService.getRawTimeSeries(this.measurement.id, this.rawDataIndex, extremes.min, extremes.max)
