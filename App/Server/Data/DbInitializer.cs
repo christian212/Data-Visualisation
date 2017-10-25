@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using AspCoreServer.Models;
 using AspCoreServer;
+using AspCoreServer.ViewModels;
+using Microsoft.AspNetCore.Identity;
 
 namespace AspCoreServer.Data
 {

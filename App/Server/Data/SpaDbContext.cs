@@ -1,10 +1,28 @@
 ﻿using AspCoreServer.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace AspCoreServer.Data
 {
-    public class SpaDbContext : DbContext
+
+    // public class SpaIdentityDbContext : IdentityDbContext<AppUser, AppRole, int>
+    // {
+    //     public SpaIdentityDbContext(DbContextOptions<SpaIdentityDbContext> options)
+    //         : base(options)
+    //     {
+    //     }
+
+    //     protected override void OnModelCreating(ModelBuilder builder)
+    //     {
+    //         base.OnModelCreating(builder);
+    //         // Customize the ASP.NET Identity model and override the defaults if needed.
+    //         // For example, you can rename the ASP.NET Identity table names and more.
+    //         // Add your customizations after calling base.OnModelCreating(builder);
+    //     }
+    // }
+
+    public class SpaDbContext : IdentityDbContext<AppUser, AppRole, int>
     {
         public SpaDbContext(DbContextOptions<SpaDbContext> options) : base(options)
         {
@@ -17,8 +35,12 @@ namespace AspCoreServer.Data
         public DbSet<Measurement> Measurements { get; set; }
         public DbSet<RawMeasurement> RawMeasurements { get; set; }
 
+        public DbSet<JobSeeker> JobSeekers { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Measurement>()
             .HasOne(p => p.Battery)
             .WithMany(b => b.Measurements)
@@ -33,7 +55,7 @@ namespace AspCoreServer.Data
             .HasOne(p => p.Cell)
             .WithMany(b => b.Measurements)
             .OnDelete(DeleteBehavior.Cascade);
-            
+
             modelBuilder.Entity<StackCell>()
                 .HasKey(sc => new { sc.StackId, sc.CellId });
 
