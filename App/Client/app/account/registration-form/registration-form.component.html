@@ -1,0 +1,69 @@
+<div class="row">
+	<div class="offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+
+		<div class="card">
+
+			<div class="card-header bg-white">
+				<h4 class="card-title">Account erstellen</h4>
+			</div>
+
+			<div class="card-block">
+
+				<form #f="ngForm" novalidate (ngSubmit)="registerUser(f)">
+
+					<div *ngIf="errors" class="alert alert-danger" role="alert">
+						<strong>Oops!</strong> {{errors}}
+					</div>
+
+					<div class="form-group row py-4 py-md-0">
+						<label class="category col-md-3 col-lg-2 col-form-label text-md-right">Vorname</label>
+
+						<div class="col-sm-11 col-md-8 col-lg-8 offset-lg-1">
+							<input id="first-name" type="text" required name="firstName" class="form-control" placeholder="Vorname" tmFocus ngModel>
+						</div>
+					</div>
+
+					<div class="form-group row py-4 py-md-0">
+						<label class="category col-md-3 col-lg-2 col-form-label text-md-right">Nachname</label>
+
+						<div class="col-sm-11 col-md-8 col-lg-8 offset-lg-1">
+							<input id="last-name" type="text" required name="lastName" class="form-control" placeholder="Nachname" ngModel>
+						</div>
+					</div>
+
+					<div class="form-group row py-4 py-md-0">
+						<label class="category col-md-3 col-lg-2 col-form-label text-md-right">E-Mail</label>
+
+						<div class="col-sm-11 col-md-8 col-lg-8 offset-lg-1">
+							<input id="email" type="text" required name="email" validateEmail class="form-control" placeholder="E-Mail" ngModel #email="ngModel">
+						</div>
+
+						<div class="offset-md-3 offset-lg-3 col-sm-11 col-md-8 col-lg-8">
+							<small [hidden]="email.valid || (email.pristine && !submitted)" class="form-text text-danger">
+								<i class="fa fa-info"></i> Bitte gültige E-Mail Adresse eingeben.</small>
+						</div>
+
+					</div>
+
+					<div class="form-group row py-4 py-md-0 mb-4">
+						<label class="category col-md-3 col-lg-2 col-form-label text-md-right">Passwort</label>
+
+						<div class="col-sm-11 col-md-8 col-lg-8 offset-lg-1">
+							<input id="password" type="password" required name="password" class="form-control" placeholder="Passwort" ngModel>
+						</div>
+					</div>
+
+					<div class="form-group row py-4 py-md-0 mb-4">
+						<div class="offset-xs-2  offset-sm-1col-sm-11  offset-md-3 col-md-8 offset-lg-3 col-lg-8 offset-xl-3 col-xl-8">
+							<button type="submit" class="btn btn-primary" [disabled]="f.invalid || isRequesting">Sign Up</button>
+							<a class="btn btn-link" role="button" (click)="goBack()">Zurück</a>
+						</div>
+					</div>
+
+					<app-spinner [isRunning]="isRequesting"></app-spinner>
+
+				</form>
+			</div>
+
+		</div>
+	</div>

@@ -1,7 +1,8 @@
 ﻿import { NgModule, Inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule, APP_BASE_HREF } from '@angular/common';
-import { HttpModule, Http } from '@angular/http';
+import { HttpModule, Http, XHRBackend } from '@angular/http';
+import { AuthenticateXHRBackend } from './authenticate-xhr.backend';
 import { FormsModule } from '@angular/forms';
 
 import { Ng2BootstrapModule } from 'ngx-bootstrap';
@@ -54,6 +55,13 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { MarkdownToHtmlModule } from 'ng2-markdown-to-html';
 import { ChartModule } from 'angular-highcharts';
+
+import { routing } from './app.routing';
+
+import { AccountModule } from './account/account.module';
+import { DashboardModule } from './dashboard/dashboard.module';
+
+import { ConfigService } from './shared/utils/config.service';
 
 export function createTranslateLoader(http: Http, baseHref) {
     // Temporary Azure hack
@@ -109,83 +117,7 @@ export function createTranslateLoader(http: Http, baseHref) {
         }),
 
         // App Routing
-        RouterModule.forRoot([
-            {
-                path: '',
-                redirectTo: 'home',
-                pathMatch: 'full'
-            },
-            {
-                path: 'home',
-                component: HomeComponent,
-                data: { title: 'Home' }
-            },
-            {
-                path: 'database',
-                component: DatabaseComponent,
-                data: { title: 'Datenbank' }
-            },
-            {
-                path: 'database/:category',
-                component: DatabaseComponent,
-                data: { title: 'Datenbank' }
-            },
-            {
-                path: 'upload',
-                component: UploadComponent,
-                data: { title: 'Upload' }
-            },
-            {
-                path: 'plot',
-                component: PlotComponent,
-                data: { title: 'Plot' }
-            },
-            {
-                path: 'battery/details/:id',
-                component: BatteryDetailComponent,
-                data: { title: 'System Details' }
-            },
-            {
-                path: 'battery/edit/:id',
-                component: BatteryEditComponent,
-                data: { title: 'System Bearbeiten' }
-            },
-            {
-                path: 'stack/details/:id',
-                component: StackDetailComponent,
-                data: { title: 'Stack Details' }
-            },
-            {
-                path: 'stack/edit/:id',
-                component: StackEditComponent,
-                data: { title: 'Stack Bearbeiten' }
-            },
-            {
-                path: 'cell/details/:id',
-                component: CellDetailComponent,
-                data: { title: 'Zellen Details' }
-            },
-            {
-                path: 'cell/edit/:id',
-                component: CellEditComponent,
-                data: { title: 'Zelle Bearbeiten' }
-            },
-            {
-                path: 'measurement/details/:id',
-                component: MeasurementDetailComponent,
-                data: { title: 'Messungs Details' }
-            },
-            {
-                path: 'measurement/edit/:id',
-                component: MeasurementEditComponent,
-                data: { title: 'Messung Bearbeiten' }
-            },
-            {
-                path: '**',
-                component: NotFoundComponent,
-                data: { title: 'Error' }
-            }
-        ]),
+        routing,
 
         NgxPaginationModule,
         Ng2SearchPipeModule,
@@ -193,7 +125,10 @@ export function createTranslateLoader(http: Http, baseHref) {
         FileUploadModule,
         ChartModule,
         ToastyModule.forRoot(),
-        GoTopButtonModule
+        GoTopButtonModule,
+
+        AccountModule,
+        DashboardModule
     ],
     providers: [
         ConnectionResolver,
@@ -205,7 +140,12 @@ export function createTranslateLoader(http: Http, baseHref) {
         CellService,
         MeasurementService,
         FileService,
-        ListService
+        ListService,
+
+        ConfigService, {
+            provide: XHRBackend,
+            useClass: AuthenticateXHRBackend
+        }
     ],
     entryComponents: [
         BatteryListComponent,
