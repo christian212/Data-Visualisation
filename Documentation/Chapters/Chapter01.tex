@@ -3,7 +3,7 @@
 %************************************************
 
 
-Der steigenden Bedarf der Speicherung elektrischer Energie erfordert die stetige Weiterentwicklung von Batteriespeichersystemen. Die elektrochemische Reaktion von Zink mit Luftsauerstoff bietet ein beträchtliches Potenzial für wiederaufladbare Speicher für große Energiemengen, bei gleichzeitig hohen Energiedichten. Der besondere Vorteil von Zink-Luft-Akkumulatoren liegt neben der theoretisch dreifach größeren Energiedichte als der von Lithium-Ionen-Akkumulatoren in den niedrigen Kosten und der hohen Sicherheit.
+Der steigenden Speicherbedarf für elektrische Energie erfordert die stetige Weiterentwicklung von Batteriespeichersystemen. Die elektrochemische Reaktion von Zink mit Luftsauerstoff bietet ein beträchtliches Potenzial für wiederaufladbare Speicher für große Energiemengen, bei gleichzeitig hohen Energiedichten. Der besondere Vorteil von Zink-Luft-Akkumulatoren liegt neben der theoretisch dreifach größeren Energiedichte als der von Lithium-Ionen-Akkumulatoren in den niedrigen Kosten und der hohen Sicherheit.
 
 Im Rahmen eines Verbundforschungsprojektes der Technischen Universität Dortmund und der Fachhochschule Münster wurde ein neuartiger Zink-Luft-Akku mit dem dazugehörigen Batterie-Management-System entwickelt. Um die bei der Entwicklung anfallenden Messdaten für zukünftige Auswertungen zentral zu speichern und sie anderen Projektpartnern zur Verfügung zu stellen, wurde im Rahmen eines Masterprojektes eine Web-App entwickelt, die die aus den unterschiedlichen Versuchsreihen anfallenden Messdaten visualisiert und zur weiteren Verarbeitung zum Download zur Verfügung stellt.
 
@@ -13,13 +13,13 @@ Nachfolgend werden die Anforderungen an die Web-App im Detail beschrieben:
 
 \begin{itemize}
 
-\item Messdaten sollten in einem einheitlichen Format hochladbar sein und automatisch in eine Datenbank übernommen werden. Metadaten und Zusatzinformationen zu den jeweiligen Messaufbauten und -abläufen sollten in den jeweiligen Files gespeichert und automatisch ausgelesen werden können.
+\item Messdaten sollten in einem einheitlichen Format hochladbar sein und automatisch in eine Datenbank übernommen werden. Metadaten und Zusatzinformationen zu einzelnen Messaufbauten und -abläufen sollten in den jeweiligen Files gespeichert und automatisch ausgelesen werden können.
 
-\item Die als Zeitreihen und Ortskurven vorliegenden Messdaten sollten visualisiert werden. Dabei sollten unterschiedliche Ortskurven und Zeitreihen eines Lade- bzw. Entladevorgangs gemeinsam dargestellt werden können. Das zeitliche Intervall zur Darstellung einer Messreihe sollte veränderbar sein. Um eine ausreichend hohe Auflösung bei gleichzeitig optimiertem HTTP-Traffic zu erreichen, sollten Daten beim Zoomen ``lazy'' nachgeladen werden.
+\item Die als Zeitreihen und Ortskurven vorliegenden Messdaten sollten visualisiert werden. Dabei sollten unterschiedliche Ortskurven und Zeitreihen eines Lade- bzw. Entladevorgangs gemeinsam dargestellt werden können. Das zeitliche Intervall der Darstellung einer Messreihe sollte veränderbar sein. Um eine ausreichend hohe Auflösung bei gleichzeitig optimiertem HTTP-Traffic zu erreichen, sollten Daten beim Zoomen ``lazy'' nachgeladen werden.
 
-\item Um Zukunftssicherheit und Skalierbarkeit zu gewährleisten, sollten zusätzlich zu einzelnen Zellen auch Stacks, das sind Verschaltungen von einzelnen Zellen, und Systeme, das sind Verschaltungen von einzelnen Stacks, angelegt werden können. Die App sollte eine Filterfunktion nach unterschiedlichen Kategorien haben und eine Suchfunktion in der jeweiligen Kategorie.
+\item Um Zukunftssicherheit und Skalierbarkeit zu gewährleisten, sollten zusätzlich zu einzelnen Zellen auch Stacks, das sind Verschaltungen von einzelnen Zellen, und Systeme, das sind Verschaltungen von einzelnen Stacks, angelegt werden können. Die App sollte eine Filterfunktion nach unterschiedlichen Kategorien sowie eine Suchfunktion in den jeweiligen Kategorien bereitstellen.
 
-\item Um zu verhindern, dass Dritte die gespeicherten Daten einsehen und manipulieren können, sollte der Zugriff auf die Web-App über einen Login mit gemeinsamen Passwort geschützt werden.
+\item Die App sollte über einen Webserver im Labor ausgeliefert werden und im Webbrowser laufen. Um zu verhindern, dass Dritte die gespeicherten Daten einsehen und manipulieren können, sollte der Zugriff über einen Login geschützt werden.
 
 \item Das User Interface sollte responsive sein, damit die App auch auf mobilen Geräten nutzbar ist.
 
