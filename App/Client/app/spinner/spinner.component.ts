@@ -9,7 +9,7 @@ import { Component, Input, OnDestroy } from '@angular/core';
 
 export class SpinnerComponent implements OnDestroy {  
     private currentTimeout: number;
-    private isDelayedRunning: boolean = false;
+    public isDelayedRunning: boolean = false;
 
     @Input()
     public delay: number = 150;

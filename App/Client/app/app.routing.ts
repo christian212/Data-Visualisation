@@ -98,7 +98,7 @@ const appRoutes: Routes = [
         component: NotFoundComponent,
         data: { title: 'Error' }
     },
-    { path: 'account', loadChildren: 'app/account/account.module#AccountModule' }
+    //{ path: 'account', loadChildren: 'account/account.module#AccountModule' }
 ];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot(appRoutes);

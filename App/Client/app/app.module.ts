@@ -124,7 +124,6 @@ export function createTranslateLoader(http: Http, baseHref) {
         ChartModule,
         ToastyModule.forRoot(),
         GoTopButtonModule,
-
         AccountModule,
         DashboardModule
     ],

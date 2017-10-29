@@ -23,9 +23,9 @@ export class MeasurementDetailComponent implements OnInit {
     public MeasurementType = MeasurementType;
 
     @ViewChild(TimeSeriesChartComponent)
-    private timeSeriesChartComponent: TimeSeriesChartComponent;
+    public timeSeriesChartComponent: TimeSeriesChartComponent;
     @ViewChild(LocusChartComponent)
-    private locusChartComponent: LocusChartComponent;
+    public locusChartComponent: LocusChartComponent;
 
     constructor(
         private measurementService: MeasurementService,

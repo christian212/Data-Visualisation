@@ -52,9 +52,9 @@ export class MeasurementGroupedListComponent {
     };
 
     @ViewChild(TimeSeriesChartComponent)
-    private timeSeriesChartComponent: TimeSeriesChartComponent;
+    public timeSeriesChartComponent: TimeSeriesChartComponent;
     @ViewChild(LocusChartComponent)
-    private locusChartComponent: LocusChartComponent;
+    public locusChartComponent: LocusChartComponent;
 
     constructor(
         private measurementService: MeasurementService,
