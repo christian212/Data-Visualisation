@@ -7,6 +7,8 @@ import { ListComponent } from '../../list/list.component';
 import { BatteryService } from '../../../services/battery.service';
 import { Battery } from '../../../models/Battery';
 
+import { AuthGuard } from '../../../auth.guard';
+
 enum CircuitType {
     Undefined = 0,
     Reihenschaltung,

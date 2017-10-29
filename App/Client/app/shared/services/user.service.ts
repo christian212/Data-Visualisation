@@ -37,9 +37,11 @@ export class UserService extends BaseService {
     this._authNavStatusSource.next(this.loggedIn);
   }
 
-  register(email: string, password: string, firstName: string, lastName: string, location: string): Observable<UserRegistration> {
-    let body = JSON.stringify({ email, password, firstName, lastName, location });
+  register(email: string, password: string, firstName: string, lastName: string, role: string, location: string): Observable<UserRegistration> {
+    let body = JSON.stringify({ email, password, firstName, lastName, location, role });
     let headers = new Headers({ 'Content-Type': 'application/json' });
+    let authToken = localStorage.getItem('auth_token');
+    headers.append('Authorization', `Bearer ${authToken}`);
     let options = new RequestOptions({ headers: headers });
 
     return this.http.post(this.baseUrl + "/api/accounts", body, options)

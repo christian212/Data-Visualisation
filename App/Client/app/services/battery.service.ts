@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { Http, URLSearchParams } from '@angular/http';
+import { Http, URLSearchParams, Headers } from '@angular/http';
 import { APP_BASE_HREF } from '@angular/common';
 import { ORIGIN_URL } from '../shared/constants/baseurl.constants';
 import { Battery } from '../models/Battery';
@@ -17,26 +17,58 @@ export class BatteryService {
     }
 
     getBatteryCount(): Observable<number> {
-        return this.transferHttp.get(`${this.baseUrl}/api/batteries/count`);
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        let authToken = localStorage.getItem('auth_token');
+        headers.append('Authorization', `Bearer ${authToken}`);
+
+        return this.transferHttp.get(`${this.baseUrl}/api/batteries/count`, { headers });
     }
 
     getBatteries(): Observable<Battery[]> {
-        return this.transferHttp.get(`${this.baseUrl}/api/batteries`);
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        let authToken = localStorage.getItem('auth_token');
+        headers.append('Authorization', `Bearer ${authToken}`);
+
+        return this.transferHttp.get(`${this.baseUrl}/api/batteries`, { headers });
     }
 
     getBattery(batteryId: number): Observable<Battery> {
-        return this.transferHttp.get(`${this.baseUrl}/api/batteries/` + batteryId);
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        let authToken = localStorage.getItem('auth_token');
+        headers.append('Authorization', `Bearer ${authToken}`);
+
+        return this.transferHttp.get(`${this.baseUrl}/api/batteries/` + batteryId, { headers });
     }
 
     deleteBattery(battery: Battery): Observable<any> {
-        return this.http.delete(`${this.baseUrl}/api/batteries/` + battery.id);
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        let authToken = localStorage.getItem('auth_token');
+        headers.append('Authorization', `Bearer ${authToken}`);
+
+        return this.http.delete(`${this.baseUrl}/api/batteries/` + battery.id, { headers });
     }
 
     updateBattery(battery: Battery): Observable<any> {
-        return this.http.put(`${this.baseUrl}/api/batteries/` + battery.id, battery);
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        let authToken = localStorage.getItem('auth_token');
+        headers.append('Authorization', `Bearer ${authToken}`);
+
+        return this.http.put(`${this.baseUrl}/api/batteries/` + battery.id, battery, { headers });
     }
 
     addBattery(newBatteryName: string): Observable<any> {
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        let authToken = localStorage.getItem('auth_token');
+        headers.append('Authorization', `Bearer ${authToken}`);
+
+        console.log(`Get JWT token from localStorage: ${authToken}`);
+
         return this.http.post(`${this.baseUrl}/api/batteries`, { name: newBatteryName });
     }
 }

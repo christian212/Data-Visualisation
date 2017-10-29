@@ -18,9 +18,12 @@ export class FileService {
 
     export(measurementId: number): Observable<Object[]> {
         return Observable.create(observer => {
+            let authToken = localStorage.getItem('auth_token');
+
             let xhr = new XMLHttpRequest();
             xhr.open('GET', `${this.baseUrl}/api/file/` + measurementId);
             xhr.setRequestHeader('Content-type', 'application/json');
+            xhr.setRequestHeader('Authorization', `Bearer ${authToken}`);
             xhr.responseType = 'blob';
 
             xhr.onreadystatechange = function () {

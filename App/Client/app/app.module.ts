@@ -21,7 +21,6 @@ import { NavBarComponent } from './components/navbar/navbar.component';
 import { HomeComponent } from './containers/home/home.component';
 import { DatabaseComponent } from './containers/database/database.component';
 import { UploadComponent } from './containers/upload/upload.component';
-import { PlotComponent } from './containers/plot/plot.component';
 import { TimeSeriesChartComponent } from './components/chart/timeseries-chart/timeseries-chart.component';
 import { LocusChartComponent } from './components/chart/locus-chart/locus-chart.component';
 import { BatteryListComponent } from './components/list/battery-list/battery-list.component';
@@ -78,7 +77,6 @@ export function createTranslateLoader(http: Http, baseHref) {
         NavBarComponent,
         DatabaseComponent,
         UploadComponent,
-        PlotComponent,
         TimeSeriesChartComponent,
         LocusChartComponent,
         BatteryListComponent,

@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using CsvHelper;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AspCoreServer.Controllers
 {
@@ -29,6 +30,7 @@ namespace AspCoreServer.Controllers
             _environment = environment;
         }
 
+        [Authorize]
         [HttpGet("[action]")]
         public async Task<IActionResult> Count()
         {
@@ -37,6 +39,7 @@ namespace AspCoreServer.Controllers
             return Ok(measurementCount);
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> Get(int currentPageNo = 1, int pageSize = 1000)
         {
@@ -56,6 +59,7 @@ namespace AspCoreServer.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
@@ -99,6 +103,7 @@ namespace AspCoreServer.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("[action]/{id}")]
         public async Task<IActionResult> Locus(int id)
         {
@@ -134,6 +139,7 @@ namespace AspCoreServer.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("[action]/{id}/{lowerBound}/{upperBound}")]
         public async Task<IActionResult> TimeSeries(int id, long lowerBound, long upperBound)
         {
@@ -218,6 +224,7 @@ namespace AspCoreServer.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("[action]/{id}/{index}/{lowerBound}/{upperBound}")]
         public async Task<IActionResult> RawTimeseries(int id, int index, double lowerBound, double upperBound)
         {
@@ -342,6 +349,7 @@ namespace AspCoreServer.Controllers
             }
         }
 
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody]Measurement measurementUpdateValue)
         {
@@ -374,6 +382,7 @@ namespace AspCoreServer.Controllers
             }
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

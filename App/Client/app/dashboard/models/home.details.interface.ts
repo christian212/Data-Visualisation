@@ -1,3 +1,6 @@
 export interface HomeDetails {
-    message: string;      
+    firstName: string;    
+    lastName: string;
+    email: string;
+    role: string;
 }

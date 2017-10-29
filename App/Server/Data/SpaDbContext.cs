@@ -36,6 +36,7 @@ namespace AspCoreServer.Data
         public DbSet<RawMeasurement> RawMeasurements { get; set; }
 
         public DbSet<JobSeeker> JobSeekers { get; set; }
+        public DbSet<Admin> Admins { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

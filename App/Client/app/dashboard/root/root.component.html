@@ -1,14 +1,27 @@
 <div class="row">
 
-  <div class="col-md-2" role="navigation" style="border-right:1px solid #cecece">
-    <ul class="nav nav-pills nav-stacked">
-      <li class="nav-item">
-        <a class="nav-link sidebar-menu-button" routerLinkActive="active-sidebar-link" routerLink='/dashboard/home'><i class="fa fa-home" aria-hidden="true"></i> Home</a>
-      </li>           
-    </ul>
-  </div>
+  <div class="offset-md-2 col-md-8">
+    <div class="card">
+      <ul class="nav nav-tabs justify-content-center" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active" routerLink='/dashboard/home' role="tab">
+            <i class="now-ui-icons shopping_shop"></i> Home
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active" routerLink='/dashboard/settings' role="tab">
+            <i class="now-ui-icons ui-2_settings-90"></i> Settings
+          </a>
+        </li>
+      </ul>
+      <div class="card-body mt-3">
+        <!-- Tab panes -->
+        <div class="tab-content text-center">
+          <div class="tab-pane active" id="home" role="tabpanel">
+            <router-outlet></router-outlet>
+          </div>
+        </div>
+      </div>
+    </div>
 
-  <div class="col-md-10">
-    <router-outlet></router-outlet>
   </div>
-</div>
