@@ -168,9 +168,15 @@ export class MeasurementDetailComponent implements OnInit {
             .subscribe(blob => {
                 console.log(blob);
                 var link = document.createElement('a');
-                link.href = window.URL.createObjectURL(blob);
+                let url = window.URL.createObjectURL(blob);
+                link.href = url;
                 link.download = this.measurement.fileName;
+                document.body.appendChild(link);
                 link.click();
+                setTimeout(function () {
+                    document.body.removeChild(link);
+                    window.URL.revokeObjectURL(url);
+                }, 100);
             },
             error => console.log("Error downloading the file."),
             () => console.log('Completed file download.'));
