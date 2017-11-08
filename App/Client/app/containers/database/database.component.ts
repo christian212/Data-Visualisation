@@ -36,7 +36,9 @@ export class DatabaseComponent implements OnInit, AfterViewInit, OnDestroy {
     private batteryService: BatteryService,
     private stackService: StackService,
     private cellService: CellService,
-    private measurementService: MeasurementService) { }
+    private measurementService: MeasurementService) { 
+
+    }
 
   ngOnInit() {
     this.lists = this.listService.getLists();
