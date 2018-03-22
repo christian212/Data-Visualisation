@@ -7,6 +7,7 @@ import { TimeSeriesChartComponent } from './../../../components/chart/timeseries
 import { LocusChartComponent } from './../../../components/chart/locus-chart/locus-chart.component';
 import { Measurement, MeasurementType } from '../../../models/Measurement';
 import { MeasurementService } from '../../../services/measurement.service';
+import { FileService } from '../../../services/file.service';
 
 @Component({
     selector: 'measurement-detail',
@@ -22,12 +23,13 @@ export class MeasurementDetailComponent implements OnInit {
     public MeasurementType = MeasurementType;
 
     @ViewChild(TimeSeriesChartComponent)
-    private timeSeriesChartComponent: TimeSeriesChartComponent;
+    public timeSeriesChartComponent: TimeSeriesChartComponent;
     @ViewChild(LocusChartComponent)
-    private locusChartComponent: LocusChartComponent;
+    public locusChartComponent: LocusChartComponent;
 
     constructor(
         private measurementService: MeasurementService,
+        private fileService: FileService,
         private toastyService: ToastyService,
         private route: ActivatedRoute,
         private router: Router
@@ -74,14 +76,17 @@ export class MeasurementDetailComponent implements OnInit {
 
                 this.chart = new Highcharts.Chart('rawChart', {
                     chart: {
-                        type: 'line',
+                        type: 'spline',
                         zoomType: 'x'
                     },
                     title: {
                         text: 'Rohdaten'
                     },
                     xAxis: {
-                        type: 'datetime',
+                        type: 'linear',
+                        title: {
+                            text: 'Zeit in Sekunden'
+                        },
                         events: {
                             afterSetExtremes: this.afterSetExtremes.bind(this)
                         }
@@ -158,27 +163,40 @@ export class MeasurementDetailComponent implements OnInit {
         });
     }
 
+    export() {
+        this.fileService.export(this.measurement.id)
+            .subscribe(blob => {
+                console.log(blob);
+                var link = document.createElement('a');
+                let url = window.URL.createObjectURL(blob);
+                link.href = url;
+                link.download = this.measurement.fileName;
+                document.body.appendChild(link);
+                link.click();
+                setTimeout(function () {
+                    document.body.removeChild(link);
+                    window.URL.revokeObjectURL(url);
+                }, 100);
+            },
+            error => console.log("Error downloading the file."),
+            () => console.log('Completed file download.'));
+    }
+
     // Load new data depending on the selected min and max
     afterSetExtremes(extremes) {
         console.log(`Loading data async`);
         this.chart.showLoading('Loading data from server...');
 
-        function removeDigits(x, n) {
-            return (x - (x % Math.pow(10, n))) / Math.pow(10, n);
-        }
+        console.log(`Lower bound: ` + extremes.min + ', upper bound: ' + extremes.max);
 
-        let lowerBound = removeDigits(Math.ceil(extremes.min), 3) as number;
-        let upperBound = removeDigits(Math.floor(extremes.max), 3) as number;
+        this.measurementService.getRawTimeSeries(this.measurement.id, this.rawDataIndex, extremes.min, extremes.max)
+            .subscribe((rawMeasurementData: any) => {
+                console.log('Get raw measurement data result: ', rawMeasurementData);
+                this.rawMeasurementData = rawMeasurementData.value;
 
-        console.log(`Lower bound: ` + lowerBound + ', upper bound: ' + upperBound);
-
-        this.measurementService.getRawTimeSeries(this.measurement.id, this.rawDataIndex, lowerBound, upperBound)
-        .subscribe((rawMeasurementData: any) => {
-            console.log('Get raw measurement data result: ', rawMeasurementData);
-            this.rawMeasurementData = rawMeasurementData.value;
-
-                this.chart.series[0].setData(this.rawMeasurementData[0].data);
-                this.chart.series[1].setData(this.rawMeasurementData[1].data);
+                for (var index = 0; index < this.rawMeasurementData.length; index++) {
+                    this.chart.series[index].setData(this.rawMeasurementData[index].data);
+                }
 
                 this.chart.hideLoading();
             },

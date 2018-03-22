@@ -1,97 +1,244 @@
 %*****************************************
-\chapter{Implementation}\label{ch:implementation}
+\chapter{Implementierung}\label{ch:implementation}
 %*****************************************
 
-Um die Webanwendung platformübergreifend entwickeln und auf beliebigen Systemen einsetzen zu können würde ASP.NET Core MVC als Development Framework gewählt.
+Um die entwickelte Anwendung plattformübergreifend einsetzen zu können, wurde eine Angular-Single-Page-App mit ASP.NET-Back-End entwickelt. Dieses Kapitel beschreibt die Implementierung und die dabei genutzten Komponenten im Detail. Der Source-Code \cite{sourceCode} ist auf GitHub verfügbar
 
-\section{ASP.NET Core MVC}
+\section{Domain Model}
 
-Die General-Purpose-Development-Platform .NET Core wurde unter Koordination von Microsoft zusammen mit der .NET Community entwickelt und als Open Source-Projekt über GitHub \cite{dotnetcore} verfügbar gemacht. Sie bietet eine platformübergreifende Lösung zur Entwicklung und Ausführung von Anwendungsprogrammen und läuft unter Windows, macOS and Linux. ASP.NET steht für Active Server Pages .NET und ist ein Web Application Framework von Microsoft, mit dem sich dynamische Webseiten, Webanwendungen und Webservices entwickeln lassen. ASP.NET Core MVC baut auf .NET Core auf und vereint die Effektivität und Übersichtlichkeit der Model-View-Controller (MVC) Architektur \cite{freeman2016pro}. Als Entwicklungsumgebung wurde Visual Studio Code, ein kostenloser und quelloffener Texteditor, mit C\# Extension genutzt.
-
-\subsection{Model-View-Controller}
-
-Das Model-View-Controller Design Pattern dient der Trennung der Software in die drei Komponenten
-
-\begin{itemize}
-	\item Models, die die Daten enthalten mit denen der Nutzer arbeitet
-	\item Views, die Teile des Models rendern und so das User Interface darstellen 
-	\item Controllers, die eingehende Anfragen annehmen und Operationen auf dem Model durchführen sowie Views die gerendert werden sollen auswählen
-\end{itemize}
-
-Allgemein kann man sagen, dass das model die Objekte der realen Welt repräsentiert, zusammen mit den Prozessen und Regeln die das  bestimmte Einsatzgebiet der App definieren. Dies wird auch als Domain der Applikation bezeichnet und analog wird das Model auch Domain Model genannt. Die C\#-Models zusammen mit ihren Methoden bilden die Wirklichkeit auf die Applikation ab. Dabei stellen die Views zusammen mit den Controllern die Domain dem Client dar.
-
-
-Dabei ist jeder Teil der MVC Architektur eigenständig und wird auch `separation of concerns' genannt. So werden die Daten im Model ausschließlich vom Model verändert, die Daten ausschließlich vom View dargestellt und user requests und input ausschließlich im Controller verarbeitet. Durch diese klare Trennung der Komponenten wird es einfacher die Application zu warten und zu erweitern. Der Zusammenhang zwischen den einzelnen Komponenten ist in Abbildung \ref{fig:mvc} dargestellt.
+Das Domain Model besteht aus den in Abbildung \ref{fig:domModel} dargestellten Klassen. Dabei wird eine Messung durch Messdaten sowie zugehörige Metadaten, wie Name und Beschreibung, repräsentiert. Eine Messung kann entweder zu einer Zelle, einem Stack oder einem System gehören. Ein Stack ist eine Verschaltung von mehreren Zellen, ein System eine Verschaltung von mehreren Stacks. Systeme werden intern als Batteries bezeichnet, um Konflikte mit C\# Bibliotheken zu vermeiden. Die Enumeration \code{MeasurementType} beschreibt den Typ der Messung: Undefiniert, Zeitreihe, Ortskurve, oder Sonstige. \code{CircuitType} gibt die Schaltungsart an: Reihen- bzw. Parallelschaltung oder Sonstige. Neue Instanzen des jeweiligen Typs können zur Datenbank hinzugefügt, gelöscht, und bearbeitet werden. Es stehen jeweils List- und Detail-Views zur Verfügung. Die Messung hat eine Upload- und eine Download-Methode.
 
 \begin{figure}
 \centering
-\includegraphics[width=6cm]{Figures/mvc}
-\caption{Model-View-Controller}
-\label{fig:mvc}
+\makebox[\textwidth][c]{\includegraphics[width=1.4\textwidth]{Figures/classDiagram}}
+\caption{Domain Model als UML Klassenhierarchie}
+\label{fig:domModel}
 \end{figure}
 
- Beim MVC-Pattern werden eingehende Anfragen durch Controller behandelt. In ASP.NET Core MVC sind Controller C\#-Klassen die gewöhnlich von der integrierten MVC-Controller Basisklasse \code{Microsoft.AspNetCore.Mvc.Controller} erben. Jede \code{public}-Methode eines Controllers wird auch \emph{action method} genannt. Man kann sie aus dem Web über eine URL aufrufen und so eine Aktion ausführen. In einer Web Application geht es darum dynamischen Output zu konstruieren und darzustellen. In MVC ist der Controller dafür zuständig basierend auf dem Model Daten zu konstruieren und diese an den View weiterzugeben, welcher wiederum das HTML rendert. Wenn also eine Anfrage an die URL die mit der action method verbunden ist gesendet wird, werden die Statements in der action method ausgeführt um Operationen auf domain model anzuwenden und dann ein view auszuwählen der dem Client angezeigt wird. Dies is in Abbildung \ref{fig:mvc_http} dargestellt.
- 
- 
- \begin{figure}
+Abbildung \ref{fig:routing} zeigt die entwickelten Angular-Components und das Routing. Die Components werden weiter unten näher beschrieben.
+
+\begin{figure}
 \centering
-\includegraphics[width=\textwidth]{Figures/mvc_http}
-\caption{HTTP request mit Model-View-Controller}
-\label{fig:mvc_http}
+\makebox[\textwidth][c]{\includegraphics[width=\textwidth]{Figures/routing}}
+\caption{Angular-Components und Routing}
+\label{fig:routing}
 \end{figure}
- 
- 
-\subsection{Routes}
-
-ASP.NET Core MVC Applications nutzen das ASP.NET routing system. Diese entschiedet welche URLs auf welchen Controller und welche Actions abgebildet werden. Eine Route ist eine Regel die darüber entscheidet wie eine Anfrage behandelt wird. Als Standardregeln für ein neues MVC Projekt sind werden beispielsweise die folgenden URLs auf die Index action des code{HomeControllers}s weitergeleitet.
-
-\begin{itemize}
-
-	\item /
-	\item /Home
-	\item /Home/Index
-
-\end{itemize}
-
-\noindent
-Nach Konvention hat die Application einen \code{HomeController} welcher den Einstiegspunkt in die MVC Application bildet.
 
 
-\subsection{Razor View Engine}
+\section{Frameworks und Technologien}
 
-Für eine Webapplikation ist es essentiell dynamischen Inhalt zu generieren und an den Client zu senden. Die Razor View Engine ist eine ASP.NET template markup syntax die zur dynamischen Erstellung von Webseiten in C\# genutzt wird \cite{razorengine}. Dabei sind Razor views HTML templates die C\#-Logik enthalten, welche model data nutzt um dynamisch Content zu generieren. Weil Razor Expressions fast jedes gültige C\#-Statement enthalten können ist es mitunter schwierig zu entscheiden ob Logik in den View oder in den Controller gehört ohne das MVC pattern zu untergraben.
+Im Folgenden werden die verwendeten Frameworks und Technologien näher beschrieben.
 
-\subsection{Model Binding}
+\subsection{Angular}
 
-Model Binding ist ein nützliches Feature von MVC. Eingehende Daten eines HTTP-requests werden geparsed und unter Berücksichtigung der Key-Value-Pairs den Properties des jeweiligen domain models types zugewiesen. Dadurch wird das mühevolle Behandeln von HTTP requests vermieden und man kann direkt mit C\# Objekten arbeiten anstatt mit Datenpaketen die vom Browser gesendet werden.
-
-\subsection{Tag Helper}
-
-\section{Entity Framework Core}
-
-Entity Framework (EF) Core is a lightweight, extensible, and cross-platform version of the popular Entity Framework data access technology.
-EF Core is an object-relational mapper (O/RM) that enables .NET developers to work with a database using .NET objects. It eliminates the need for most of the data-access code that developers usually need to write. EF Core supports many database engines, see Database Providers for details. 
-
-With EF Core, data access is performed using a model. A model is made up of entity classes and a derived context that represents a session with the database, allowing you to query and save data. See Creating a Model to learn more.
-You can generate a model from an existing database, hand code a model to match your database, or use EF Migrations to create a database from your model (and evolve it as your model changes over time).
-
-Instances of your entity classes are retrieved from the database using Language Integrated Query (LINQ). 
-
-Entity Framework Core uses Language Integrate Query (LINQ) to query data from the database. LINQ allows you to use C\# (or your .NET language of choice) to write strongly typed queries based on your derived context and entity classes. A representation of the LINQ query is passed to the database provider, to be translated in database-specific query language (e.g. SQL for a relational database).\cite{msentitiyframework}
+Angular 4.x \cite{angular} ist ein TypeScript-basiertes Frontend-Webframework. Angeführt durch Google, wird es von einer Community aus Einzelpersonen und Unternehmen entwickelt und als Open-Source-Software über GitHub \cite{angularGit} publiziert.
 
 
-Entity Framework Core is able to generate the schema for the database using the model classes througha feature called migrations. When you prepare a migration, EF Core creates a C\# class that contains the SQL commands required to prepare the database. If you need to modify your model classes, then you can create a new migration that contains the SQL commands required to reflect the changes. In this way, you don’t have to worry about manually writing and testing SQL commands and can just focus on the C\# model classes in the application.\cite{dotnetcore}
+\subsection{ASP.NET Core}
 
-\section{CSV-Reader}
-
-The CsvReader library is an extended version of Sébastien Lorion's fast CSV Reader project and provides fast parsing and reading of CSV files \cite{csvreader}.
-
-\section{SQLite}
-
-SQLite is an in-process library that implements a self-contained, serverless, zero-configuration, transactional SQL database engine. The code for SQLite is in the public domain and is thus free for use for any purpose, commercial or private. SQLite is the most widely deployed database in the world with more applications than we can count, including several high-profile projects.
-
-SQLite is an embedded SQL database engine. Unlike most other SQL databases, SQLite does not have a separate server process. SQLite reads and writes directly to ordinary disk files. A complete SQL database with multiple tables, indices, triggers, and views, is contained in a single disk file. The database file format is cross-platform - you can freely copy a database between 32-bit and 64-bit systems or between big-endian and little-endian architectures. These features make SQLite a popular choice as an Application File Format. Think of SQLite not as a replacement for Oracle but as a replacement for fopen() \cite{sqlite}
+Die General-Purpose-Development-Platform .NET Core wird unter der Koordination von Microsoft zusammen mit der .NET Community entwickelt und ist als Open Source-Projekt über GitHub \cite{dotnetcore} verfügbar. Sie bietet eine platformübergreifende Lösung zur Entwicklung und Ausführung von Anwendungsprogrammen und läuft unter Windows, macOS and Linux. ASP.NET steht für Active Server Pages .NET und ist ein Web Application Framework von Microsoft, mit dem sich dynamische Webseiten, Webanwendungen und Webservices in C\# entwickeln lassen. Im Hintergrund läuft der Kestrel Web Server für ASP.NET \cite{kestrel}. Als Entwicklungsumgebung wurde Visual Studio Code mit C\#-Extension genutzt, ein kostenloser und quelloffener Texteditor.
 
 
-\section{Bootstrap}
+\subsection{Entity Framework Core}
+
+Entity Framework Core ist eine abgespeckte, erweiterbare, platformübergreifende Version des bekannten Entity Frameworks, ein Framework für objektrelationale Abbildung von Microsoft. Entity Framework Core ermöglicht es ausschließlich unter Benutzung von .NET-Objekten mit Datenbanken zu arbeiten und beseitigt so die Notwendigkeit eigenen Code zum Zugriff auf die Datenbank zu schreiben \cite{msentitiyframework}. EF Core verwendet das aus Entity-Klassen bestehende C\#-Domain-Model um daraus mit Hilfe von Migrations eine Datenbank zu erstellen. So kann das Domain Model während der Entwicklung einfach erweitert oder geändert werden, ohne händisch SQL-Befehle schreiben und testen zu müssen. Ein Datenzugriff auf eine Instanz einer Entity-Klasse wird durch Language Integrated Queries (LINQ) beschrieben \cite{dotnetcore}.
+
+
+\subsection{SQLite}
+
+SQLite implementiert eine eigenständige, serverlose SQL-Database-Engine und ist dabei die weltweit meistverwendete ihrer Art \cite{sqlite}. Anders als die meisten anderen SQL Datenbanken schreibt und liest SQLite direkt in und aus herkömmlichen Files auf einem Datenträger. Dabei ist das Fileformat platformübergreifend und frei kopierbar zwischen 32-bit und 64-bit Systemen sowie zwischen Big-Endian and Little-Endian Architekturen.
+
+
+\subsection{Bootstrap und Now UI Kit}
+
+Bootstrap \cite{bootstrap} ist ein freies CSS-Framework das responsive Webdesign vereinfacht. Es enthält auf HTML und CSS basierende Gestaltungsvorlagen für Typografie, Formulare, Buttons, Tabellen, Grid-Systeme, Navigations- und andere Oberflächengestaltungselemente. Bootstrap ist modular aufgebaut und besteht im Kern aus Less-Stylesheets. Als Erweiterung wurde das Now UI Kit \cite{nowUIkit} verwendet, was ein modernes, flaches und intuitives User Interface realisiert.
+
+\subsection{Highcharts}
+
+Highcharts \cite{highCharts} ist eine in pure JavaScript geschriebene Visualisierungslibrary der Firma Highsoft. Mit ihr lassen sich unter anderem interaktive Lineplots und Ortskurven erstellen. Auch lazy loading von Daten wird mit ihr vereinfacht.
+
+\section{JSON-Fileformat}
+
+Das JSON-Format wurde gewählt, weil es in C\# vorgefertigte JSON-to-Object Parser gibt und es flexibel und beliebig erweiterbar ist. Anders als beim ursprünglichen zum Logging genutzten CSV-Format, ist es einfach Metadaten und Zusatzinformationen zu speichern, ohne diese fest in gewissen Zeilen und Spalten zu kodieren. Weiterhin ist es menschenlesbar und portabel, anders als .mat-Files, die ursprünglich zur Speicherung der Ortskurven dienten. Listing \ref{lis:ortskurve} und \ref{lis:zeitreihe} zeigen jeweils die typische Struktur eines JSON-Files für eine Ortskurve und eine Zeitreihe mit beschreibenden Kommentaren.
+
+
+\lstset{
+	basicstyle=\small \ttfamily,
+  breaklines=false,
+  keepspaces=true, 
+  language=Java,                 % the language of the code
+  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{gray}, % the style that is used for the line-numbers
+  stepnumber=1,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{red},     % string literal style
+  caption={JSON Fileformat Ortskurven}                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
+
+\lstinputlisting[label=lis:ortskurve]{Code/ortskurve.json}
+
+\lstset{caption={JSON Fileformat Zeitreihen}}
+
+\lstinputlisting[label=lis:zeitreihe]{Code/zeitreihe.json}
+
+\section{REST API}
+
+Representational State Transfer (REST) bezeichnet ein Programmierparadigma für verteilte Systeme, insbesondere Webservices. In einer Client-Server-Architektur stellt der Server einen Dienst bereit, der bei Bedarf vom Client angefragt werden kann. So stellt die REST API in unserer Single-Page-App Mess- und Metadaten aus der Datenbank bereit, die bei Bedarf dynamisch geladen bzw. nachgeladen werden.
+
+
+\section{Zugriffsrechte}
+
+Der Authentifizierung von Usern wurde mit Hilfe von JSON Web Tokes implementiert. Typisches Einsatzgebiet für JWT ist die fortlaufende Authentifizierung bei Single-sign-on. Da REST API’s zustandslos sind muss bei jeder Anfrage vom Client an den Server diese mit allen Informationen bestückt sein, die für die Verarbeitung der Anfrage benötigt wird. Damit man über die API Daten einsehen, hochladen, herunterladen und verändern kann, muss also immer ein vom Server zuvor generiertes JWT mitgesendet werden.
+
+
+\chapter{Funktionalitäten} 
+
+Nachfolgend ist ein möglicher Workflow beschrieben um die Funktionalitäten der App zu erläutern. Abbildung \ref{fig:home} zeigt den Home-View, der den Ausgangspunkt dafür bildet.
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{Figures/home}
+\caption{Home-View}
+\label{fig:home}
+\end{figure}
+
+\section{Login}
+
+Klickt man auf den Login-Button, oder auf einen anderen Navigationsbutton während kein User eingeloggt ist, wird man zum Login-View weitergeleitet, der in Abbildung \ref{fig:login} dargestellt ist.
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{Figures/login}
+\caption{Login-View}
+\label{fig:login}
+\end{figure}
+
+\section{Dashboard}
+
+Nach dem Login wird man zum Dashboard-View weitergeleitet. Dort wird der Name des Users sowie seine Rolle mit der er eingeloggt ist angezeigt, wie in Abbildung \ref{fig:dashboard}. Gleichzeitig ändern sich die Bedienelemente in der Navigationsleiste, über die man als Admin neue User hinzufügen, sich selbst ausloggen, oder die eigenen Nutzerdetails einsehen kann.
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{Figures/dashboard}
+\caption{Dashboard-View}
+\label{fig:dashboard}
+\end{figure}
+
+\section{Upload}
+
+Klickt man nun über die Navigationsleiste am obigen Bildschirmrand auf Upload, gelangt man zum Upload-View, wie in Abbildung \ref{fig:upload} dargestellt, mit Hilfe dessen man per Drag-and-drop oder per Filebrowser Messdatenfiles zum Hochladen auswählen kann. Die Files werden in einer Warteschlange mit der jeweiligen Filegröße angezeigt und können einzeln oder alle nacheinander hochgeladen werden. Eine Progress-Bar zeigt jeweils Einzel- und Gesamtfortschritt des Uploads an.
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{Figures/upload}
+\caption{Upload-View}
+\label{fig:upload}
+\end{figure}
+
+
+\section{Datenbank}
+
+War der Upload erfolgreich wird man zur Datenbank weitergeleitet, in der, wie in Abbildung \ref{fig:messungen} zu sehen ist, durch Klicken auf die Seitenleiste eine Ansicht nach Systemen, Stacks, Zellen und Messungen ausgewählt werden kann. Die Ansicht mit den Messungen wird nach dem Upload automatisch ausgewählt. Hier finden sich alle Messungen in der Datenbank, sortiert in absteigender Reihenfolge, also mit den letzten Uploads ganz oben. Zusätzlich zum Namen der Messung, der mit dem Dateinamen initialisiert wird wenn es nicht anders im JSON-File spezifiziert ist, sind der Typ der Messung, also Zeitreihe oder Ortskurve, die Größe und das Datum der letzten Änderung in einer Tabelle dargestellt. Über drei Aktionsbuttons kann man die Details der Messung einsehen, sie bearbeiten oder löschen. Es werden jeweils 10 Messungen pro Seite dargestellt. Sind mehr als 10 Messungen in der Datenbank vorhanden, wird unter den Messungen eine Navigation mit Seitenzahlen eingeblendet.
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{Figures/messungen}
+\caption{Datenbank View mit Messungs-Ansicht}
+\label{fig:messungen}
+\end{figure}
+
+Wählt man beispielsweise die Ansicht Stacks, wie in Abbildung \ref{fig:stacks} dargestellt, so werden die Stacks kachelweise mit Zusatzinformationen wie der Art der Verschaltung -- zum Beispiel Reihenschaltung -- und der Anzahl der zugehörigen Zellen angezeigt. Außerdem wird der Beschreibungstext und das Erstellungs- sowie letzte Änderungsdatum angezeigt. Über die oben beschriebenen Aktionsbuttons kann der Stack geändert oder gelöscht werden. Klickt man auf Details, gelangt man in die Detailansicht.
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{Figures/stacks}
+\caption{Datenbank View mit Stack-Ansicht}
+\label{fig:stacks}
+\end{figure}
+
+\section{Detialansicht}
+
+Die Detailansicht in Abbildung \ref{fig:stack} zeigt wiederum die Beschreibung, die Markdownbefehle unterstützt, und listet die zu dem jeweiligen Stack gehörenden Messungen, unterteilt in Zeitreihen und Ortskurven, in einer Tabellenansicht ähnlich der Ansicht der Messungen in der Datenbank, auf.
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{Figures/stack}
+\caption{Stack-Detail-Ansicht}
+\label{fig:stack}
+\end{figure}
+
+Klickt man nun auf eine Messung wird sie unter der entsprechenden Tabelle geplottet, wie in Abbildung \ref{fig:stackmessung} dargestellt. Der Klick auf eine der Messungen führt in die Detailansicht der jeweiligen Messung. Dort werden neben Details zur Messung auch jedes Mal die Messung als Plot dargestellt.
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{Figures/stackmessung}
+\caption{Stackmessung}
+\label{fig:stackmessung}
+\end{figure}
+
+\section{Plots}
+
+Zeitreihen sind wie bei allen anderen Plots zoombar, wie in Abbildung \ref{fig:zoomvorher} (vorher) und Abbildung \ref{fig:zoomnachher} (nachher) dargestellt. Die Messdaten werden automatisch vom Server nachgeladen um den Plot mit einer höheren Auflösung darzustellen.
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{Figures/zoomvorher}
+\caption{Zoom-Funktion vorher}
+\label{fig:zoomvorher}
+\end{figure} 
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{Figures/zoomnachher}
+\caption{Zoom-Funktion nachher}
+\label{fig:zoomnachher}
+\end{figure} 
+
+Bei Zeitreihen mit unterschiedlichen Größen können einzelne Zeitreihen durch Klick auf die Legende ein- und ausgeblendet werden um sie so vergrößert darzustellen, wie in Abbildung \ref{fig:legendeaktiviert} (Ladung aktiviert) und \ref{fig:legendedeaktiviert} (Ladung deaktiviert) dargestellt. Die Skalierung erfolgt automatisch.
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{Figures/legendeaktiviert}
+\caption{Ladungsplot aktiviert}
+\label{fig:legendeaktiviert}
+\end{figure} 
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{Figures/legendedeaktiviert}
+\caption{Ladungsplot deaktiviert}
+\label{fig:legendedeaktiviert}
+\end{figure} 
+
+
+Ein Plot einer Impedanzmessung ist in Abbildung \ref{fig:ortskurve} dargestellt. Die Koordinaten in der komplexen Ebene, wie auch die Frequenz sind am Cursor ablesbar.
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{Figures/ortskurve}
+\caption{Detailansicht einer Ortskurve}
+\label{fig:ortskurve}
+\end{figure}
+
+\section{Notifications}
+
+Bearbeitet oder löscht man Datensätze, oder fügt man neue durch Hochladen hinzu, wird das Ergebnis in Form von Notifications bzw. Fehlermeldungen im oberen rechten Bildschirmrand angezeigt. Dies ist in Abbildung \ref{fig:notifications} einmal für beide Fälle dargestellt.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.5\textwidth]{Figures/notifications}
+\caption{Notifications}
+\label{fig:notifications}
+\end{figure}
+
+\section{Registrierung}
+
+Neue Nutzer können nur durch bereits eingeloggte Nutzer mit Admin-Rechten hinzugefügt werden. Dafür kann man am oberen rechten Bildschirmrand auf das Plus klicken und gelangt zum Register-View, wie in Abbildung \ref{fig:register} dargestellt. Durch eintragen einer anderen Rolle, wir zum Beispiel "Mitarbeiter", erhält der neue Nutzer keine Admin-Rechte und kann so auch keine neuen Nutzer hinzufügen.
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{Figures/register}
+\caption{Register-View}
+\label{fig:register}
+\end{figure}
 

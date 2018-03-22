@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { Http, URLSearchParams } from '@angular/http';
+import { Http, URLSearchParams, Headers } from '@angular/http';
 import { APP_BASE_HREF } from '@angular/common';
 import { ORIGIN_URL } from '../shared/constants/baseurl.constants';
 import { Cell } from '../models/Cell';
@@ -17,26 +17,56 @@ export class CellService {
     }
 
     getCellCount(): Observable<number> {
-        return this.transferHttp.get(`${this.baseUrl}/api/cells/count`);
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        let authToken = localStorage.getItem('auth_token');
+        headers.append('Authorization', `Bearer ${authToken}`);
+
+        return this.transferHttp.get(`${this.baseUrl}/api/cells/count`, { headers });
     }
 
     getCells(): Observable<Cell[]> {
-        return this.transferHttp.get(`${this.baseUrl}/api/cells`);
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        let authToken = localStorage.getItem('auth_token');
+        headers.append('Authorization', `Bearer ${authToken}`);
+
+        return this.transferHttp.get(`${this.baseUrl}/api/cells`, { headers });
     }
 
     getCell(cellId: number): Observable<Cell> {
-        return this.transferHttp.get(`${this.baseUrl}/api/cells/` + cellId);
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        let authToken = localStorage.getItem('auth_token');
+        headers.append('Authorization', `Bearer ${authToken}`);
+
+        return this.transferHttp.get(`${this.baseUrl}/api/cells/` + cellId, { headers });
     }
 
     deleteCell(cell: Cell): Observable<any> {
-        return this.http.delete(`${this.baseUrl}/api/cells/` + cell.id);
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        let authToken = localStorage.getItem('auth_token');
+        headers.append('Authorization', `Bearer ${authToken}`);
+
+        return this.http.delete(`${this.baseUrl}/api/cells/` + cell.id, { headers });
     }
 
     updateCell(cell: Cell): Observable<any> {
-        return this.http.put(`${this.baseUrl}/api/cells/` + cell.id, cell);
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        let authToken = localStorage.getItem('auth_token');
+        headers.append('Authorization', `Bearer ${authToken}`);
+
+        return this.http.put(`${this.baseUrl}/api/cells/` + cell.id, cell, { headers });
     }
 
     addCell(newCellName: string): Observable<any> {
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        let authToken = localStorage.getItem('auth_token');
+        headers.append('Authorization', `Bearer ${authToken}`);
+
         return this.http.post(`${this.baseUrl}/api/cells`, { name: newCellName });
     }
 }

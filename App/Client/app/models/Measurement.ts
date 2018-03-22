@@ -26,4 +26,5 @@ export interface Measurement {
 
     created: Date;
     modified: Date;
+    measured: Date;
 }

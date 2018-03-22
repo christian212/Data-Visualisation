@@ -7,8 +7,10 @@ namespace AspCoreServer.Models
     {
         public DateTime Timestamp { get; set; }
         public long UnixTimestamp { get; set; }
-        public float Spannung { get; set; }
-        public float Strom { get; set; }
+        public double RelativeTime { get; set; }
+        public double Voltage { get; set; }
+        public double Current { get; set; }
+        public double Charge { get; set; }
     }
 
 }

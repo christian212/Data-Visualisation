@@ -1,0 +1,58 @@
+<div class="row">
+	<div class="offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+
+		<div class="card">
+
+			<div class="card-header bg-white">
+				<h4 class="card-title">Login</h4>
+			</div>
+
+			<div class="card-block">
+
+				<form #f="ngForm" novalidate (ngSubmit)="login(f)">
+
+					<div *ngIf="errors" class="alert alert-danger" role="alert">
+						<strong>Oops!</strong> {{errors}}
+					</div>
+
+					<div *ngIf="brandNew" class="alert alert-success" role="alert">
+						<strong>All set!</strong> Please login with your account
+					</div>
+
+					<div class="form-group row py-4 py-md-0">
+						<label class="category col-md-3 col-lg-2 col-form-label text-md-right">E-Mail</label>
+
+						<div class="col-sm-11 col-md-8 col-lg-8 offset-lg-1">
+							<input id="email" type="text" required name="email" [ngModel]="credentials.email" #email="ngModel" tmFocus validateEmail
+							 class="form-control" placeholder="E-Mail">
+						</div>
+
+						<div class="offset-md-3 offset-lg-3 col-sm-11 col-md-8 col-lg-8">
+							<small [hidden]="email.valid || (email.pristine && !submitted)" class="form-text text-danger">
+								<i class="fa fa-info"></i> Bitte gültige E-Mail Adresse eingeben.</small>
+						</div>
+
+					</div>
+
+					<div class="form-group row py-4 py-md-0 mb-4">
+						<label class="category col-md-3 col-lg-2 col-form-label text-md-right">Passwort</label>
+
+						<div class="col-sm-11 col-md-8 col-lg-8 offset-lg-1">
+							<input id="password" type="password" required name="password" class="form-control" placeholder="Passwort" ngModel>
+						</div>
+					</div>
+
+					<div class="form-group row py-4 py-md-0 mb-4">
+						<div class="offset-xs-2  offset-sm-1col-sm-11  offset-md-3 col-md-8 offset-lg-3 col-lg-8 offset-xl-3 col-xl-8">
+							<button type="submit" class="btn btn-primary" [disabled]="f.invalid || isRequesting">
+								<i class="now-ui-icons ui-1_lock-circle-open"> </i> Login</button>
+						</div>
+					</div>
+
+					<app-spinner [isRunning]="isRequesting"></app-spinner>
+
+				</form>
+			</div>
+
+		</div>
+	</div>

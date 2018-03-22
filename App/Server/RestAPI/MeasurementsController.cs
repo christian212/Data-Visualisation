@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using CsvHelper;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AspCoreServer.Controllers
 {
@@ -21,12 +22,15 @@ namespace AspCoreServer.Controllers
         private readonly IHostingEnvironment _environment;
         private readonly SpaDbContext _context;
 
+        const int maxDatapoints = 500;
+
         public MeasurementsController(IHostingEnvironment environment, SpaDbContext context)
         {
             _context = context;
             _environment = environment;
         }
 
+        [Authorize]
         [HttpGet("[action]")]
         public async Task<IActionResult> Count()
         {
@@ -35,6 +39,7 @@ namespace AspCoreServer.Controllers
             return Ok(measurementCount);
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> Get(int currentPageNo = 1, int pageSize = 1000)
         {
@@ -54,12 +59,16 @@ namespace AspCoreServer.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
             var measurement = await _context.Measurements
                 .Where(s => s.Id == id)
                 .AsNoTracking()
+                .Include(s => s.Cell)
+                .Include(s => s.Stack)
+                .Include(s => s.Battery)
                 .Include(s => s.RawMeasurements)
                 .SingleOrDefaultAsync(m => m.Id == id);
 
@@ -69,9 +78,23 @@ namespace AspCoreServer.Controllers
             }
             else
             {
-                foreach (RawMeasurement rawMeasurement in measurement.RawMeasurements)
+                if (measurement.Cell != null)
                 {
-                    rawMeasurement.Measurement = null;
+                    var cell = new Cell();
+                    cell.Id = measurement.Cell.Id;
+                    measurement.Cell = cell;
+                }
+                else if (measurement.Stack != null)
+                {
+                    var stack = new Stack();
+                    stack.Id = measurement.Stack.Id;
+                    measurement.Stack = stack;
+                }
+                else if (measurement.Battery != null)
+                {
+                    var battery = new Battery();
+                    battery.Id = measurement.Battery.Id;
+                    measurement.Battery = battery;
                 }
 
                 measurement.RawMeasurements = measurement.RawMeasurements.OrderBy(m => m.Frequency).ToList();
@@ -80,6 +103,7 @@ namespace AspCoreServer.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("[action]/{id}")]
         public async Task<IActionResult> Locus(int id)
         {
@@ -115,15 +139,14 @@ namespace AspCoreServer.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("[action]/{id}/{lowerBound}/{upperBound}")]
         public async Task<IActionResult> TimeSeries(int id, long lowerBound, long upperBound)
         {
-            const int maxDatapoints = 500;
-
             var measurement = await _context.Measurements
-                .Where(s => s.Id == id)
-                .AsNoTracking()
-                .SingleOrDefaultAsync(m => m.Id == id);
+               .Where(s => s.Id == id)
+               .AsNoTracking()
+               .SingleOrDefaultAsync(m => m.Id == id);
 
             if (measurement == null)
             {
@@ -131,21 +154,21 @@ namespace AspCoreServer.Controllers
             }
             else
             {
-                FileStream fileStream = new FileStream(measurement.FilePath, FileMode.Open);
-                StreamReader reader = new StreamReader(fileStream);
+                var json = System.IO.File.ReadAllText(measurement.FilePath);
 
-                var csv = new CsvReader(reader);
-                var records = csv.GetRecords<Record>().ToList();
+                var timeSeriesFile = new TimeSeriesFile();
+                JsonConvert.PopulateObject(json, timeSeriesFile);
 
                 var rows = new List<CsvRow>();
 
-                foreach (var record in records)
+                for (int i = 0; i < timeSeriesFile.Data.Length - 1; i++)
                 {
                     var row = new CsvRow();
 
-                    row.UnixTimestamp = new DateTimeOffset(new DateTime(record.Jahr, record.Monat, record.Tag, record.Stunde, record.Minute, record.Sekunde, DateTimeKind.Utc)).ToUnixTimeSeconds();
-                    row.Spannung = record.Spannung;
-                    row.Strom = record.Strom;
+                    row.UnixTimestamp = timeSeriesFile.Data[i].Time;
+                    row.Voltage = timeSeriesFile.Data[i].Voltage;
+                    row.Current = timeSeriesFile.Data[i].Current;
+                    row.Charge = timeSeriesFile.Data[i].Capacity;
 
                     rows.Add(row);
                 }
@@ -163,37 +186,47 @@ namespace AspCoreServer.Controllers
 
                 var timeseriesVoltage = new TimeSeries();
                 var timeseriesCurrent = new TimeSeries();
+                var timeseriesCharge = new TimeSeries();
 
                 timeseriesVoltage.Name = "ID " + measurement.Id + ": Spannung";
                 timeseriesVoltage.Tooltip = new Tooltip(" V");
                 timeseriesCurrent.Name = "ID " + measurement.Id + ": Strom";
                 timeseriesCurrent.Tooltip = new Tooltip(" A");
+                timeseriesCharge.Name = "ID " + measurement.Id + ": Ladung";
+                timeseriesCharge.Tooltip = new Tooltip(" As");
 
                 var voltage = new double[filteredRows.Count()][];
                 var current = new double[filteredRows.Count()][];
+                var charge = new double[filteredRows.Count()][];
 
                 foreach (var row in filteredRows.Select((value, i) => new { i, value }))
                 {
                     voltage[row.i] = new double[2];
-                    voltage[row.i][0] = row.value.UnixTimestamp * 1000;
-                    voltage[row.i][1] = row.value.Spannung;
+                    voltage[row.i][0] = row.value.UnixTimestamp;
+                    voltage[row.i][1] = row.value.Voltage;
 
                     current[row.i] = new double[2];
-                    current[row.i][0] = row.value.UnixTimestamp * 1000;
-                    current[row.i][1] = row.value.Strom;
+                    current[row.i][0] = row.value.UnixTimestamp;
+                    current[row.i][1] = row.value.Current;
+
+                    charge[row.i] = new double[2];
+                    charge[row.i][0] = row.value.UnixTimestamp;
+                    charge[row.i][1] = row.value.Charge;
                 }
 
                 timeseriesVoltage.Data = ReduceDataPoints(maxDatapoints, voltage);
                 timeseriesCurrent.Data = ReduceDataPoints(maxDatapoints, current);
+                timeseriesCharge.Data = ReduceDataPoints(maxDatapoints, charge);
 
-                var timeseriesArray = new TimeSeries[] { timeseriesVoltage, timeseriesCurrent };
+                var timeseriesArray = new TimeSeries[] { timeseriesVoltage, timeseriesCurrent, timeseriesCharge };
 
                 return Ok(Json(timeseriesArray));
             }
         }
 
+        [Authorize]
         [HttpGet("[action]/{id}/{index}/{lowerBound}/{upperBound}")]
-        public async Task<IActionResult> RawTimeseries(int id, int index, long lowerBound, long upperBound)
+        public async Task<IActionResult> RawTimeseries(int id, int index, double lowerBound, double upperBound)
         {
             var measurement = await _context.Measurements
                 .Where(s => s.Id == id)
@@ -213,6 +246,30 @@ namespace AspCoreServer.Controllers
 
                 var rawData = locusFile.RawData[index];
 
+                var rows = new List<CsvRow>();
+
+                for (int i = 0; i < rawData.Timepoints.Length - 1; i++)
+                {
+                    var row = new CsvRow();
+
+                    row.RelativeTime = rawData.Timepoints[i];
+                    row.Voltage = rawData.Voltage[i];
+                    row.Current = rawData.Current[i];
+
+                    rows.Add(row);
+                }
+
+                if (lowerBound == 0)
+                {
+                    lowerBound = rows.Min(row => row.RelativeTime);
+                }
+                if (upperBound == 0)
+                {
+                    upperBound = rows.Max(row => row.RelativeTime);
+                }
+
+                var filteredRows = rows.Where(row => row.RelativeTime >= lowerBound & row.RelativeTime <= upperBound).ToList();
+
                 var timeseriesVoltage = new TimeSeries();
                 var timeseriesCurrent = new TimeSeries();
 
@@ -220,6 +277,23 @@ namespace AspCoreServer.Controllers
                 timeseriesVoltage.Tooltip = new Tooltip(" V");
                 timeseriesCurrent.Name = "ID " + measurement.Id + ": Strom bei " + rawData.Frequency + " Hz";
                 timeseriesCurrent.Tooltip = new Tooltip(" A");
+
+                var voltage = new double[filteredRows.Count()][];
+                var current = new double[filteredRows.Count()][];
+
+                foreach (var row in filteredRows.Select((value, i) => new { i, value }))
+                {
+                    voltage[row.i] = new double[2];
+                    voltage[row.i][0] = row.value.RelativeTime;
+                    voltage[row.i][1] = row.value.Voltage;
+
+                    current[row.i] = new double[2];
+                    current[row.i][0] = row.value.RelativeTime;
+                    current[row.i][1] = row.value.Current;
+                }
+
+                timeseriesVoltage.Data = ReduceDataPoints(maxDatapoints, voltage);
+                timeseriesCurrent.Data = ReduceDataPoints(maxDatapoints, current);
 
                 var timeseriesArray = new TimeSeries[] { timeseriesVoltage, timeseriesCurrent };
 
@@ -234,6 +308,13 @@ namespace AspCoreServer.Controllers
                 Datapoints = array.Count();
             }
 
+            int nSeries = 2;
+
+            if (array.Length > 0)
+            {
+                nSeries = array[0].Length;
+            }
+
             // Set step size
             float step = (float)(array.Count() - 1) / (Datapoints - 1);
 
@@ -241,11 +322,13 @@ namespace AspCoreServer.Controllers
 
             for (int i = 0; i < Datapoints; i++)
             {
-                arrayReduced[i] = new double[2];
+                arrayReduced[i] = new double[nSeries];
 
                 // Add each element of a position which is a multiple of step to arrayReduced
-                arrayReduced[i][0] = array[(int)Math.Round(step * i)][0];
-                arrayReduced[i][1] = array[(int)Math.Round(step * i)][1];
+                for (int j = 0; j < nSeries; j++)
+                {
+                    arrayReduced[i][j] = array[(int)Math.Round(step * i)][j];
+                }
             }
 
             return arrayReduced;
@@ -266,6 +349,7 @@ namespace AspCoreServer.Controllers
             }
         }
 
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody]Measurement measurementUpdateValue)
         {
@@ -298,6 +382,7 @@ namespace AspCoreServer.Controllers
             }
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

@@ -37,7 +37,7 @@ export class MeasurementGroupedListComponent {
 
     public MeasurementType = MeasurementType;
 
-    itemsPerPage: number = 10;
+    itemsPerPage: number = 4;
 
     public configTimeseries: PaginationInstance = {
         id: 'timeseries',
@@ -52,9 +52,9 @@ export class MeasurementGroupedListComponent {
     };
 
     @ViewChild(TimeSeriesChartComponent)
-    private timeSeriesChartComponent: TimeSeriesChartComponent;
+    public timeSeriesChartComponent: TimeSeriesChartComponent;
     @ViewChild(LocusChartComponent)
-    private locusChartComponent: LocusChartComponent;
+    public locusChartComponent: LocusChartComponent;
 
     constructor(
         private measurementService: MeasurementService,

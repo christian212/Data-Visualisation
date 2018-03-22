@@ -35,12 +35,15 @@ export class UploadComponent implements OnInit {
   }
 
   initUploader() {
+    let authToken = localStorage.getItem('auth_token');
+
     this.fileUploader = new FileUploader(
       <FileUploaderOptions>{
         url: URL,
         headers: [
           { name: 'X-XSRF-TOKEN', value: this.getCookie('XSRF-TOKEN') },
-          { name: 'Accept', value: 'application/json' }
+          { name: 'Accept', value: 'application/json' },
+          { name: 'Authorization', value: `Bearer ${authToken}` }
         ],
         isHTML5: true,
         allowedMimeType: ['image/jpeg', 'text/csv', 'application/json', 'application/zip'],

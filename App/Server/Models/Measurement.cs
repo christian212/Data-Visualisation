@@ -27,16 +27,11 @@ namespace AspCoreServer.Models
 
         public Battery Battery { get; set; }
         public Stack Stack { get; set; }
-        //[Required]
         public Cell Cell { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        [DataType(DataType.Date)]
         public DateTime Created { get; set; }
-
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        [DataType(DataType.Date)]
         public DateTime Modified { get; set; }
+        public DateTime Measured { get; set; }
 
         //Setting Default value
         public Measurement()
@@ -45,6 +40,7 @@ namespace AspCoreServer.Models
             Description = "Beschreibung";
             Created = DateTime.Now.ToUniversalTime();
             Modified = DateTime.Now.ToUniversalTime();
+            Measured = DateTime.Now.ToUniversalTime();
         }
     }
 

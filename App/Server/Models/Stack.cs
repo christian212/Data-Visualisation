@@ -17,12 +17,7 @@ namespace AspCoreServer.Models
         public ICollection<StackCell> StackCells { get; set; }
         public ICollection<Measurement> Measurements { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        [DataType(DataType.Date)]
         public DateTime Created { get; set; }
-
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        [DataType(DataType.Date)]
         public DateTime Modified { get; set; }
 
         //Setting Default value

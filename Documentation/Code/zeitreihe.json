@@ -1,0 +1,27 @@
+{
+    "measurementType": 1, // 0 = Undefined, 1 = Zeitreihe, 2 = Ortskurve, 3 = Sonstige
+    "stackId": 121,
+    "data": [
+        {
+            "capacity": -13970,
+            "current": 0,
+            "mode": "discharging",
+            "time": 1505127209192,
+            "voltage": 1378
+        },
+        {
+            "capacity": -25217,
+            "current": -1419,
+            "mode": "discharging",
+            "time": 1505127219195,
+            "voltage": 1106
+        },
+        {
+            "capacity": -43090,
+            "current": -1861,
+            "mode": "charging",
+            "time": 1505127229189,
+            "voltage": 1100
+        }
+    ]
+}

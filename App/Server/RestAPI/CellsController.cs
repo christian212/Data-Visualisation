@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AspCoreServer.Controllers
 {
@@ -22,6 +23,7 @@ namespace AspCoreServer.Controllers
             _environment = environment;
         }
 
+        [Authorize]
         [HttpGet("[action]")]
         public async Task<IActionResult> Count()
         {
@@ -30,6 +32,7 @@ namespace AspCoreServer.Controllers
             return Ok(cellCount);
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> Get(int currentPageNo = 1, int pageSize = 1000)
         {
@@ -57,6 +60,7 @@ namespace AspCoreServer.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
@@ -98,6 +102,7 @@ namespace AspCoreServer.Controllers
             }
         }
 
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody]Cell cellUpdateValue)
         {
@@ -130,6 +135,7 @@ namespace AspCoreServer.Controllers
             }
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -147,16 +153,12 @@ namespace AspCoreServer.Controllers
 
                 foreach (Measurement measurementToRemove in measurementsToRemove)
                 {
-                    var filePath = System.IO.Path.Combine(_environment.WebRootPath,
-                    "uploads", "Measurements", measurementToRemove.Id.ToString());
-
-                    if (System.IO.Directory.Exists(filePath))
+                    if (System.IO.Directory.Exists(measurementToRemove.FilePath))
                     {
-                        System.IO.Directory.Delete(filePath, true);
+                        System.IO.Directory.Delete(measurementToRemove.FilePath, true);
                     }
                 }
 
-                _context.Measurements.RemoveRange(measurementsToRemove);
                 _context.Cells.Remove(cellToRemove);
                 await _context.SaveChangesAsync();
 

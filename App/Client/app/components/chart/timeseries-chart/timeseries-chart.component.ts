@@ -32,7 +32,7 @@ export class TimeSeriesChartComponent {
 
                 this.chart = new Highcharts.Chart('chart', {
                     chart: {
-                        type: 'line',
+                        type: 'spline',
                         zoomType: 'x'
                     },
                     title: {
@@ -46,7 +46,7 @@ export class TimeSeriesChartComponent {
                     },
                     yAxis: {
                         title: {
-                            text: 'Spannung in V / Strom in A'
+                            text: 'Spannung in V / Strom in A / Ladung in As'
                         }
                     },
                     scrollbar: {
@@ -65,7 +65,7 @@ export class TimeSeriesChartComponent {
 
                 let extremes = this.chart.xAxis[0].getExtremes();
 
-                this.chart.zoomOut = function() {
+                this.chart.zoomOut = function () {
                     this.chart.xAxis[0].setExtremes(extremes.min, extremes.max);
                 }.bind(this);
             },
@@ -88,22 +88,16 @@ export class TimeSeriesChartComponent {
         console.log(`Loading data async`);
         this.chart.showLoading('Loading data from server...');
 
-        function removeDigits(x, n) {
-            return (x - (x % Math.pow(10, n))) / Math.pow(10, n);
-        }
+        console.log(`Lower bound: ` + extremes.min + ', upper bound: ' + extremes.max);
 
-        let lowerBound = removeDigits(Math.ceil(extremes.min), 3) as number;
-        let upperBound = removeDigits(Math.floor(extremes.max), 3) as number;
-
-        console.log(`Lower bound: ` + lowerBound + ', upper bound: ' + upperBound);
-
-        this.measurementService.getTimeSeries(this.measurement.id, lowerBound, upperBound)
+        this.measurementService.getTimeSeries(this.measurement.id, extremes.min, extremes.max)
             .subscribe((measurementData: any) => {
                 console.log('Get measurement data result: ', measurementData);
                 this.measurementData = measurementData.value;
 
-                this.chart.series[0].setData(this.measurementData[0].data);
-                this.chart.series[1].setData(this.measurementData[1].data);
+                for (var index = 0; index < this.measurementData.length; index++) {
+                    this.chart.series[index].setData(this.measurementData[index].data);
+                }
 
                 this.chart.hideLoading();
             },

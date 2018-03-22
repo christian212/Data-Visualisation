@@ -1,26 +1,5 @@
 <div class="container">
-
-    <div class="row mb-4">
-        <div class="col-md-12">
-            <h3>Upload</h3>
-
-            <div class="card my-drop-zone" ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" (fileOver)="fileOverBase($event)"
-                [uploader]="fileUploader">
-
-                <label>
-                    <div class="card-block d-flex justify-content-center">
-                        <i class="fa fa-upload align-self-center"></i>
-                    </div>
-                    
-                    <input type="file" ng2FileSelect [uploader]="fileUploader" multiple>
-                </label>
-            </div>
-
-            <p class="form-text text-muted">
-                <small><i class="fa fa-info"></i> Drag files here or click to browse.</small>
-            </p>
-        </div>
-    </div>
+    <h3>Upload</h3>
 
     <div *ngIf="fileUploader?.queue?.length" class="row">
         <div class="col-md-12" style="margin-bottom: 40px">
@@ -40,7 +19,9 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let item of fileUploader.queue">
-                        <td><strong>{{ item?.file?.name }}</strong></td>
+                        <td>
+                            <strong>{{ item?.file?.name }}</strong>
+                        </td>
                         <td *ngIf="fileUploader.options.isHTML5" nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
                         <td *ngIf="fileUploader.options.isHTML5">
                             <div class="progress-container progress-primary">
@@ -52,20 +33,26 @@
                             </div>
                         </td>
                         <td class="text-center">
-                            <span *ngIf="item.isSuccess"><i class="fa fa-check"></i></span>
-                            <span *ngIf="item.isCancel"><i class="fa fa-ban"></i></span>
-                            <span *ngIf="item.isError"><i class="fa fa-trash-o"></i></span>
+                            <span *ngIf="item.isSuccess">
+                                <i class="fa fa-check"></i>
+                            </span>
+                            <span *ngIf="item.isCancel">
+                                <i class="fa fa-ban"></i>
+                            </span>
+                            <span *ngIf="item.isError">
+                                <i class="fa fa-trash-o"></i>
+                            </span>
                         </td>
                         <td nowrap>
                             <button type="button" class="btn btn-success btn-simple btn-round btn-icon btn-icon-mini" (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
-                            <i class="fa fa-upload"></i>
-                        </button>
+                                <i class="fa fa-upload"></i>
+                            </button>
                             <button type="button" class="btn btn-warning  btn-simple btn-round btn-icon btn-icon-mini" (click)="item.cancel()" [disabled]="!item.isUploading">
-                            <i class="fa fa-ban"></i>
-                        </button>
+                                <i class="fa fa-ban"></i>
+                            </button>
                             <button type="button" class="btn btn-danger  btn-simple btn-round btn-icon btn-icon-mini" (click)="item.remove()">
-                            <i class="fa fa-trash-o"></i>
-                        </button>
+                                <i class="fa fa-trash-o"></i>
+                            </button>
                         </td>
                     </tr>
                 </tbody>
@@ -94,6 +81,27 @@
                 </div>
             </div>
 
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card my-drop-zone" ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" (fileOver)="fileOverBase($event)"
+                [uploader]="fileUploader">
+
+                <label>
+                    <div class="card-block d-flex justify-content-center">
+                        <i class="fa fa-upload align-self-center"></i>
+                    </div>
+
+                    <input type="file" ng2FileSelect [uploader]="fileUploader" multiple>
+                </label>
+            </div>
+
+            <p class="form-text text-muted">
+                <small>
+                    <i class="fa fa-info"></i> Drag files here or click to browse.</small>
+            </p>
         </div>
     </div>
 </div>

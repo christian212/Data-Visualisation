@@ -8,8 +8,6 @@ namespace AspCoreServer.Models
         public int Id { get; set; }
         public int Index { get; set; } 
         public double Frequency { get; set; }
-
-        public Measurement Measurement { get; set; }
     }
 
 }
